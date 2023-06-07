@@ -34,7 +34,7 @@ app.get('/api/movies', async (req, res) => {
         let result = await db.getAllMovies(page, perPage, title);
         res.json(result);
     }catch(err){
-        res.status(404).json({message: err});
+        res.status(404).json({message: "ERR!"});
     }
 });
 
