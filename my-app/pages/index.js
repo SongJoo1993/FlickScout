@@ -4,6 +4,7 @@ import {Pagination, Accordion} from 'react-bootstrap';
 import MovieDetails from "@/components/MovieDetails";
 import PageHeader from "@/components/PageHeader";
 
+
 export default function Home() {
   const [page, setPage] = useState(1);
   const [pageData, setPageData] = useState([]);
