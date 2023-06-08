@@ -1,5 +1,4 @@
 import useSWR from 'swr';
-import axios from 'axios';
 import {useState, useEffect} from 'react';
 import {Pagination, Accordion} from 'react-bootstrap';
 import MovieDetails from "@/components/MovieDetails";
@@ -10,13 +9,23 @@ export default function Home() {
   const [pageData, setPageData] = useState([]);
   const address = `http://localhost:8080/api/movies?page=${page}&perPage=10`;
 
-  const { data, error, isLoading, isValidating } = useSWR(address);
-  
+  const { data, error, isLoading } = useSWR(address);
+
   useEffect(() => {
     if(data) {
       setPageData(data)
     }
   }, [data]);
+
+  if(error) {
+    return <p>Error!</p>
+  } else if(isLoading) {
+    return <p>Loading...</p>
+  }
+
+  function firstPage() {
+    setPage(1);
+  }
 
   function prevPage() {
     if(page > 1) setPage(pg => pg - 1);
@@ -43,7 +52,7 @@ export default function Home() {
       </Accordion>
       <br />
       <Pagination>
-        <Pagination.First />
+        <Pagination.First onClick={firstPage}/>
         <Pagination.Prev onClick={prevPage}/>
         <Pagination.Item>{page}</Pagination.Item>
         <Pagination.Next onClick={nextPage}/>

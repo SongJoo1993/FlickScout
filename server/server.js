@@ -32,11 +32,25 @@ app.get('/api/movies', async (req, res) => {
     const {page, perPage, title} = req.query;
     try{
         let result = await db.getAllMovies(page, perPage, title);
+        console.log(result);
         res.json(result);
     }catch(err){
         res.status(404).json({message: "ERR!"});
     }
 });
+
+// Get movies using getAllMoviesByTitle
+// To Be Worked
+// app.get('/api/movies/title', async (req, res) => {
+//     const {page, perPage} = req.query;
+//     try{
+//         let result = await db.getAllMoviesByTitle(page, perPage);
+//         result.forEach(r => console.log(r.title));
+//         res.json(result);
+//     }catch(err){
+//         res.status(404).json({message: "ERR!"});
+//     }
+// });
 
 // Get a single movie
 app.get("/api/movies/:id", async (req,res) => {

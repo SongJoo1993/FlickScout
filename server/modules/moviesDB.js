@@ -83,6 +83,18 @@ module.exports = class MoviesDB {
 
     return Promise.reject(new Error('page and perPage query parameters must be valid numbers'));
   }
+  
+  // sort by title
+  // To Be Worked
+  // getAllMoviesByTitle(page,perPage) {
+  //   if (+page && +perPage) {
+  //     let pureSort = this.Movie.find({}).sort({title: +1});
+      
+  //     return this.Movie.find({}).sort({ title : +1 }).skip((page - 1) * +perPage).limit(+perPage).exec();
+  //   }
+  
+  //   return Promise.reject(new Error('page and perPage query parameters must be valid numbers'));
+  // }
 
   getMovieById(id) {
     console.log(id);
