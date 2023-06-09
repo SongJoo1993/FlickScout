@@ -1,20 +1,25 @@
 import useSWR from 'swr';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import {Pagination, Accordion} from 'react-bootstrap';
 import MovieDetails from "@/components/MovieDetails";
 import PageHeader from "@/components/PageHeader";
 
+const PER_PAGE = 10;
 
 export default function Home() {
   const [page, setPage] = useState(1);
   const [pageData, setPageData] = useState([]);
-  const address = `http://localhost:8080/api/movies?page=${page}&perPage=10`;
+  const [total, setTotal] = useState(0);
+  const address = useMemo(() => {
+    return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`
+  }, [page]);
 
   const { data, error, isLoading } = useSWR(address);
 
   useEffect(() => {
     if(data) {
-      setPageData(data)
+      setPageData(data.pageData);
+      setTotal(data.total);
     }
   }, [data]);
 
@@ -26,6 +31,10 @@ export default function Home() {
 
   function firstPage() {
     setPage(1);
+  }
+
+  function lastPage() {
+    setPage(total / PER_PAGE);
   }
 
   function prevPage() {
@@ -43,7 +52,8 @@ export default function Home() {
         {pageData?.map(movie => (
             <Accordion.Item eventKey={movie._id} key={movie._id}>
               <Accordion.Header>
-                <strong>{movie.title}</strong>&nbsp;({movie.year}:{movie.directors})
+                <strong>{movie.title}</strong>&nbsp;
+                {movie.year && movie.directors ? `(${movie.year}:${movie.directors})` : ""}
               </Accordion.Header>
               <Accordion.Body>
                 <MovieDetails movie={movie}/>
@@ -57,7 +67,7 @@ export default function Home() {
         <Pagination.Prev onClick={prevPage}/>
         <Pagination.Item>{page}</Pagination.Item>
         <Pagination.Next onClick={nextPage}/>
-        <Pagination.Last />
+        <Pagination.Last onClick={lastPage} />
       </Pagination>
     </>
   )

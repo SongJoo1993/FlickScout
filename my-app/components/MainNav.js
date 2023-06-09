@@ -2,33 +2,29 @@ import { Container, Nav, Navbar, Form} from "react-bootstrap"
 import Button from "react-bootstrap/Button"
 import Link from "next/link"
 import { useForm } from "react-hook-form";
-import Alert from "react-bootstrap/Alert";
+import { useRouter } from 'next/router';
+// import AlertMessage from "./Alert";
 
 export default function MainNav() {
-    const { register, handleSubmit, setValue } = useForm({
+    const router = useRouter();
+    const { register, handleSubmit } = useForm({
         defaultValues :  {
             searchValue: undefined,
         }
     })
     
-    // const {watch} = useForm();
-    // const watchUserName = watch('searchValue');
-    
     function searchValidation(data) {
-        console.log(`length=${data.searchValue.length}`)
         if(data.searchValue.length <= 0) {
-            console.log('length is 0!')
-            return (
-                <Alert variant={"danger"}>
-                    <p>Please Enter a movie name you want to search.</p>
-                </Alert>
-            )  
+            return alert("Please enter the movie name.")
         }
-        console.log(data.searchValue);
+        return true;
     }
 
     function submitForm(data) {
-        searchValidation(data);
+        const title = data.searchValue;
+        if(searchValidation(data)) {
+            router.push(`/movies/${title}`); // navigate to the home route "/"
+        }
     }
 
     return (
@@ -44,16 +40,14 @@ export default function MainNav() {
                     <Link href="/search" passHref legacyBehavior><Nav.Link>Advanced Search</Nav.Link></Link>
                 </Nav>
                 <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
-                        <Form.Control
-                        type="search"
-                        placeholder="Search"
-                        {...register("searchValue")}
-                        className="me-2"
-                        aria-label="Search"
-                        />
-                        {/* {watchUserName}
-                        </Form.Control> */}
-                        <Button variant="primary" type="submit">Search</Button>
+                    <Form.Control
+                    type="search"
+                    placeholder="Quick Search By Title"
+                    {...register("searchValue")}
+                    className="me-2"
+                    aria-label="Search"
+                    />
+                    <Button variant="primary" type="submit">Search</Button>
                 </Form>
                 </Navbar.Collapse>
             </Container>
@@ -61,4 +55,4 @@ export default function MainNav() {
         <br /><br />
         </>
     )
-  }
+}
