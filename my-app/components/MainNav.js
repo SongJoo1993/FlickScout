@@ -20,8 +20,9 @@ export default function MainNav() {
         return true;
     }
 
-    function submitForm(data) {
+    function submitForm(data, e) {
         const title = data.searchValue;
+        e.target.reset();
         if(searchValidation(data)) {
             router.push(`/movies/${title}`); // navigate to the home route "/"
         }
@@ -42,12 +43,12 @@ export default function MainNav() {
                 <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
                     <Form.Control
                     type="search"
-                    placeholder="Quick Search By Title"
+                    placeholder="Quick Search by Title"
                     {...register("searchValue")}
                     className="me-2"
                     aria-label="Search"
                     />
-                    <Button variant="primary" type="submit">Search</Button>
+                    <Button variant="secondary" type="submit">Search</Button>
                 </Form>
                 </Navbar.Collapse>
             </Container>

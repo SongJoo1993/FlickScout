@@ -1,24 +1,40 @@
 import { useRouter } from "next/router"
 import useSWR from 'swr'
-import Carousel from 'react-bootstrap/Carousel';
+import Carousel from 'react-bootstrap/Carousel'
 import NoImg from '../../public/no-img.jpg'
-import Image from 'next/image'
-import MovieDetails from "@/components/MovieDetails"
-import Error from "next/error"
-import PageHeader from "@/components/PageHeader"
-import { Card } from "react-bootstrap"
+import Alert from 'react-bootstrap/Alert';
+import Home from '../index';
+
+const PER_PAGE = 100;
 
 export default function MovieTitle() {
   const router = useRouter();
   const {title} = router.query;
-  const {data, error} = useSWR(`http://localhost:8080/api/movies?page=1&perPage=10&title=${title}`);
+  const {data, error} = useSWR(`http://localhost:8080/api/movies?page=1&perPage=${PER_PAGE}&title=${title}`);
 
-  if(data == null || data == undefined) {
+  function backToHome() {
+    router.push('/');
+  }
+
+  if(data?.pageData == null || data?.pageData == undefined) {
     return null;
-  } else if(data?.pageData?.length === 0) {
+  }
+  else if(data?.pageData?.length === 0) {
     return (
-        <p>{title} doesn't Exist in our System!</p>
+        <>
+          <br />
+          <Alert variant='danger' onClose={() => backToHome()} dismissible>
+            <Alert.Heading> No Results Found with "{title.toUpperCase()}".</Alert.Heading>
+          </Alert>
+        </>
       )
+  }
+  else if (data?.pageData?.length >= 10) {
+    return (
+      <>
+        <Home title={title} totalPage={data.pageData.length}/>
+      </>
+    )
   }
 
   return (
@@ -35,7 +51,7 @@ export default function MovieTitle() {
             />
             </div>
           <Carousel.Caption style={{position: 'relative', left: 'auto', right: 'auto'}}>
-            <h3>{movie.title}</h3>
+            <h3>{movie.title} {movie.year && movie.directors ? `(${movie.year} : ${movie.directors})` : ""}</h3>
             <p>{movie.fullplot}</p>
           </Carousel.Caption>
         </Carousel.Item>

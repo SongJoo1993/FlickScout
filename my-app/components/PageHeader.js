@@ -5,7 +5,7 @@ export default function PageHeader(props) {
     <>
     <Card className='bg-light'>
         <Card.Body>
-          <strong>{props.textHead}</strong> {props.textTail}
+          <strong>{props.textHead}</strong> {props.textTail} {props.totalMovies ? `(${props.totalMovies} Movies Searched)`: ""}
         </Card.Body>
     </Card>
     <br />  

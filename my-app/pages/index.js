@@ -6,13 +6,19 @@ import PageHeader from "@/components/PageHeader";
 
 const PER_PAGE = 10;
 
-export default function Home() {
+export default function Home(props) {
   const [page, setPage] = useState(1);
   const [pageData, setPageData] = useState([]);
   const [total, setTotal] = useState(0);
-  const address = useMemo(() => {
-    return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`
-  }, [page]);
+  const [disabled, setDisabled] = useState(false);
+  const {title, totalPage} = props;
+  // const address = useMemo(() => {
+    //   return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`
+    // }, [page]);
+    
+  const address = title ? 
+  `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
+  : useMemo(() => { return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`}, [page]);
 
   const { data, error, isLoading } = useSWR(address);
 
@@ -21,7 +27,16 @@ export default function Home() {
       setPageData(data.pageData);
       setTotal(data.total);
     }
+
   }, [data]);
+
+  useEffect(() => {
+    if(page < Math.ceil(total / PER_PAGE))  {
+      setDisabled(false);
+    } else if(page == Math.ceil(total / PER_PAGE)) {
+      setDisabled(true);
+    }
+  },[page]);
 
   if(error) {
     return <p>Error!</p>
@@ -34,7 +49,8 @@ export default function Home() {
   }
 
   function lastPage() {
-    setPage(total / PER_PAGE);
+    setPage(Math.ceil(total / PER_PAGE));
+    setDisabled(true);
   }
 
   function prevPage() {
@@ -42,12 +58,15 @@ export default function Home() {
   }
 
   function nextPage() {
-    setPage(pg => pg + 1);
+    setPage(page + 1);
   }
-  
+
   return (
     <>
-      <PageHeader textHead ="Film Collection :" textTail ="Sorted by Date"/>
+      {title ? 
+        <PageHeader textHead ="Search Key Word:" textTail = {title.toUpperCase()} totalMovies={total}/>
+      : <PageHeader textHead ="Film Collection :" textTail ="Sorted by Date"/>
+      }
       <Accordion defaultActiveKey="0">
         {pageData?.map(movie => (
             <Accordion.Item eventKey={movie._id} key={movie._id}>
@@ -66,7 +85,10 @@ export default function Home() {
         <Pagination.First onClick={firstPage}/>
         <Pagination.Prev onClick={prevPage}/>
         <Pagination.Item>{page}</Pagination.Item>
-        <Pagination.Next onClick={nextPage}/>
+        {disabled ?
+          <Pagination.Next disabled/>
+          : <Pagination.Next onClick={nextPage}/>
+        }
         <Pagination.Last onClick={lastPage} />
       </Pagination>
     </>

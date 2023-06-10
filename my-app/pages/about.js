@@ -20,7 +20,7 @@ export default function About(props) {
         <Card className="bg-light">
             <Card.Body>
               <p>
-                <span><strong>Developer's Message:</strong></span> 
+                <span><strong>Developer's Message: </strong></span>
                 Hello, my name is Song Joo. I am a future full-stack developer! My experience as a marketing professional is where I first learned how to structure and manage website content which ultimately led me to the world of web development. I am eager to leverage my experience at a global corporation and technical skills learnt from Computer Programming Program at Seneca College in a web developer role.
               </p>
               <p>
