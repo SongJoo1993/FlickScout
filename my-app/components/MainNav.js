@@ -30,7 +30,7 @@ export default function MainNav() {
 
     return (
         <>
-        <Navbar className="navbar-dark bg-dark fixed-top" >
+        <Navbar className="navbar-dark bg-dark fixed-top" expand='lg'>
             <Container>
                 <Navbar.Brand>Movie Search Engine</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

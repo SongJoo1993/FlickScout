@@ -74,27 +74,18 @@ module.exports = class MoviesDB {
     return newMovie;
   }
 
-  getAllMovies(page, perPage, title) {
-    let findBy = title ? { title } : {};
-
+  async getAllMovies(page, perPage, title) {
+    let findBy = title ? { title: { $regex: new RegExp(title, 'gi') } } : {};
     if (+page && +perPage) {
-      return this.Movie.find(findBy).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec();
+      const [pageData, total] = await Promise.all([
+        this.Movie.find(findBy).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),
+        this.Movie.countDocuments(findBy),
+      ]);
+      // console.log('pageData, total', pageData, total);
+      return { pageData, total };
     }
-
     return Promise.reject(new Error('page and perPage query parameters must be valid numbers'));
   }
-  
-  // sort by title
-  // To Be Worked
-  // getAllMoviesByTitle(page,perPage) {
-  //   if (+page && +perPage) {
-  //     let pureSort = this.Movie.find({}).sort({title: +1});
-      
-  //     return this.Movie.find({}).sort({ title : +1 }).skip((page - 1) * +perPage).limit(+perPage).exec();
-  //   }
-  
-  //   return Promise.reject(new Error('page and perPage query parameters must be valid numbers'));
-  // }
 
   getMovieById(id) {
     console.log(id);
