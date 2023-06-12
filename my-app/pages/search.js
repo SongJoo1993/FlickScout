@@ -7,8 +7,11 @@ export default function AdvancedSearchForm() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     // TBC => separate each element as a string elem!
     const genre = [
-        "Action,Adventure,Animation,Biography,Comedy,Crime,Documentary,DramaFamily,Fantasy,Film-Noir,Game-Show,History,Horror,Music,Musical,Mystery,News,Reality-TV,Romance,Sci-Fi,Sport,Talk-Show,ThrillerWar,Western"
-    ]
+        "Action","Adventure","Animation","Biography",
+        "Comedy","Crime","Documentary","Drama","Family",
+        "Fantasy","History","Horror","Music",
+        "Musical","Mystery","News","Reality-TV","Romance",
+        "Sci-Fi","Sport"]
 
     return (
         <Form>
@@ -19,17 +22,20 @@ export default function AdvancedSearchForm() {
                 </Form.Group>
             </Row>
             <Row>
-                <Form.Group as={Col} className="mb-3">
-                    <Form.Label>Genre</Form.Label>
-                    <Form.Select 
-                        as="select" 
-                        placeholder="e.g. The Matrix" 
-                        name="q" 
-                    />
-                    <option>Action</option>
-                    <option>Drama</option>
-                    <option>Comedy</option>
-                </Form.Group>
+                <Form.Label>Genre</Form.Label>
+                {/* <Form.Select > */}
+                <div className="mb-3">                
+                {genre.map( (gen,index) => (
+                        <Form.Check
+                            type="checkbox"
+                            id={index}
+                            label={gen}
+                            inline
+                            />                            
+                ))}
+                </div>
+            </Row>
+            <Row>
                 <Form.Group as={Col} className="mb-3">
                     <Form.Label>Cast</Form.Label>
                     <Form.Control type="text" placeholder="e.g. The Matrix" name="q" />
