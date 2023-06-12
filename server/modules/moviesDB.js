@@ -75,15 +75,7 @@ module.exports = class MoviesDB {
   }
 
   async getAllMovies(page, perPage, title) {
-    // Try to only get genres values 
-    console.log(this.Movie.aggregate([
-      {
-        $group: {
-          _id: "$runtime"
-        }
-      }
-    ]));
-
+    // return this.Movie.distinct("countries");
     let findBy = title ? { title: { $regex: new RegExp(title, 'gi') } } : {};
     if (+page && +perPage) {
       const [pageData, total] = await Promise.all([

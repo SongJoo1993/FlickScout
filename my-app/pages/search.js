@@ -1,91 +1,124 @@
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import {Form, Row, Col, Button} from 'react-bootstrap'
+import {genres, languages, countries, ranges} from '../public/searchItem'
 
 export default function AdvancedSearchForm() {
     const router = useRouter();
-    const {register, handleSubmit, formState: {errors}} = useForm();
-    // TBC => separate each element as a string elem!
-    const genre = [
-        "Action","Adventure","Animation","Biography",
-        "Comedy","Crime","Documentary","Drama","Family",
-        "Fantasy","History","Horror","Music",
-        "Musical","Mystery","News","Reality-TV","Romance",
-        "Sci-Fi","Sport"]
+    const {register, handleSubmit, formState: {errors}} = useForm({
+        defaultValues: {
+            title: "",
+            director: "",
+            cast: "",
+            runTimeFrom: 0,
+            runTimeTo: 0,
+            genre: [],
+            country: "",
+            language: "",
+            rate: "",
+            fromDate: "", 
+            toDate: "",
+        }
+    });
+
+
+    function submitForm(data) {
+        console.log(data);
+        // let queryStr = "searchBy=" + data.searchBy;
+        // if (data.geoLocation) queryStr += "&geoLocation=" + data.geoLocation;
+        // if (data.medium) queryStr += "&medium=" + data.medium;
+        // queryStr += "&isOnView=" + data.isOnView + "&isHighlight=" + data.isHighlight + "&q=" + data.q;
+        // router.push(`/artwork?${queryStr}`);
+    }
 
     return (
-        <Form>
+        <Form onSubmit={handleSubmit(submitForm)}>
             <Row>
-                <Form.Group as={Col} className="mb-3">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control type="text" placeholder="e.g. The Matrix" name="q" />
+                <Form.Group as={Col} className="mb-1">
+                    <strong><Form.Label>Title</Form.Label></strong>
+                    <Form.Control {...register("title")} type="text" placeholder="e.g. The Matrix"/>
+                </Form.Group>
+                <Form.Group as={Col} className="mb-1">
+                    <strong><Form.Label>Director</Form.Label></strong>
+                    <Form.Control {...register("director")} type="text" placeholder="e.g. Bernardo Bertolucci" />
                 </Form.Group>
             </Row>
             <Row>
-                <Form.Label>Genre</Form.Label>
-                {/* <Form.Select > */}
-                <div className="mb-3">                
-                {genre.map( (gen,index) => (
+                <Form.Group as={Col} className="mb-1">
+                    <strong><Form.Label>Cast</Form.Label></strong>
+                    <Form.Control {...register("cast")} type="text" placeholder="e.g. John Lone, Ruocheng Ying"/>
+                </Form.Group>
+            </Row>
+            <Row>
+                <Form.Label className='mt-2'><strong>Run Time</strong> <span>( *insert minutes )</span></Form.Label>
+                <Form.Group as={Col} className="mb-1">
+                    <Form.Control {...register("runTimeFrom")} type="number" placeholder="From"/>
+                </Form.Group>
+                <Form.Group as={Col} className="mb-1">
+                    <Form.Control {...register("runTimeTo")} type="number" placeholder="To"/>
+                </Form.Group>
+            </Row>
+            <Row className='mt-3'>
+                <Form.Group>
+                    <strong><Form.Label>Genre</Form.Label></strong>
+                    {/* Link register with each checkbox value */}
+                    <div className="mb-3">                
+                    {genres.map( (gen,index) => (
                         <Form.Check
+                            {...register("genre")}
+                            value={gen}
+                            key={index}
                             type="checkbox"
                             id={index}
                             label={gen}
                             inline
-                            />                            
-                ))}
-                </div>
-            </Row>
-            <Row>
-                <Form.Group as={Col} className="mb-3">
-                    <Form.Label>Cast</Form.Label>
-                    <Form.Control type="text" placeholder="e.g. The Matrix" name="q" />
-                </Form.Group>
-                <Form.Group as={Col} className="mb-3">
-                    <Form.Label>Directors</Form.Label>
-                    <Form.Control type="text" placeholder="e.g. The Matrix" name="q" />
+                        />                            
+                    ))}
+                    </div>
                 </Form.Group>
             </Row>
             <Row>
-                <Col md={4}>
-                <Form.Label>Search By</Form.Label>
-                <Form.Select name="searchBy" className="mb-3">
-                    <option value="title">Title</option>
-                    <option value="tags">Tags</option>
-                    <option value="artistOrCulture">Artist or Culture</option>
-                </Form.Select>
-                </Col>
-                <Col md={4}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Geo Location</Form.Label>
-                    <Form.Control type="text" placeholder="" name="geoLocation" />
-                    <Form.Text className="text-muted">
-                    Case Sensitive String (ie &quot;Europe&quot;, &quot;France&quot;, &quot;Paris&quot;, &quot;China&quot;, &quot;New York&quot;, etc.), with multiple values separated by the | operator
-                </Form.Text>
+                <Form.Group as={Col}>
+                    <strong><Form.Label>Country</Form.Label></strong>
+                    <Form.Select {...register("country")} name="country" className="mb-3">
+                        {countries.map((country,index) => {
+                            return <option key={index} value={country}>{country}</option>
+                        })}
+                    </Form.Select>
                 </Form.Group>
-                </Col>
-                <Col md={4}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Medium</Form.Label>
-                    <Form.Control type="text" placeholder="" name="medium"/>
-                    <Form.Text className="text-muted">
-                    Case Sensitive String (ie: &quot;Ceramics&quot;, &quot;Furniture&quot;, &quot;Paintings&quot;, &quot;Sculpture&quot;, &quot;Textiles&quot;, etc.), with multiple values separated by the | operator
-                </Form.Text>
-                </Form.Group>
-                </Col>
+                <Form.Group as={Col}>
+                    <strong><Form.Label>Language</Form.Label></strong>
+                    <Form.Select name="language" className="mb-3">
+                        {languages.map((country,index) => {
+                            return <option key={index} value={country}>{country}</option>
+                        })}
+                    </Form.Select>
+                </Form.Group>                
             </Row>
             <Row>
-                <Col>
-                <Form.Check
-                    type="checkbox"
-                    label="Highlighted"
-                    name="isHighlight"
-                />
-                <Form.Check
-                    type="checkbox"
-                    label="Currently on View"
-                    name="isOnView"
-                />
-                </Col>
+                <Form.Group as={Col}>
+                    <strong><Form.Label>Release Date</Form.Label></strong><br />
+                    <h10>From</h10>
+                    <Form.Control name="from-year" type="date" className="mb-3"/>
+                    <h10>To</h10>
+                    <Form.Control name="to-year" type="date" className="mb-3"/>
+                </Form.Group>
+                <Form.Group as={Col}>
+                    <strong><Form.Label>IMDB Rate</Form.Label></strong><br />
+                    <h10>From</h10>
+                    <Form.Select name="from-range" className="mb-3" placeholder='From'>
+                        {ranges.map((range,index) => {
+                            return <option key={index} value={range}>{range}</option>
+                        })}
+                    </Form.Select>
+                    <h10>To</h10>
+                    {/*  */}
+                    <Form.Select name="to-range" className="mb-3" placeholder='To'>
+                        {ranges.map((range,index) => {
+                            return <option key={index} value={range}>{range}</option>
+                        })}
+                    </Form.Select>
+                </Form.Group>
             </Row>
             <Row>
                 <Col>
