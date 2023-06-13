@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import {Form, Row, Col, Button} from 'react-bootstrap'
-import {genres, languages, countries, ranges} from '../public/searchItem'
+import {genres, languages, countries, ranges} from '../../public/searchItem'
 
 export default function AdvancedSearchForm() {
     const router = useRouter();
@@ -15,21 +15,31 @@ export default function AdvancedSearchForm() {
             genre: [],
             country: "",
             language: "",
-            rate: "",
+            fromRate: "",
+            toRate: "",
             fromDate: "", 
             toDate: "",
         }
     });
 
-
-    function submitForm(data) {
-        console.log(data);
-        // let queryStr = "searchBy=" + data.searchBy;
-        // if (data.geoLocation) queryStr += "&geoLocation=" + data.geoLocation;
-        // if (data.medium) queryStr += "&medium=" + data.medium;
-        // queryStr += "&isOnView=" + data.isOnView + "&isHighlight=" + data.isHighlight + "&q=" + data.q;
-        // router.push(`/artwork?${queryStr}`);
+    function queryGenerator(data) {
+        let queryStr = "";
+        for(const property in data) {
+            if( typeof data[property] === "string" && data[property].length > 0) {
+                queryStr += `${property}=${data[property]}&`;
+            }
+        }
+        queryStr = queryStr.substring(0, queryStr.length-1);
+        router.push(`/search/${queryStr}`);
     }
+
+    function submitForm(data, event) {
+        event.preventDefault();
+        queryGenerator(data);
+    }
+
+    // after submit -> route to a page with all results (cards)
+
 
     return (
         <Form onSubmit={handleSubmit(submitForm)}>
@@ -88,7 +98,7 @@ export default function AdvancedSearchForm() {
                 </Form.Group>
                 <Form.Group as={Col}>
                     <strong><Form.Label>Language</Form.Label></strong>
-                    <Form.Select name="language" className="mb-3">
+                    <Form.Select {...register("language")} name="language" className="mb-3">
                         {languages.map((country,index) => {
                             return <option key={index} value={country}>{country}</option>
                         })}
@@ -98,22 +108,22 @@ export default function AdvancedSearchForm() {
             <Row>
                 <Form.Group as={Col}>
                     <strong><Form.Label>Release Date</Form.Label></strong><br />
-                    <h10>From</h10>
-                    <Form.Control name="from-year" type="date" className="mb-3"/>
-                    <h10>To</h10>
-                    <Form.Control name="to-year" type="date" className="mb-3"/>
+                    <h6>From</h6>
+                    <Form.Control {...register("fromDate")} type="date" className="mb-3"/>
+                    <h6>To</h6>
+                    <Form.Control {...register("toDate")} type="date" className="mb-3"/>
                 </Form.Group>
                 <Form.Group as={Col}>
                     <strong><Form.Label>IMDB Rate</Form.Label></strong><br />
-                    <h10>From</h10>
-                    <Form.Select name="from-range" className="mb-3" placeholder='From'>
+                    <h6>From</h6>
+                    <Form.Select {...register("fromRate")} className="mb-3" placeholder='From'>
                         {ranges.map((range,index) => {
                             return <option key={index} value={range}>{range}</option>
                         })}
                     </Form.Select>
-                    <h10>To</h10>
+                    <h6>To</h6>
                     {/*  */}
-                    <Form.Select name="to-range" className="mb-3" placeholder='To'>
+                    <Form.Select {...register("toRate")} className="mb-3" placeholder='To'>
                         {ranges.map((range,index) => {
                             return <option key={index} value={range}>{range}</option>
                         })}

@@ -12,7 +12,7 @@ export default function MovieTitle() {
   const router = useRouter();
   const {title} = router.query;
   const {data, error} = useSWR(`http://localhost:8080/api/movies?page=1&perPage=${PER_PAGE}&title=${title}`);
-  
+  console.log(router.query);
   function backToHome() {
     router.push('/');
   }
