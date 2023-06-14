@@ -18,7 +18,8 @@ export default function Home(props) {
     
   const address = title ? 
   `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
-  : useMemo(() => { return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`}, [page]);
+  : useMemo(() => { 
+    return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`}, [page]);
 
   const { data, error, isLoading } = useSWR(address);
 

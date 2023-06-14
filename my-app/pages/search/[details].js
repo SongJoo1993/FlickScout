@@ -1,13 +1,15 @@
 import { useRouter } from "next/router"
+import useSWR from 'swr';
 
 export default function searchResultByDetails() {
     const router = useRouter();
+    const {details} = router.query;
     const {title, director, cast, runTimeFrom, runTimeTo,
         genre, country, language, fromRate, toRate, fromDate, toDate} = router.query;
-    // const {data, error} = useSWR(`http://localhost:8080/api/movies/search?title=${title}&`);
+    const {data, error} = useSWR(`
+    http://localhost:8080/api/search?${details}`);
     
-    console.log(router.query);
-    
+    console.log(details);
 
 //   const { objectID } = router.query;
   return (

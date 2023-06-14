@@ -12,7 +12,7 @@ export default function MovieDetails(props) {
               <p>{props.movie.fullplot}</p>
               <strong>Cast:</strong> {props.movie.cast.join(', ') || "N/A"} <br /><br />
               <strong>Awards:</strong> {props.movie.awards.text || "N/A"}<br />
-              <strong>IMDB Rating:</strong> {props.movie.imdb.rating} ({props.movie.imdb.votes} votes)
+              <strong>IMDB Rating:</strong> {props.movie.imdb.rating} ({props.movie.imdb.votes} votes) <br />
             </Col>
             </Row>
         </Container>

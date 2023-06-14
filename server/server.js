@@ -38,18 +38,24 @@ app.get('/api/movies', async (req, res) => {
     }
 });
 
-// Get movies using getAllMoviesByTitle
-// To Be Worked
-// app.get('/api/movies/title', async (req, res) => {
-//     const {page, perPage} = req.query;
-//     try{
-//         let result = await db.getAllMoviesByTitle(page, perPage);
-//         result.forEach(r => console.log(r.title));
-//         res.json(result);
-//     }catch(err){
-//         res.status(404).json({message: "ERR!"});
-//     }
-// });
+// Get the result of Advanced Search
+app.get("/api/search", async (req,res) => {
+    const { title, director, cast, runTimeFrom, runTimeTo,
+        genre, country, language, fromRate, toRate, fromDate, toDate
+    } = req.query;
+    
+    // #1 Check if below variables have valid value
+    console.log( title, director, cast, 
+    runTimeFrom, runTimeTo, genre, 
+    country, language, fromRate, toRate, fromDate, toDate);
+
+    try{
+        let result = await db.getSearchedMovies(page, perPage, title);
+        res.json(result);
+    }catch(err){
+        res.status(404).json({message: "ERR!"});
+    }
+}); 
 
 // Get a single movie
 app.get("/api/movies/:id", async (req,res) => {

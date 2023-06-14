@@ -87,6 +87,32 @@ module.exports = class MoviesDB {
     return Promise.reject(new Error('page and perPage query parameters must be valid numbers'));
   }
 
+  // Get Movies from Advanced Search 
+  // async getSearchedMovies(title, director, cast, runTimeFrom, runTimeTo,
+  //   genre, country, language, fromRate, toRate, fromDate, toDate) {
+  async getSearchedMovies([...args]) {
+    //1. loop through each args and change it to regex 
+    //2. write a find query with valid arguments
+    // write a dynamic query as below
+    // this.Movie.find({ title: title, cast: cast...})
+    // if arg is valid -> 
+    //3. return the data
+    // need perpage and page too for pagination
+    let findBy = title ? { title: { $regex: new RegExp(title, 'gi') } } : {};
+    if (+page && +perPage) {
+      const [pageData, total] = await Promise.all([
+        this.Movie.find(findBy).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),
+        this.Movie.countDocuments(findBy),
+      ]);
+      return { pageData, total };
+    }
+    return Promise.reject(new Error('page and perPage query parameters must be valid numbers'));
+  }
+
+  regexGenerator(str) {
+    return str ? { str: { $regex: new RegExp(str, 'gi') } } : {};
+  }
+
   getMovieById(id) {
     console.log(id);
     return this.Movie.findOne({ _id: id }).exec();
