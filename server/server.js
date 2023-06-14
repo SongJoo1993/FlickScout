@@ -40,17 +40,17 @@ app.get('/api/movies', async (req, res) => {
 
 // Get the result of Advanced Search
 app.get("/api/search", async (req,res) => {
-    const { title, director, cast, runTimeFrom, runTimeTo,
-        genre, country, language, fromRate, toRate, fromDate, toDate
-    } = req.query;
+    // const { title, director, cast, runTimeFrom, runTimeTo,
+    //     genre, country, language, fromRate, toRate, fromDate, toDate
+    // } = req.query;
 
     // #1 Check if below variables have valid value
-    console.log( title, director, cast, 
-    runTimeFrom, runTimeTo, genre, 
-    country, language, fromRate, toRate, fromDate, toDate);
+    // console.log( title, director, cast, 
+    // runTimeFrom, runTimeTo, genre, 
+    // country, language, fromRate, toRate, fromDate, toDate);
 
     try{
-        let result = await db.getSearchedMovies(page, perPage, title);
+        let result = await db.getSearchedMovies(req.query);
         res.json(result);
     }catch(err){
         res.status(404).json({message: "ERR!"});

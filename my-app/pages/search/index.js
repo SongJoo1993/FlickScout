@@ -24,17 +24,21 @@ export default function AdvancedSearchForm() {
 
     function queryGenerator(data) {
         let queryStr = "";
+        console.log(data);
         for(const property in data) {
-            if( typeof data[property] === "string" && data[property].length > 0) {
+            if ( typeof data[property] === "string" && data[property].length > 0) {
                 queryStr += `${property}=${data[property]}&`;
-            } else if (data[property].length > 0) {
+            } 
+            else if (
+                props === "genre" && 
+                data[property].length > 0) {
                 data[property].forEach(element => {
-                    console.log(element);
+                    queryStr += `${property}=${element}&`;
                 });
             }
         }
         queryStr = queryStr.substring(0, queryStr.length-1);
-        router.push(`/search/${queryStr}`);
+        router.push(`/results?${queryStr}`);
     }
 
     function submitForm(data, event) {

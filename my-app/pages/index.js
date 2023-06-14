@@ -1,8 +1,9 @@
 import useSWR from 'swr';
 import {useState, useEffect, useMemo} from 'react';
-import {Pagination, Accordion} from 'react-bootstrap';
+import {Pagination, Accordion, Row, Col} from 'react-bootstrap';
 import MovieDetails from "@/components/MovieDetails";
 import PageHeader from "@/components/PageHeader";
+import Movies from "@/components/Movies";
 
 const PER_PAGE = 10;
 
@@ -45,6 +46,19 @@ export default function Home(props) {
     return <p>Loading...</p>
   }
 
+  function pageGenerator(curPage) {
+    const maxPage = curPage + 10;
+    let a = [];
+    for(curPage; curPage < maxPage; curPage++) {
+      a.push(
+        <Pagination.Item key={curPage} active={curPage === page} onClick={pageClicked}>
+          {curPage}
+        </Pagination.Item>
+      )
+    }
+    return a;
+  }
+
   function firstPage() {
     setPage(1);
   }
@@ -58,6 +72,11 @@ export default function Home(props) {
     if(page > 1) setPage(pg => pg - 1);
   }
 
+  function pageClicked(event) {
+    const curPage = parseInt(event.target.innerText);
+    setPage(curPage);
+  }
+
   function nextPage() {
     setPage(page + 1);
   }
@@ -68,7 +87,14 @@ export default function Home(props) {
         <PageHeader textHead ="Search Key Word:" textTail = {title.toUpperCase()} totalMovies={total}/>
       : <PageHeader textHead ="Film Collection :" textTail ="Sorted by Date"/>
       }
-      <Accordion defaultActiveKey="0">
+      <Row xs={1} md={2} lg={4} className="g-4">
+        {pageData?.map(movie => (
+          <Col key={movie._id} className='h-100'>
+            <Movies movieID={movie._id}/>
+          </Col>
+        ))}
+      </Row>
+      {/* <Accordion defaultActiveKey="0">
         {pageData?.map(movie => (
             <Accordion.Item eventKey={movie._id} key={movie._id}>
               <Accordion.Header>
@@ -80,12 +106,18 @@ export default function Home(props) {
               </Accordion.Body>
             </Accordion.Item>
           ))}
-      </Accordion>
+      </Accordion> */}
       <br />
       <Pagination>
         <Pagination.First onClick={firstPage}/>
         <Pagination.Prev onClick={prevPage}/>
-        <Pagination.Item>{page}</Pagination.Item>
+        {pageGenerator(page)}
+        {/* <Pagination.Item>
+          {page}
+        </Pagination.Item> */}
+        {/* <Pagination.Item>
+          {page+1}
+        </Pagination.Item> */}
         {disabled ?
           <Pagination.Next disabled/>
           : <Pagination.Next onClick={nextPage}/>
