@@ -8,8 +8,6 @@ export default function searchResultByDetails() {
         genre, country, language, fromRate, toRate, fromDate, toDate} = router.query;
     const {data, error} = useSWR(`
     http://localhost:8080/api/search?${details}`);
-    
-    console.log(details);
 
 //   const { objectID } = router.query;
   return (

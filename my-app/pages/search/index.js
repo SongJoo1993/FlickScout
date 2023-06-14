@@ -27,6 +27,10 @@ export default function AdvancedSearchForm() {
         for(const property in data) {
             if( typeof data[property] === "string" && data[property].length > 0) {
                 queryStr += `${property}=${data[property]}&`;
+            } else if (data[property].length > 0) {
+                data[property].forEach(element => {
+                    console.log(element);
+                });
             }
         }
         queryStr = queryStr.substring(0, queryStr.length-1);
