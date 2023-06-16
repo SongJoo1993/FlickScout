@@ -90,13 +90,22 @@ module.exports = class MoviesDB {
 
   // Get Movies from Advanced Search 
   async getSearchedMovies(query) {
+    console.log(query);
     let finalQuery = {};
     finalQuery = this.searchQueryGen(query,finalQuery);
-    if(query.runTimeFrom) {
-      console.log("run time from exists");
-    }
-
+    // if(query.runTimeFrom) {
+    //   console.log("run time from exists");
+    // }
+    // let a = {
+    //   released : {$gte:ISODate("2009-01-01"), $lte: ISODate("2009-12-01")},
+    //   genres  :  ["Animation", "Fantasy"],
+    //   runtime : {$gte: 90, $lte: 110}
+    // };
+    console.log("finalQuery: ",finalQuery);
+    const pageData = this.Movie.find(finalQuery).exec();
+    
     return this.Movie.find(finalQuery).sort({ year: +1 }).exec();
+    // return pageData;
   }
   
   searchQueryGen(query,finalQuery) {
@@ -107,9 +116,25 @@ module.exports = class MoviesDB {
       } else if(props === "runTimeFrom" || props === "fromRate") {
         query[props] = query[props] * 1;
         query[props] = {$gte : query[props]};
+        if(props === "runTimeFrom") {
+          finalQuery.runtime = query[props];
+        } 
+        else if(props === "fromRate") {
+          // finalQuery.imdb = {};
+          let keyName = "imdb.rating"; 
+          finalQuery[keyName] = query[props];
+        }
       } else if(props === "runTimeTo" || props === "toRate") {
         query[props] = query[props] * 1;
         query[props] = {$lte : query[props]};
+        if(props === "runTimeTo") {
+          Object.assign(finalQuery.runtime, query[props]);
+        } 
+        else if(props === "toRate") {
+          // finalQuery.imdb.rating = query[props];
+          let keyName = "imdb.rating"; 
+          Object.assign(finalQuery[keyName], query[props]);         
+        }
       } else if(typeof query[props] === "string" && !props.includes("Date")) {
         query[props] = { $regex: new RegExp(query[props], 'i') };
         finalQuery[`${props}`] = query[props];
@@ -117,16 +142,15 @@ module.exports = class MoviesDB {
         query[props] = new Date(query[props]).toISOString();
         if(props === "fromDate") {
           query[props] = {$gte : (query[props])}
+          finalQuery.released = query[props];
         } else {
           query[props] = {$lte : (query[props])}
+          Object.assign(finalQuery.released, query[props]);
         }
       }
     }
-
-    console.log(query);
     return finalQuery;
   }
-  
   
   regexGenerator(str) {
     return str ? { str: { $regex: new RegExp(str, 'gi') } } : {};
