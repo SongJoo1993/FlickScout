@@ -77,6 +77,7 @@ module.exports = class MoviesDB {
   async getAllMovies(page, perPage, title) {
     // return this.Movie.distinct("countries");
     let findBy = title ? { title: { $regex: new RegExp(title, 'gi') } } : {};
+    console.log(findBy);
     if (+page && +perPage) {
       const [pageData, total] = await Promise.all([
         this.Movie.find(findBy).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),
@@ -88,29 +89,51 @@ module.exports = class MoviesDB {
   }
 
   // Get Movies from Advanced Search 
-  // async getSearchedMovies(title, director, cast, runTimeFrom, runTimeTo,
-  //   genre, country, language, fromRate, toRate, fromDate, toDate) {
   async getSearchedMovies(query) {
-    // Write validation/transformation
-    // for runtime, genre, rate, date
+    let finalQuery = {};
+    finalQuery = this.searchQueryGen(query,finalQuery);
+    if(query.runTimeFrom) {
+      console.log("run time from exists");
+    }
+
+    return this.Movie.find(finalQuery).sort({ year: +1 }).exec();
+  }
+  
+  searchQueryGen(query,finalQuery) {
     for(const props in query) {
       if(props === "genre") {
-        props = "genres";
-        console.log(props);
-      }
-      if(typeof query[props] === "string") {
-        query[props] = { $regex: new RegExp(query[props], 'gi') };
+        query[props] = query[props].split(',');
+        finalQuery.genres = query[props];
+      } else if(props === "runTimeFrom" || props === "fromRate") {
+        query[props] = query[props] * 1;
+        query[props] = {$gte : query[props]};
+      } else if(props === "runTimeTo" || props === "toRate") {
+        query[props] = query[props] * 1;
+        query[props] = {$lte : query[props]};
+      } else if(typeof query[props] === "string" && !props.includes("Date")) {
+        query[props] = { $regex: new RegExp(query[props], 'i') };
+        finalQuery[`${props}`] = query[props];
+      } else {
+        query[props] = new Date(query[props]).toISOString();
+        if(props === "fromDate") {
+          query[props] = {$gte : (query[props])}
+        } else {
+          query[props] = {$lte : (query[props])}
+        }
       }
     }
-    console.log(query);
-  }
 
+    console.log(query);
+    return finalQuery;
+  }
+  
+  
   regexGenerator(str) {
     return str ? { str: { $regex: new RegExp(str, 'gi') } } : {};
   }
 
   getMovieById(id) {
-    console.log(id);
+    // console.log(`GetmoviebyID: ${id}`);
     return this.Movie.findOne({ _id: id }).exec();
   }
 

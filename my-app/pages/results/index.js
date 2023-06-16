@@ -13,6 +13,8 @@ export default function SearchResults () {
     
     const { data, error } = useSWR(`http://localhost:8080/api/search?${queryStr}`);
 
+    console.log(data);
+
     return(
         <>
             <h1>searchResultByDetails Page</h1>

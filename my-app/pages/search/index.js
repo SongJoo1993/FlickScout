@@ -1,19 +1,19 @@
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import {Form, Row, Col, Button} from 'react-bootstrap'
-import {genres, languages, countries, ranges} from '../../public/searchItem'
+import {categories, languages, country, ranges} from '../../public/searchItem'
 
 export default function AdvancedSearchForm() {
     const router = useRouter();
     const {register, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
             title: "",
-            director: "",
+            directors: "",
             cast: "",
             runTimeFrom: 0,
             runTimeTo: 0,
             genre: [],
-            country: "",
+            countries: "",
             language: "",
             fromRate: "",
             toRate: "",
@@ -24,13 +24,12 @@ export default function AdvancedSearchForm() {
 
     function queryGenerator(data) {
         let queryStr = "";
-        console.log(data);
         for(const property in data) {
             if ( typeof data[property] === "string" && data[property].length > 0) {
                 queryStr += `${property}=${data[property]}&`;
             } 
             else if (
-                props === "genre" && 
+                property === "genre" && 
                 data[property].length > 0) {
                 data[property].forEach(element => {
                     queryStr += `${property}=${element}&`;
@@ -38,6 +37,7 @@ export default function AdvancedSearchForm() {
             }
         }
         queryStr = queryStr.substring(0, queryStr.length-1);
+        console.log(queryStr);
         router.push(`/results?${queryStr}`);
     }
 
@@ -57,8 +57,8 @@ export default function AdvancedSearchForm() {
                     <Form.Control {...register("title")} type="text" placeholder="e.g. The Matrix"/>
                 </Form.Group>
                 <Form.Group as={Col} className="mb-1">
-                    <strong><Form.Label>Director</Form.Label></strong>
-                    <Form.Control {...register("director")} type="text" placeholder="e.g. Bernardo Bertolucci" />
+                    <strong><Form.Label>Directors</Form.Label></strong>
+                    <Form.Control {...register("directors")} type="text" placeholder="e.g. Bernardo Bertolucci" />
                 </Form.Group>
             </Row>
             <Row>
@@ -81,7 +81,7 @@ export default function AdvancedSearchForm() {
                     <strong><Form.Label>Genre</Form.Label></strong>
                     {/* Link register with each checkbox value */}
                     <div className="mb-3">                
-                    {genres.map( (gen,index) => (
+                    {categories.map( (gen,index) => (
                         <Form.Check
                             {...register("genre")}
                             value={gen}
@@ -98,9 +98,9 @@ export default function AdvancedSearchForm() {
             <Row>
                 <Form.Group as={Col}>
                     <strong><Form.Label>Country</Form.Label></strong>
-                    <Form.Select {...register("country")} name="country" className="mb-3">
-                        {countries.map((country,index) => {
-                            return <option key={index} value={country}>{country}</option>
+                    <Form.Select {...register("countries")} name="countries" className="mb-3">
+                        {country.map((ctr,index) => {
+                            return <option key={index} value={ctr}>{ctr}</option>
                         })}
                     </Form.Select>
                 </Form.Group>

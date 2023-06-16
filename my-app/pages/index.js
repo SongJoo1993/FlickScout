@@ -13,9 +13,6 @@ export default function Home(props) {
   const [total, setTotal] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const {title, totalPage} = props;
-  // const address = useMemo(() => {
-    //   return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`
-    // }, [page]);
     
   const address = title ? 
   `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
