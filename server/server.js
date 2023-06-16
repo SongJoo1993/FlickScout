@@ -40,6 +40,7 @@ app.get('/api/movies', async (req, res) => {
 
 // Get the result of Advanced Search
 app.get("/api/search", async (req,res) => {
+    // console.log(req.query);
     try{
         let result = await db.getSearchedMovies(req.query);
         res.json(result);

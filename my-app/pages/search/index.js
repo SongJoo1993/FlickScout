@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import {Form, Row, Col, Button} from 'react-bootstrap'
-import {categories, languages, country, ranges} from '../../public/searchItem'
+import {categories, language, country, ranges} from '../../public/searchItem'
 
 export default function AdvancedSearchForm() {
     const router = useRouter();
@@ -14,7 +14,7 @@ export default function AdvancedSearchForm() {
             runTimeTo: 0,
             genre: [],
             countries: "",
-            language: "",
+            languages: "",
             fromRate: "",
             toRate: "",
             fromDate: "", 
@@ -106,8 +106,8 @@ export default function AdvancedSearchForm() {
                 </Form.Group>
                 <Form.Group as={Col}>
                     <strong><Form.Label>Language</Form.Label></strong>
-                    <Form.Select {...register("language")} name="language" className="mb-3">
-                        {languages.map((country,index) => {
+                    <Form.Select {...register("languages")} name="languages" className="mb-3">
+                        {language.map((country,index) => {
                             return <option key={index} value={country}>{country}</option>
                         })}
                     </Form.Select>

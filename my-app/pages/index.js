@@ -20,7 +20,7 @@ export default function Home(props) {
     return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`}, [page]);
 
   const { data, error, isLoading } = useSWR(address);
-
+  
   useEffect(() => {
     if(data) {
       setPageData(data.pageData);

@@ -77,7 +77,6 @@ module.exports = class MoviesDB {
   async getAllMovies(page, perPage, title) {
     // return this.Movie.distinct("countries");
     let findBy = title ? { title: { $regex: new RegExp(title, 'gi') } } : {};
-    console.log(findBy);
     if (+page && +perPage) {
       const [pageData, total] = await Promise.all([
         this.Movie.find(findBy).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),
@@ -90,24 +89,24 @@ module.exports = class MoviesDB {
 
   // Get Movies from Advanced Search 
   async getSearchedMovies(query) {
-    console.log(query);
+    const {page} = query;
+    const {perPage} = query;
+    delete query.page;
+    delete query.perPage;
+    console.log(page);
+    console.log(perPage);
     let finalQuery = {};
     finalQuery = this.searchQueryGen(query,finalQuery);
-    // if(query.runTimeFrom) {
-    //   console.log("run time from exists");
-    // }
-    // let a = {
-    //   released : {$gte:ISODate("2009-01-01"), $lte: ISODate("2009-12-01")},
-    //   genres  :  ["Animation", "Fantasy"],
-    //   runtime : {$gte: 90, $lte: 110}
-    // };
-    console.log("finalQuery: ",finalQuery);
-    const pageData = this.Movie.find(finalQuery).exec();
-    
-    return this.Movie.find(finalQuery).sort({ year: +1 }).exec();
-    // return pageData;
+    console.log(finalQuery);
+
+    const [pageData, total] = await Promise.all([
+      this.Movie.find(finalQuery).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),
+      this.Movie.countDocuments(finalQuery),
+    ]);
+
+    return { pageData, total };
   }
-  
+
   searchQueryGen(query,finalQuery) {
     for(const props in query) {
       if(props === "genre") {
@@ -120,7 +119,6 @@ module.exports = class MoviesDB {
           finalQuery.runtime = query[props];
         } 
         else if(props === "fromRate") {
-          // finalQuery.imdb = {};
           let keyName = "imdb.rating"; 
           finalQuery[keyName] = query[props];
         }
@@ -131,7 +129,6 @@ module.exports = class MoviesDB {
           Object.assign(finalQuery.runtime, query[props]);
         } 
         else if(props === "toRate") {
-          // finalQuery.imdb.rating = query[props];
           let keyName = "imdb.rating"; 
           Object.assign(finalQuery[keyName], query[props]);         
         }
@@ -157,7 +154,6 @@ module.exports = class MoviesDB {
   }
 
   getMovieById(id) {
-    // console.log(`GetmoviebyID: ${id}`);
     return this.Movie.findOne({ _id: id }).exec();
   }
 
