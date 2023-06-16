@@ -14,6 +14,8 @@ export default function SearchResults () {
     const [disabled, setDisabled] = useState(false);
     const router = useRouter();
     var queryStr = "";
+    let totalPage = Math.ceil(total / PER_PAGE);
+    console.log(totalPage);
     // var resultStr = "";
     // Make result string dynamically
 
@@ -47,16 +49,32 @@ export default function SearchResults () {
       }
     
     function pageGenerator(curPage) {
-      const maxPage = curPage + 10;
-      let pageRange = [];
-      for(curPage; curPage < maxPage; curPage++) {
-        pageRange.push(
-          <Pagination.Item key={curPage} active={curPage === page} onClick={pageClicked}>
-            {curPage}
-          </Pagination.Item>
-        )
-      }
-      return pageRange;
+        console.log("curPage",curPage);
+        let pageRange = [];
+        // 0-10 => 10, 11 - 20 => 20
+        let curMaxPage = Math.ceil(curPage/10)*10;
+        // when curPage % 10 is true, curMaxPage and curMinPage equal
+        // and printing only 1 page number since no min and max numbers to be printed
+        // curPage -1 prevents this bug
+        let curMinPage = Math.floor((curPage - 1)/10)*10;
+        
+        if(curMaxPage > totalPage) curMaxPage = totalPage;
+        for(curMinPage; curMinPage <= curMaxPage; curMinPage++) {
+            if(curMinPage > 0) {
+                pageRange.push(
+                    <Pagination.Item key={curMinPage} active={curMinPage === curPage} onClick={pageClicked}>
+                      {curMinPage}
+                    </Pagination.Item>
+                  )
+            }}
+        // for(curPage; curPage < maxPage && curPage <= totalPage; curPage++) {
+        //   pageRange.push(
+        //     <Pagination.Item key={curPage} active={curPage === page} onClick={pageClicked}>
+        //       {curPage}
+        //     </Pagination.Item>
+        //   )}
+        // console.log(pageRange);
+        return pageRange;
     }
 
     function firstPage() {
