@@ -37,43 +37,62 @@ export default function AdvancedSearchForm() {
             }
         }
         queryStr = queryStr.substring(0, queryStr.length-1);
-        console.log(queryStr);
         router.push(`/results?${queryStr}`);
     }
 
     function submitForm(data, event) {
-        event.preventDefault();
         queryGenerator(data);
     }
 
-    // after submit -> route to a page with all results (cards)
-
+    function handleKeyPress(event) {
+        if (event.code === "Enter") event.preventDefault();
+    }
 
     return (
         <Form onSubmit={handleSubmit(submitForm)}>
             <Row>
                 <Form.Group as={Col} className="mb-1">
-                    <strong><Form.Label>Title</Form.Label></strong>
-                    <Form.Control {...register("title")} type="text" placeholder="e.g. The Matrix"/>
+                    <strong><Form.Label htmlFor ="title">Title</Form.Label></strong>
+                    <Form.Control 
+                        id="title" 
+                        {...register("title")} 
+                        type="text" 
+                        placeholder="e.g. The Matrix"
+                        onKeyDown ={handleKeyPress}
+                    />
                 </Form.Group>
                 <Form.Group as={Col} className="mb-1">
-                    <strong><Form.Label>Directors</Form.Label></strong>
-                    <Form.Control {...register("directors")} type="text" placeholder="e.g. Bernardo Bertolucci" />
+                    <strong><Form.Label htmlFor ="directors">Directors</Form.Label></strong>
+                    <Form.Control 
+                        id="directors"
+                        {...register("directors")}
+                        type="text"
+                        placeholder="e.g. Bernardo Bertolucci" 
+                        onKeyDown ={handleKeyPress}
+                    />
                 </Form.Group>
             </Row>
             <Row>
                 <Form.Group as={Col} className="mb-1">
-                    <strong><Form.Label>Cast</Form.Label></strong>
-                    <Form.Control {...register("cast")} type="text" placeholder="e.g. John Lone, Ruocheng Ying"/>
+                    <strong><Form.Label htmlFor ="cast">Cast</Form.Label></strong>
+                    <Form.Control 
+                        id="cast"
+                        {...register("cast")}
+                        type="text"
+                        placeholder="e.g. John Lone, Ruocheng Ying"
+                        onKeyDown ={handleKeyPress}
+                    />
                 </Form.Group>
             </Row>
             <Row>
                 <Form.Label className='mt-2'><strong>Run Time</strong> <span>( *insert minutes )</span></Form.Label>
                 <Form.Group as={Col} className="mb-1">
-                    <Form.Control {...register("runTimeFrom")} type="number" placeholder="From"/>
+                    <Form.Label>From</Form.Label>
+                    <Form.Control {...register("runTimeFrom")} type="number"/>
                 </Form.Group>
                 <Form.Group as={Col} className="mb-1">
-                    <Form.Control {...register("runTimeTo")} type="number" placeholder="To"/>
+                    <Form.Label>To</Form.Label>
+                    <Form.Control {...register("runTimeTo")} type="number"/>
                 </Form.Group>
             </Row>
             <Row className='mt-3'>
@@ -116,20 +135,20 @@ export default function AdvancedSearchForm() {
             <Row>
                 <Form.Group as={Col}>
                     <strong><Form.Label>Release Date</Form.Label></strong><br />
-                    <h6>From</h6>
+                    <Form.Label>From</Form.Label>
                     <Form.Control {...register("fromDate")} type="date" className="mb-3"/>
-                    <h6>To</h6>
+                    <Form.Label>To</Form.Label>
                     <Form.Control {...register("toDate")} type="date" className="mb-3"/>
                 </Form.Group>
                 <Form.Group as={Col}>
                     <strong><Form.Label>IMDB Rate</Form.Label></strong><br />
-                    <h6>From</h6>
+                    <Form.Label>From</Form.Label>
                     <Form.Select {...register("fromRate")} className="mb-3" placeholder='From'>
                         {ranges.map((range,index) => {
                             return <option key={index} value={range}>{range}</option>
                         })}
                     </Form.Select>
-                    <h6>To</h6>
+                    <Form.Label>To</Form.Label>
                     {/*  */}
                     <Form.Select {...register("toRate")} className="mb-3" placeholder='To'>
                         {ranges.map((range,index) => {
@@ -141,7 +160,7 @@ export default function AdvancedSearchForm() {
             <Row>
                 <Col>
                 <br />
-                <Button variant="primary" type="submit">
+                <Button variant="secondary" type="submit">
                     Submit
                 </Button>
                 </Col>

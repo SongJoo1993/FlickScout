@@ -58,6 +58,8 @@ export default function SearchResults () {
         // curPage -1 prevents this bug
         let curMinPage = Math.floor((curPage - 1)/10)*10;
         
+        //Issue: When curPage is higher than curMinPage
+        // still this function generates curMinPage which is always 1 minus the curPage!
         if(curMaxPage > totalPage) curMaxPage = totalPage;
         for(curMinPage; curMinPage <= curMaxPage; curMinPage++) {
             if(curMinPage > 0) {
