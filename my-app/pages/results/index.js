@@ -106,7 +106,7 @@ export default function SearchResults () {
         <PageHeader textHead ="Advanced Search Result Sorted by Date Ascending" textTail = " " totalMovies={data?.total}/>
         <Row xs={1} md={2} lg={4} className="g-4">
         {pageData?.map(movie => (
-          <Col key={movie._id} className='h-100'>
+          <Col key={movie._id} style={{height: "35rem"}}>
             <Movies movieID={movie._id}/>
           </Col>
         ))}
