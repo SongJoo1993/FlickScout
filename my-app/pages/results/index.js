@@ -15,9 +15,6 @@ export default function SearchResults () {
     const router = useRouter();
     var queryStr = "";
     let totalPage = Math.ceil(total / PER_PAGE);
-    console.log(totalPage);
-    // var resultStr = "";
-    // Make result string dynamically
 
     for(const props in router.query) {
         queryStr += `&${props}=${router.query[props]}`;
@@ -57,25 +54,22 @@ export default function SearchResults () {
         // and printing only 1 page number since no min and max numbers to be printed
         // curPage -1 prevents this bug
         let curMinPage = Math.floor((curPage - 1)/10)*10;
+        // let curMinPage = Math.floor((curPage - 1)/10)*10;
+        console.log("curMinPage", curMinPage);
+        console.log("curMaxPage", curMaxPage);
         
         //Issue: When curPage is higher than curMinPage
         // still this function generates curMinPage which is always 1 minus the curPage!
         if(curMaxPage > totalPage) curMaxPage = totalPage;
         for(curMinPage; curMinPage <= curMaxPage; curMinPage++) {
-            if(curMinPage > 0) {
+            if(curMaxPage - curMinPage != 10 && (curMinPage > 0)) {
+                console.log(curMinPage);
                 pageRange.push(
                     <Pagination.Item key={curMinPage} active={curMinPage === curPage} onClick={pageClicked}>
                       {curMinPage}
-                    </Pagination.Item>
-                  )
-            }}
-        // for(curPage; curPage < maxPage && curPage <= totalPage; curPage++) {
-        //   pageRange.push(
-        //     <Pagination.Item key={curPage} active={curPage === page} onClick={pageClicked}>
-        //       {curPage}
-        //     </Pagination.Item>
-        //   )}
-        // console.log(pageRange);
+                    </Pagination.Item>)
+            }
+          }
         return pageRange;
     }
 

@@ -12,8 +12,9 @@ export default function Home(props) {
   const [pageData, setPageData] = useState([]);
   const [total, setTotal] = useState(0);
   const [disabled, setDisabled] = useState(false);
-  const {title, totalPage} = props;
-    
+  const {title} = props;
+  let totalPage = Math.ceil(total / PER_PAGE);
+
   const address = title ? 
   `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
   : useMemo(() => { 
@@ -44,16 +45,31 @@ export default function Home(props) {
   }
 
   function pageGenerator(curPage) {
-    const maxPage = curPage + 10;
-    let a = [];
-    for(curPage; curPage < maxPage; curPage++) {
-      a.push(
-        <Pagination.Item key={curPage} active={curPage === page} onClick={pageClicked}>
-          {curPage}
-        </Pagination.Item>
-      )
-    }
-    return a;
+    // const maxPage = curPage + 10;
+    // let a = [];
+    // for(curPage; curPage < maxPage; curPage++) {
+    //   a.push(
+    //     <Pagination.Item key={curPage} active={curPage === page} onClick={pageClicked}>
+    //       {curPage}
+    //     </Pagination.Item>
+    //   )
+    // }
+    // return a;
+    let pageRange = [];
+    let curMaxPage = Math.ceil(curPage/10)*10;
+    let curMinPage = Math.floor((curPage - 1)/10)*10;
+
+
+    if(curMaxPage > totalPage) curMaxPage = totalPage;
+    for(curMinPage; curMinPage <= curMaxPage; curMinPage++) {
+      if(curMaxPage - curMinPage != 10 && (curMinPage > 0)) {
+          pageRange.push(
+            <Pagination.Item key={curMinPage} active={curMinPage === curPage} onClick={pageClicked}>
+              {curMinPage}
+            </Pagination.Item>)
+        }
+      }
+    return pageRange;
   }
 
   function firstPage() {
