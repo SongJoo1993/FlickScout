@@ -1,12 +1,16 @@
 // Simple API Setup
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const people = require('./MOCK_DATA.json');
 const cors = require("cors");
-require('dotenv').config();
+const mongoose = require("mongoose");
 const MoviesDB = require("./modules/moviesDB.js");
 const db = new MoviesDB();
 const HTTP_PORT = process.env.PORT || 8080;
+const movie = process.env.MONGODB_MOVIE_CONN_STRING;
+const user = process.env.MONGODB_USER_CONN_STRING;
+const {userModel, movieModel} = require('./models')
 
 // Middlewares
 app.use(cors());
@@ -16,6 +20,19 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json({message: "API listening"});
 });
+
+app.get('/users', async (req, res) => {
+    const users = await userModel.find({});
+
+    res.json(users);
+});
+
+app.get('/movie', async (req, res) => {
+    const movies = await movieModel.find({});
+
+    res.json(movies);
+});
+
 
 // Add a new movie
 app.post('/api/movies', async (req,res) => {
@@ -78,11 +95,61 @@ app.delete("/api/movies/:id", (req,res) => {
 });
 
 // DB initializer
-db.initialize(process.env.MONGODB_CONN_STRING).then(() => {
-    // Tell the app to start listening for requests
-    app.listen(HTTP_PORT, () => {
-        console.log(`server listening on: ${HTTP_PORT}`);
-    });
-}).catch(err => {
-    console.log(err);
-})
+// db.initialize(process.env.MONGODB_CONN_STRING).then(() => {
+//     // Tell the app to start listening for requests
+//     app.listen(HTTP_PORT, () => {
+//         console.log(`server listening on: ${HTTP_PORT}`);
+//     });
+// }).catch(err => {
+//     console.log(err);
+// })
+
+// const connectDBs = (movieURI, userURI) => {
+//     try {
+//         const qrCodeDb = mongoose.createConnection(movieURI, {
+//             useUnifiedTopology: true,
+//             useNewUrlParser: true
+//         })
+//         const userDB = mongoose.createConnection(userURI, {
+//             useUnifiedTopology: true,
+//             useNewUrlParser: true
+//         })
+//         return { qrCodeDb, userDB }
+//     }
+//     catch (error) {
+//         console.error(`Error:${error.message}`)
+//         process.exit(1)
+//     }
+
+//     return new Promise((resolve, reject) => {
+//         const qrCodeDb = mongoose.createConnection(movieURI, {
+//             useUnifiedTopology: true,
+//             useNewUrlParser: true
+//         });
+//         const userDB = mongoose.createConnection(userURI, {
+//             useUnifiedTopology: true,
+//             useNewUrlParser: true
+//         });
+        
+//         return { qrCodeDb, userDB }
+
+//         db.once('error', (err) => {
+//           reject(err);
+//         });
+  
+//         db.once('open', () => {
+//           this.Movie = db.model("movies", movieSchema);
+//           resolve();
+//         });
+//     });
+// }
+
+// connectDBs(movie,user).then(() => {    // Tell the app to start listening for requests
+//     app.listen(HTTP_PORT, () => {
+//         console.log(`server listening on: ${HTTP_PORT}`);
+//     });
+// }).catch(err => {
+//     console.log(err);
+// })
+
+app.listen(HTTP_PORT, () => console.log(`App listening at http://localhost:${HTTP_PORT}`));

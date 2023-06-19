@@ -4,6 +4,8 @@ import useSWR from 'swr';
 import Movies from "@/components/Movies";
 import PageHeader from "@/components/PageHeader";
 import {Pagination, Row, Col} from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
+
 
 const PER_PAGE = 10;
 
@@ -21,6 +23,7 @@ export default function SearchResults () {
     }
     queryStr = queryStr.slice(1);
     
+    console.log(queryStr);
     const { data, error, isLoading } = useSWR(`http://localhost:8080/api/search?${queryStr}&page=${page}&perPage=${PER_PAGE}`);
 
     useEffect(() => {
@@ -38,6 +41,17 @@ export default function SearchResults () {
         setDisabled(true);
       }
     },[page]);
+
+    if(data?.pageData?.length === 0) {
+      return (
+          <>
+            <br />
+            <Alert variant='danger' onClose={() => backToHome()} dismissible>
+              <Alert.Heading> No Results Found with "{queryStr}".</Alert.Heading>
+            </Alert>
+          </>
+        )
+    }
 
     if(error) {
       return <p>Error!</p>

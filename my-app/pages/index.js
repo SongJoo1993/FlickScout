@@ -45,16 +45,6 @@ export default function Home(props) {
   }
 
   function pageGenerator(curPage) {
-    // const maxPage = curPage + 10;
-    // let a = [];
-    // for(curPage; curPage < maxPage; curPage++) {
-    //   a.push(
-    //     <Pagination.Item key={curPage} active={curPage === page} onClick={pageClicked}>
-    //       {curPage}
-    //     </Pagination.Item>
-    //   )
-    // }
-    // return a;
     let pageRange = [];
     let curMaxPage = Math.ceil(curPage/10)*10;
     let curMinPage = Math.floor((curPage - 1)/10)*10;
