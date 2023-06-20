@@ -93,11 +93,11 @@ module.exports = class MoviesDB {
     const {perPage} = query;
     delete query.page;
     delete query.perPage;
-    console.log(page);
-    console.log(perPage);
+    // console.log(page);
+    // console.log(perPage);
     let finalQuery = {};
     finalQuery = this.searchQueryGen(query,finalQuery);
-    console.log(finalQuery);
+    // console.log(finalQuery);
 
     const [pageData, total] = await Promise.all([
       this.Movie.find(finalQuery).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),

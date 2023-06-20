@@ -8,21 +8,23 @@ import { useState } from 'react';
 
 function SingleMovieModal(props) {
     const { data, error } = useSWR(`http://localhost:8080/api/movies/${props.movieid}`);
-    const { title, poster, directors, genres, plot, imdb, rated, cast, awards } = data;
+    const {_id, title, poster, directors, genres, plot, imdb, rated, cast, awards } = data;
     const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
     const [showAdded, setShowAdded] = useState(() => emptyFavLists());
+    
+    console.log(favouritesMovie);
 
     function emptyFavLists () {
-        return favouritesMovie.includes(title);
+        return favouritesMovie.includes(_id);
     }
 
     function favouritesClicked() {
         if(showAdded) {
-            setFavouritesMovie(current => current.filter(fav => fav != title));
+            setFavouritesMovie(current => current.filter(fav => fav != _id));
             setShowAdded(false);
         }
         else {
-            setFavouritesMovie(current => [...current, title]);
+            setFavouritesMovie(current => [...current, _id]);
             setShowAdded(true);
         }
     }
@@ -50,13 +52,13 @@ function SingleMovieModal(props) {
                     style={{ marginTop: '20px', minWidth: '300px', maxHeight: '500px' ,minHeight: '300px', marginBottom: '25px'}}
                     />
                     <div style={{ textAlign: 'left'}}>
-                        <h6><strong>Director</strong>: {directors ? directors.join(', ') : 'N/A'}</h6>
-                        <h6><strong>Cast</strong>: {cast ? cast.join(', ') : 'N/A'}</h6>
+                        <h6><strong>Director</strong>: {directors ? directors?.join(', ') : 'N/A'}</h6>
+                        <h6><strong>Cast</strong>: {cast ? cast?.join(', ') : 'N/A'}</h6>
                         <h6><strong>Genre</strong>: {genres?.join(', ')}</h6>
                         <h6><strong>Motion Picture Rating (MPAA): </strong>{rated ? rated : 'N/A'}</h6>
-                        <h6><strong>IMDb Rating</strong>: {imdb.rating ? imdb.rating : 'N/A'}</h6>
-                        <h6><strong>Awards</strong>: {awards.text ? awards.text : 'N/A'}</h6>
-                        <p><strong>Plot</strong>: {plot}</p>
+                        <h6><strong>IMDb Rating</strong>: {imdb?.rating ? imdb.rating : 'N/A'}</h6>
+                        <h6><strong>Awards</strong>: {awards?.text ? awards.text : 'N/A'}</h6>
+                        <p><strong>Plot</strong>: {plot ? plot : 'N/A'}</p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

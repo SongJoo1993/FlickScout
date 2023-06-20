@@ -46,7 +46,6 @@ export default function SearchResults () {
       }
     
     function pageGenerator(curPage) {
-        console.log("curPage",curPage);
         let pageRange = [];
         // 0-10 => 10, 11 - 20 => 20
         let curMaxPage = Math.ceil(curPage/10)*10;
@@ -55,15 +54,12 @@ export default function SearchResults () {
         // curPage -1 prevents this bug
         let curMinPage = Math.floor((curPage - 1)/10)*10;
         // let curMinPage = Math.floor((curPage - 1)/10)*10;
-        console.log("curMinPage", curMinPage);
-        console.log("curMaxPage", curMaxPage);
-        
+
         //Issue: When curPage is higher than curMinPage
         // still this function generates curMinPage which is always 1 minus the curPage!
         if(curMaxPage > totalPage) curMaxPage = totalPage;
         for(curMinPage; curMinPage <= curMaxPage; curMinPage++) {
             if(curMaxPage - curMinPage != 10 && (curMinPage > 0)) {
-                console.log(curMinPage);
                 pageRange.push(
                     <Pagination.Item key={curMinPage} active={curMinPage === curPage} onClick={pageClicked}>
                       {curMinPage}

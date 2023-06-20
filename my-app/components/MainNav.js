@@ -1,12 +1,17 @@
-import { Container, Nav, Navbar, Form} from "react-bootstrap"
+import { Container, Nav, Navbar, Form, NavDropdown } from "react-bootstrap"
 import Button from "react-bootstrap/Button"
 import Link from "next/link"
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
-// import AlertMessage from "./Alert";
+import { useAtom } from 'jotai';
+import { searchHistoryAtom } from '@/store';
 
 export default function MainNav() {
     const router = useRouter();
+    const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
+    const [isExpanded, setIsExpanded] = useState(false);
+    
     const { register, handleSubmit } = useForm({
         defaultValues :  {
             searchValue: undefined,
@@ -24,16 +29,27 @@ export default function MainNav() {
         const title = data.searchValue;
         e.target.reset();
         if(searchValidation(data)) {
+            setIsExpanded(false);
+            setSearchHistory(current => [...current, `title=${title}`]);
             router.push(`/movies/${title}`); // navigate to the home route "/"
         }
     }
 
+    const handleToggle = () => {
+        isExpanded ? setIsExpanded(false) : setIsExpanded(true);
+    };
+
+    const expandOff = () => {
+      setIsExpanded(false);
+    };
+  
+
     return (
         <>
-        <Navbar className="navbar-dark bg-dark fixed-top" expand='lg'>
+        <Navbar className="navbar-dark bg-dark fixed-top" expand='lg' expanded={isExpanded}>
             <Container>
                 <Navbar.Brand>Movie Search Engine</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggle}/>
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                     <Link href="/" passHref legacyBehavior><Nav.Link>Movies</Nav.Link></Link>
@@ -50,6 +66,21 @@ export default function MainNav() {
                     />
                     <Button variant="secondary" type="submit">Search</Button>
                 </Form>
+                &nbsp;
+                <Nav>
+                  <NavDropdown title="User Name" id="basic-nav-dropdown">
+                      <Link href="/favourites" passHref legacyBehavior>
+                        <NavDropdown.Item active={router.pathname === "/favourites"} onClick={expandOff}>
+                          Favourites
+                        </NavDropdown.Item>
+                      </Link>
+                      <Link href="/history" passHref legacyBehavior>
+                        <NavDropdown.Item active={router.pathname === "/history"} onClick={expandOff}>
+                          History
+                        </NavDropdown.Item>
+                      </Link>
+                    </NavDropdown>
+                </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

@@ -2,9 +2,13 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import {Form, Row, Col, Button} from 'react-bootstrap'
 import {categories, language, country, ranges} from '../../public/searchItem'
+import { useAtom } from 'jotai';
+import { searchHistoryAtom } from '@/store';
 
 export default function AdvancedSearchForm() {
     const router = useRouter();
+    const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
+    
     const {register, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
             title: "",
@@ -22,6 +26,7 @@ export default function AdvancedSearchForm() {
         }
     });
 
+    console.log("searchHistory: ",searchHistory);
     function queryGenerator(data) {
         let queryStr = "";
         for(const property in data) {
@@ -37,6 +42,7 @@ export default function AdvancedSearchForm() {
             }
         }
         queryStr = queryStr.substring(0, queryStr.length-1);
+        setSearchHistory(current => [...current, queryStr]);
         router.push(`/results?${queryStr}`);
     }
 
