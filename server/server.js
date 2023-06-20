@@ -78,7 +78,7 @@ app.delete("/api/movies/:id", (req,res) => {
 });
 
 // DB initializer
-db.initialize(process.env.MONGODB_CONN_STRING).then(() => {
+db.initialize(process.env.MONGODB_MOVIE_CONN_STRING).then(() => {
     // Tell the app to start listening for requests
     app.listen(HTTP_PORT, () => {
         console.log(`server listening on: ${HTTP_PORT}`);

@@ -2,10 +2,30 @@ import useSWR from 'swr';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import NoImg from '../public/no-img.jpg';
+import { useAtom } from 'jotai';
+import { favouritesAtom } from '@/store';
+import { useState } from 'react';
 
 function SingleMovieModal(props) {
     const { data, error } = useSWR(`http://localhost:8080/api/movies/${props.movieid}`);
     const { title, poster, directors, genres, plot, imdb, rated, cast, awards } = data;
+    const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
+    const [showAdded, setShowAdded] = useState(() => emptyFavLists());
+
+    function emptyFavLists () {
+        return favouritesMovie.includes(title);
+    }
+
+    function favouritesClicked() {
+        if(showAdded) {
+            setFavouritesMovie(current => current.filter(fav => fav != title));
+            setShowAdded(false);
+        }
+        else {
+            setFavouritesMovie(current => [...current, title]);
+            setShowAdded(true);
+        }
+    }
 
     return (
         <>
@@ -41,6 +61,7 @@ function SingleMovieModal(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={props.onHide}>Close</Button>
+                    <Button variant={showAdded ? "primary" : "outline-primary"} onClick={favouritesClicked}>{showAdded ? "+ Favourite(added)" : "+ Favourite"}</Button>
                 </Modal.Footer>
             </Modal>
         </>
@@ -48,22 +69,3 @@ function SingleMovieModal(props) {
 }
 
 export default SingleMovieModal;
-
-// function App() {
-//   const [modalShow, setModalShow] = React.useState(false);
-
-//   return (
-//     <>
-//       <Button variant="primary" onClick={() => setModalShow(true)}>
-//         Launch vertically centered modal
-//       </Button>
-
-//       <MyVerticallyCenteredModal
-//         show={modalShow}
-//         onHide={() => setModalShow(false)}
-//       />
-//     </>
-//   );
-// }
-
-// render(<App />);
