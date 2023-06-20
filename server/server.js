@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/users', async (req, res) => {
+    console.log("/user get called!")
     const users = await userModel.find({});
 
     res.json(users);

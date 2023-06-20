@@ -60,7 +60,7 @@ const movieSchema = new Schema({
     }
   }
   );
-
+console.log("models.js called!")
 const userModel = userConnection.model('users', userSchema);
 const movieModel = movieConnection.model('movies', movieSchema);
 
