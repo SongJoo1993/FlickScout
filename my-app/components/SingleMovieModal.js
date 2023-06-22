@@ -7,13 +7,12 @@ import { favouritesAtom } from '@/store';
 import { useState } from 'react';
 
 function SingleMovieModal(props) {
+    console.log(props.movieid);
     const { data, error } = useSWR(`http://localhost:8080/api/movies/${props.movieid}`);
     const {_id, title, poster, directors, genres, plot, imdb, rated, cast, awards } = data;
     const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
     const [showAdded, setShowAdded] = useState(() => emptyFavLists());
     
-    console.log(favouritesMovie);
-
     function emptyFavLists () {
         return favouritesMovie.includes(_id);
     }
@@ -29,6 +28,9 @@ function SingleMovieModal(props) {
         }
     }
 
+    if(!data) {
+        return <p>Loading...</p>
+    }
     return (
         <>
             <Modal

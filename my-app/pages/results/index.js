@@ -4,6 +4,7 @@ import useSWR from 'swr';
 import Movies from "@/components/Movies";
 import PageHeader from "@/components/PageHeader";
 import {Pagination, Row, Col} from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
 
 const PER_PAGE = 10;
 
@@ -39,10 +40,23 @@ export default function SearchResults () {
       }
     },[page]);
 
+    function backToHome() {
+      router.push('/search');
+    }
+
     if(error) {
       return <p>Error!</p>
     } else if(isLoading) {
       return <p>Loading...</p>
+    } else if(data?.pageData?.length === 0) {
+        return (
+            <>
+              <br />
+              <Alert variant='danger' onClose={() => backToHome()} dismissible>
+                <Alert.Heading> No Results Found .</Alert.Heading>
+              </Alert>
+            </>
+          )
       }
     
     function pageGenerator(curPage) {

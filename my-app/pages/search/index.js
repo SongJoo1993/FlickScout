@@ -26,7 +26,7 @@ export default function AdvancedSearchForm() {
         }
     });
 
-    console.log("searchHistory: ",searchHistory);
+    // console.log("searchHistory: ",searchHistory);
     function queryGenerator(data) {
         let queryStr = "";
         for(const property in data) {
@@ -94,11 +94,13 @@ export default function AdvancedSearchForm() {
                 <Form.Label className='mt-2'><strong>Run Time</strong> <span>( *insert minutes )</span></Form.Label>
                 <Form.Group as={Col} className="mb-1">
                     <Form.Label>From</Form.Label>
-                    <Form.Control {...register("runTimeFrom")} type="number"/>
+                    <Form.Control {...register("runTimeFrom",{ min: 0, max: 1000 })} type="number"/>
+                    {/* {errors.runTimeFrom?.type === "min" && <span><br />First Name is required</span>}
+                    {errors.firstName?.type === "max" && <span><br />First Name is required</span>} */}
                 </Form.Group>
                 <Form.Group as={Col} className="mb-1">
                     <Form.Label>To</Form.Label>
-                    <Form.Control {...register("runTimeTo")} type="number"/>
+                    <Form.Control {...register("runTimeTo", { min: 0, max: 1000 })} type="number"/>
                 </Form.Group>
             </Row>
             <Row className='mt-3'>
@@ -155,7 +157,6 @@ export default function AdvancedSearchForm() {
                         })}
                     </Form.Select>
                     <Form.Label>To</Form.Label>
-                    {/*  */}
                     <Form.Select {...register("toRate")} className="mb-3" placeholder='To'>
                         {ranges.map((range,index) => {
                             return <option key={index} value={range}>{range}</option>

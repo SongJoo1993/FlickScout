@@ -1,10 +1,12 @@
 import { useRouter } from "next/router"
+import { useState } from 'react';
 import useSWR from 'swr'
 import Carousel from 'react-bootstrap/Carousel'
 import NoImg from '../../public/no-img.jpg'
 import Alert from 'react-bootstrap/Alert';
 import Home from '../index';
 import PageHeader from "@/components/PageHeader";
+// import SingleMovieModal from '@/components/SingleMovieModal'
 
 const PER_PAGE = 100;
 
@@ -12,7 +14,8 @@ export default function MovieTitle() {
   const router = useRouter();
   const {title} = router.query;
   const {data, error} = useSWR(`http://localhost:8080/api/movies?page=1&perPage=${PER_PAGE}&title=${title}`);
-  // console.log(router.query);
+  const [modalShow, setModalShow] = useState(false);
+
   function backToHome() {
     router.push('/');
   }
@@ -45,20 +48,27 @@ export default function MovieTitle() {
       {data?.pageData?.map(movie => (
         <Carousel.Item className="c-container" key={movie._id}>
             <div style={{display: 'flex', justifyContent: 'center'}}>
-            <a href={"/singleMovie/" + movie._id}>
-            <img 
-              className="img-fluid"
-              src={movie.poster || NoImg.src}
-              alt={`image of ${movie.title}`}
-              style={{ marginTop: '20px', minWidth: '300px', maxHeight: '500px' ,minHeight: '300px', marginBottom: '25px'}}
-            />
-            </a>
+              <img 
+                className="img-fluid"
+                src={movie.poster || NoImg.src}
+                alt={`image of ${movie.title}`}
+                style={{ marginTop: '20px', minWidth: '300px', maxHeight: '500px' ,minHeight: '300px', marginBottom: '25px'}}
+                onClick={() => {setModalShow(true)}}
+              />
             </div>
           <Carousel.Caption style={{position: 'relative', left: 'auto', right: 'auto'}}>
             <h3>{movie.title} {movie.year && movie.directors ? `(${movie.year} : ${movie.directors})` : ""}</h3>
-            <p>{movie.fullplot}</p>
+            {/* <p>{movie.fullplot}</p> */}
           </Carousel.Caption>
-        </Carousel.Item>
+          {/* {
+          modalShow ? 
+          <SingleMovieModal 
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+              movieid={movie._id}
+          /> : <></>
+          } */}
+      </Carousel.Item>
       ))}
       </Carousel>
     </>
