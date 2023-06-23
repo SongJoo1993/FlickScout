@@ -4,8 +4,8 @@ const app = express();
 const people = require('./MOCK_DATA.json');
 const cors = require("cors");
 require('dotenv').config();
-const MoviesDB = require("./modules/moviesDB.js");
-const db = new MoviesDB();
+const DataBases = require("./modules/moviesDB.js");
+const db = new DataBases();
 const HTTP_PORT = process.env.PORT || 8080;
 
 // Middlewares
@@ -16,6 +16,19 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json({message: "API listening"});
 });
+
+//Test users Moddel: Find One User
+app.get("/api/user/login", async (req, res) => {
+    db.getUserById(req.body)
+    .then(user => {
+        console.log(user)
+        res.json(user);
+    })
+    .catch(msg =>  {
+        res.status(422).json({"message": msg});
+    })
+});
+
 
 // Add a new movie
 app.post('/api/movies', async (req,res) => {
@@ -78,7 +91,7 @@ app.delete("/api/movies/:id", (req,res) => {
 });
 
 // DB initializer
-db.initialize(process.env.MONGODB_MOVIE_CONN_STRING).then(() => {
+db.initialize(process.env.MONGODB_CONN_STRING).then(() => {
     // Tell the app to start listening for requests
     app.listen(HTTP_PORT, () => {
         console.log(`server listening on: ${HTTP_PORT}`);

@@ -1,6 +1,16 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const userSchema = new Schema({
+  userName: {
+      type: String,
+      unique: true
+  },
+  password: String,
+  favourites: [String],
+  history: [String]
+});
+
 const movieSchema = new Schema({
   plot: String,
   genres: [String],
@@ -42,8 +52,8 @@ const movieSchema = new Schema({
 
 module.exports = class MoviesDB {
   constructor() {
-    // We don't have a `Movie` object until initialize() is complete
     this.Movie = null;
+    this.User = null;
   }
 
   // Pass the connection string to `initialize()`
@@ -63,9 +73,22 @@ module.exports = class MoviesDB {
 
       db.once('open', () => {
         this.Movie = db.model("movies", movieSchema);
+        this.User = db.model("users", userSchema);
         resolve();
       });
     });
+  }
+
+  //Test users Model
+  async getUserById(userData) {
+    try {
+      const user = await this.User.findOne({ userName: userData.userName })
+      .exec();
+      return user;
+    } catch (err) {
+      console.log("Unable to find user " + userData.userName);
+      return null;
+    }
   }
 
   async addNewMovie(data) {
