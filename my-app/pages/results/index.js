@@ -6,7 +6,7 @@ import PageHeader from "@/components/PageHeader";
 import {Pagination, Row, Col} from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 
-const PER_PAGE = 10;
+const PER_PAGE = 12;
 
 export default function SearchResults () {
     const [page, setPage] = useState(1);
@@ -110,7 +110,7 @@ export default function SearchResults () {
         <PageHeader textHead ="Advanced Search Result Sorted by Date Ascending" textTail = " " totalMovies={data?.total}/>
         <Row xs={1} md={2} lg={4} className="g-4">
         {pageData?.map(movie => (
-          <Col key={movie._id} style={{height: "35rem"}}>
+          <Col key={movie._id} style={{height: "30rem"}}>
             <Movies movieID={movie._id}/>
           </Col>
         ))}

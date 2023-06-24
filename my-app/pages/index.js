@@ -5,7 +5,7 @@ import MovieDetails from "@/components/MovieDetails";
 import PageHeader from "@/components/PageHeader";
 import Movies from "@/components/Movies";
 
-const PER_PAGE = 10;
+const PER_PAGE = 12;
 
 export default function Home(props) {
   const [page, setPage] = useState(1);
@@ -102,7 +102,7 @@ export default function Home(props) {
       }
       <Row xs={1} md={2} lg={4} className="g-4">
         {pageData?.map(movie => (
-          <Col key={movie._id} style={{height: "35rem"}}>
+          <Col key={movie._id} style={{height: "30rem"}}>
             <Movies movieID={movie._id}/>
           </Col>
         ))}
