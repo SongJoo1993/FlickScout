@@ -4,8 +4,9 @@ const app = express();
 const people = require('./MOCK_DATA.json');
 const cors = require("cors");
 require('dotenv').config();
-const DataBases = require("./modules/moviesDB.js");
-const db = new DataBases();
+const MoviesDB = require("./modules/moviesDB.js");
+const db = new MoviesDB();
+// const userService = require("./modules/userDB");
 const HTTP_PORT = process.env.PORT || 8080;
 
 // Middlewares
@@ -21,7 +22,6 @@ app.get('/', (req, res) => {
 app.get("/api/user/login", async (req, res) => {
     db.getUserById(req.body)
     .then(user => {
-        console.log(user)
         res.json(user);
     })
     .catch(msg =>  {
@@ -29,6 +29,15 @@ app.get("/api/user/login", async (req, res) => {
     })
 });
 
+// Register a new user!
+app.post("/api/user/register", (req, res) => {
+    db.registerUser(req.body)
+    .then((msg) => {
+        res.json({ "message": msg });
+    }).catch((msg) => {
+        res.status(422).json({ "message": msg });
+    });
+});
 
 // Add a new movie
 app.post('/api/movies', async (req,res) => {

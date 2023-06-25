@@ -1,12 +1,33 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
   userName: {
       type: String,
+      required: true,
       unique: true
   },
-  password: String,
+  password: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  firstName: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  lastName: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  role: {
+    type: String,
+    required: true,
+    unique: true
+  },
   favourites: [String],
   history: [String]
 });
@@ -47,8 +68,7 @@ const movieSchema = new Schema({
     dvd: Date,
     lastUpdated: Date
   }
-}
-);
+});
 
 module.exports = class MoviesDB {
   constructor() {
@@ -90,6 +110,50 @@ module.exports = class MoviesDB {
       return null;
     }
   }
+  
+  // Register Function
+  async registerUser(userData) {
+    const saltRounds = 10;
+
+    return new Promise(function (resolve, reject) {
+
+      if (userData.password != userData.password2) {
+          reject("Passwords do not match");
+      } else {
+        bcrypt.hash(userData.password, saltRounds, function(err, hash) {
+          // Store hash in your password DB.
+          userData.password = hash;
+          let newUser = new this.User(userData);
+          newUser.save().then(() => {
+            resolve("User " + userData.userName + " successfully registered");
+          }).catch(err => {
+            if (err.code == 11000) {
+                reject("User Name already taken");
+            } else {
+                reject("There was an error creating the user: " + err);
+            }
+          })
+        })
+        .catch(err => reject(err));;
+          // bcrypt.hash(userData.password, 10).then(hash => {
+
+          //     userData.password = hash;
+
+          //     let newUser = new User(userData);
+
+          //     newUser.save().then(() => {
+          //         resolve("User " + userData.userName + " successfully registered");  
+          //     }).catch(err => {
+          //         if (err.code == 11000) {
+          //             reject("User Name already taken");
+          //         } else {
+          //             reject("There was an error creating the user: " + err);
+          //         }
+          //     })
+          // }).catch(err => reject(err));
+      }
+    });
+  }
 
   async addNewMovie(data) {
     const newMovie = new this.Movie(data);
@@ -98,7 +162,6 @@ module.exports = class MoviesDB {
   }
 
   async getAllMovies(page, perPage, title) {
-    // return this.Movie.distinct("countries");
     let findBy = title ? { title: { $regex: new RegExp(title, 'gi') } } : {};
     if (+page && +perPage) {
       const [pageData, total] = await Promise.all([
@@ -116,11 +179,8 @@ module.exports = class MoviesDB {
     const {perPage} = query;
     delete query.page;
     delete query.perPage;
-    // console.log(page);
-    // console.log(perPage);
     let finalQuery = {};
     finalQuery = this.searchQueryGen(query,finalQuery);
-    // console.log(finalQuery);
 
     const [pageData, total] = await Promise.all([
       this.Movie.find(finalQuery).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),
