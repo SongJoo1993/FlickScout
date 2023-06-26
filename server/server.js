@@ -44,6 +44,7 @@ app.post('/api/movies', async (req,res) => {
     try {
         const result = await db.addNewMovie(req.body);
         res.status(200).json(result);
+        console.log("successfully added!");
     } catch(err) {
         res.status(404).json({message: err});
     }
