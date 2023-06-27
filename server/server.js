@@ -32,8 +32,9 @@ app.get("/api/user/login", async (req, res) => {
 // Register a new user!
 app.post("/api/user/register", (req, res) => {
     db.registerUser(req.body)
-    .then((msg) => {
-        res.json({ "message": msg });
+    .then(user => {
+        console.log("user",user);
+        res.json(user);
     }).catch((msg) => {
         res.status(422).json({ "message": msg });
     });

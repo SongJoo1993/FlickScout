@@ -15,18 +15,15 @@ const userSchema = new Schema({
   },
   firstName: {
     type: String,
-    required: false,
-    unique: true
+    required: true
   },
   lastName: {
     type: String,
-    required: false,
-    unique: true
+    required: true  
   },
   role: {
     type: String,
-    required: false,
-    unique: true
+    required: true  
   },
   favourites: [String],
   history: [String]
@@ -113,26 +110,17 @@ module.exports = class MoviesDB {
   
   // Register Function
   async registerUser(userData) {
+    //Error handling not working
     try {
       if (userData.password != userData.password2) {
-        reject("Passwords do not match");
+        throw new Error("Passwords do not match");
       } 
       else {
         const saltRounds = 10;
-        let newUser = this.User(userData);
-        bcrypt.hash(userData.password, saltRounds, async function(err, hash) {
-          newUser.password = hash;          
-          await newUser.save().then(() => {
-            console.log("User " + userData.userName + " successfully registered");
-          }).catch(err => {
-            console.log(err);
-            // if (err.code == 11000) {
-            //     reject("User Name already taken");
-            // } else {
-            //     reject("There was an error creating the user: " + err);
-            // }
-          })
-        })
+        let newUser = new this.User(userData);
+        newUser.password  = await bcrypt.hash(userData.password, saltRounds);
+        const saved = await newUser.save();
+        return saved;
       }
     }
     catch(err) {
