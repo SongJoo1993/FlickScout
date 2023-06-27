@@ -18,26 +18,30 @@ app.get('/', (req, res) => {
     res.json({message: "API listening"});
 });
 
-//Test users Moddel: Find One User
-app.get("/api/user/login", async (req, res) => {
-    db.getUserById(req.body)
-    .then(user => {
-        res.json(user);
-    })
-    .catch(msg =>  {
-        res.status(422).json({"message": msg});
-    })
-});
-
 // Register a new user!
 app.post("/api/user/register", (req, res) => {
-    db.registerUser(req.body)
-    .then(user => {
-        console.log("user",user);
+    try{
+        db.registerUser(req.body)
+        .then(user => {
+            console.log("user",user);
+            res.json(user);
+        })
+    } catch (msg){
+        // console.log("msg: ", msg)
+        res.json({ "message": msg });
+    }
+});
+
+// User Log-in
+app.post("/api/user/login", (req, res) => {
+    db.checkUser(req.body)
+    .then((user) => {
         res.json(user);
-    }).catch((msg) => {
-        res.status(422).json({ "message": msg });
-    });
+    })
+    .catch(error =>  {
+        res.json({"message": error.message});
+    })
+
 });
 
 // Add a new movie

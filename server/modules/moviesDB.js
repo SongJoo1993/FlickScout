@@ -11,7 +11,6 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-    unique: true
   },
   firstName: {
     type: String,
@@ -110,22 +109,52 @@ module.exports = class MoviesDB {
   
   // Register Function
   async registerUser(userData) {
-    //Error handling not working
-    try {
+    try{
       if (userData.password != userData.password2) {
-        throw new Error("Passwords do not match");
+        throw Error("Passwords do not match");
       } 
       else {
         const saltRounds = 10;
         let newUser = new this.User(userData);
         newUser.password  = await bcrypt.hash(userData.password, saltRounds);
-        const saved = await newUser.save();
-        return saved;
+        return newUser.save().then(res => {
+          return res;
+        }).catch(err => {
+          if (err.code == 11000) {
+              throw new Error("User Name already taken");
+          } else {
+              throw new Error ("There was an error creating the user: " + err);
+          }
+        })
+        // const saved = await newUser.save();
+        // return saved;
       }
     }
-    catch(err) {
-      console.log(err);
+    catch (err){
+      throw err
     }
+  }
+
+  async checkUser(userData) {
+    let error = new Error();
+      return this.User.findOne({userName: userData.userName}).exec()
+          .then(async (user) => {
+            let result = await bcrypt.compare(userData.password, user.password).then(res => { 
+              return res; 
+            });
+            if(result==true) {
+              console.log("reulst: ", result, user)
+              return user;
+            }
+            else {
+              error = Error('Wrong Password!');
+              throw error
+            }
+            })
+          .catch(() => {
+            if(error.message.length != 0 ) throw error;
+            else throw new Error (`Unable to find user ${userData.userName}`);
+          })
   }
 
   async addNewMovie(data) {
