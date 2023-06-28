@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar, Form, NavDropdown } from "react-bootstrap"
+import { Container, Nav, Navbar, Form, NavDropdown, Glyphicon } from "react-bootstrap"
 import Button from "react-bootstrap/Button"
 import Link from "next/link"
 import { useState } from "react";
@@ -43,6 +43,7 @@ export default function MainNav() {
       setIsExpanded(false);
     };
   
+    const navDropdownTitle = (<Glyphicon glyph="star"> Dropdown </Glyphicon>);
 
     return (
         <>
@@ -67,6 +68,15 @@ export default function MainNav() {
                     <Button variant="secondary" type="submit">Search</Button>
                 </Form>
                 &nbsp;
+                <NavDropdown title="Account" style={{background: "white"}}>
+                    <Link href="/login" passHref legacyBehavior>
+                        <NavDropdown.Item>Sign in</NavDropdown.Item>
+                    </Link>
+                    <Link href="/signup" passHref legacyBehavior>
+                        <NavDropdown.Item>Sign up
+                    </NavDropdown.Item></Link>
+                </NavDropdown>
+                {/* Appear Below when logged in successfully 
                 <Nav>
                   <NavDropdown title="User Name" id="basic-nav-dropdown">
                       <Link href="/favourites" passHref legacyBehavior>
@@ -80,7 +90,7 @@ export default function MainNav() {
                         </NavDropdown.Item>
                       </Link>
                     </NavDropdown>
-                </Nav>
+                </Nav> */}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

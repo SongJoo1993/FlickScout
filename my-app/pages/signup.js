@@ -60,7 +60,7 @@ export default function Login(props) {
                     type="text" 
                     // value={user} 
                     id="userName" 
-                    name="userName" 
+                    name="fullName" 
                     // onChange={e => setUser(e.target.value)}
                      />
             </Form.Group>
@@ -73,7 +73,6 @@ export default function Login(props) {
                     // value={password} 
                     id="password" 
                     name="password" 
-                    // onChange={e => setPassword(e.target.value)} 
                     />
             </Form.Group  >
             <br />
@@ -84,18 +83,20 @@ export default function Login(props) {
                     type="password" 
                     // value={password} 
                     id="password" 
-                    name="password" 
-                    // onChange={e => setPassword(e.target.value)} 
+                    name="password2" 
                     />
             </Form.Group  >
             <br />
             <Form.Group>
-                    <strong><Form.Label>Role</Form.Label></strong>
-                    <Form.Select {...register("role")} name="countries" className="mb-3">
+                <strong><Form.Label>Role</Form.Label></strong>
+                <Form.Select 
+                    {...register("role")}
+                    name="role" 
+                    className="mb-3">
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
-                    </Form.Select>
-                </Form.Group>
+                </Form.Select>
+            </Form.Group>
             {warning && <>
             <br />
             <Alert variant='danger'>
