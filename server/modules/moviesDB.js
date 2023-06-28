@@ -12,13 +12,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  firstName: {
+  fullName: {
     type: String,
     required: true
-  },
-  lastName: {
-    type: String,
-    required: true  
   },
   role: {
     type: String,
@@ -107,7 +103,7 @@ module.exports = class MoviesDB {
     }
   }
   
-  // Register Function
+  // Register User
   async registerUser(userData) {
       if (userData.password != userData.password2) {
         throw new Error("Passwords do not match");
@@ -128,7 +124,7 @@ module.exports = class MoviesDB {
         })
       }
   }
-
+  // Login User
   async checkUser(userData) {
     let error = new Error();
       return this.User.findOne({userName: userData.userName}).exec()
