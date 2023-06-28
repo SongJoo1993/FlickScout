@@ -20,16 +20,14 @@ app.get('/', (req, res) => {
 
 // Register a new user!
 app.post("/api/user/register", (req, res) => {
-    try{
-        db.registerUser(req.body)
-        .then(user => {
-            console.log("user",user);
-            res.json(user);
-        })
-    } catch (msg){
-        // console.log("msg: ", msg)
-        res.json({ "message": msg });
-    }
+    db
+    .registerUser(req.body)
+    .then(user => {
+        res.json(user);
+    })
+    .catch((error)=> {
+        res.json({ "message": error.message });
+    })
 });
 
 // User Log-in

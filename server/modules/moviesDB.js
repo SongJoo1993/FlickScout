@@ -109,9 +109,8 @@ module.exports = class MoviesDB {
   
   // Register Function
   async registerUser(userData) {
-    try{
       if (userData.password != userData.password2) {
-        throw Error("Passwords do not match");
+        throw new Error("Passwords do not match");
       } 
       else {
         const saltRounds = 10;
@@ -119,20 +118,15 @@ module.exports = class MoviesDB {
         newUser.password  = await bcrypt.hash(userData.password, saltRounds);
         return newUser.save().then(res => {
           return res;
-        }).catch(err => {
+        })
+        .catch(err => {
           if (err.code == 11000) {
               throw new Error("User Name already taken");
           } else {
               throw new Error ("There was an error creating the user: " + err);
           }
         })
-        // const saved = await newUser.save();
-        // return saved;
       }
-    }
-    catch (err){
-      throw err
-    }
   }
 
   async checkUser(userData) {
