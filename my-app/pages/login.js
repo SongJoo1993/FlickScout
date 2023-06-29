@@ -29,17 +29,17 @@ export default function Login(props) {
     }
 
     return (
-    <>
+    <div style={{ maxWidth: "70%", margin: "0 auto"}}>
+        <br/>
         <Card bg="light">
             <Card.Body>
             <h2>Login</h2>
-            Enter your login information below
             </Card.Body>
         </Card>
         <br />
         <Form onSubmit={handleSubmit(submitLogin)}>
             <Form.Group >
-                <Form.Label>User:</Form.Label>
+                <strong><Form.Label>User:</Form.Label></strong>
                 <Form.Control 
                     {...register("userName")}
                     type="text" 
@@ -51,7 +51,7 @@ export default function Login(props) {
             </Form.Group>
             <br />
             <Form.Group>
-                <Form.Label>Password:</Form.Label>
+                <strong><Form.Label>Password:</Form.Label></strong>
                 <Form.Control
                     {...register("password")}
                     type="password" 
@@ -68,8 +68,16 @@ export default function Login(props) {
             </Alert>
             </>}
             <br />
-            <Button variant="secondary" className="pull-right" type="submit">Login</Button>
+            <div style={{textAlign: "center"}}>
+                <Button 
+                variant="secondary" 
+                className="pull-right" 
+                type="submit"
+                style={{width: "50%"}}>
+                    Login
+                </Button>
+            </div>
         </Form>
-    </>
+    </div>
     );
 }

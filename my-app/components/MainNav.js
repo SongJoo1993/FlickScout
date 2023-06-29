@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar, Form, NavDropdown, Glyphicon } from "react-bootstrap"
+import { Container, Nav, Navbar, Form, NavDropdown, Dropdown } from "react-bootstrap"
 import Button from "react-bootstrap/Button"
 import Link from "next/link"
 import { useState } from "react";
@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import { useAtom } from 'jotai';
 import { searchHistoryAtom } from '@/store';
+import {FaRegUserCircle} from 'react-icons/fa';
 
 export default function MainNav() {
     const router = useRouter();
@@ -43,8 +44,6 @@ export default function MainNav() {
       setIsExpanded(false);
     };
   
-    const navDropdownTitle = (<Glyphicon glyph="star"> Dropdown </Glyphicon>);
-
     return (
         <>
         <Navbar className="navbar-dark bg-dark fixed-top" expand='lg' expanded={isExpanded}>
@@ -68,14 +67,20 @@ export default function MainNav() {
                     <Button variant="secondary" type="submit">Search</Button>
                 </Form>
                 &nbsp;
-                <NavDropdown title="Account" style={{background: "white"}}>
-                    <Link href="/login" passHref legacyBehavior>
-                        <NavDropdown.Item>Sign in</NavDropdown.Item>
-                    </Link>
-                    <Link href="/signup" passHref legacyBehavior>
-                        <NavDropdown.Item>Sign up
-                    </NavDropdown.Item></Link>
-                </NavDropdown>
+                {/* Add Icon inside title in the below tag */}
+                <Dropdown style={{marginLeft: "0.7rem"}}>
+                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                        <FaRegUserCircle />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Link href="/login" passHref legacyBehavior>
+                            <Dropdown.Item>Sign in</Dropdown.Item>
+                        </Link>
+                        <Link href="/signup" passHref legacyBehavior>
+                            <Dropdown.Item>Sign up</Dropdown.Item>
+                        </Link>
+                    </Dropdown.Menu>
+                </Dropdown>
                 {/* Appear Below when logged in successfully 
                 <Nav>
                   <NavDropdown title="User Name" id="basic-nav-dropdown">
