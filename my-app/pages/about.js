@@ -20,14 +20,22 @@ export default function About(props) {
         <Card className="bg-light">
             <Card.Body>
               <p>
-                <span><strong>Developer's Message: </strong></span>
-                Hello, my name is Song Joo. I am a future full-stack developer! My experience as a marketing professional is where I first learned how to structure and manage website content which ultimately led me to the world of web development. I am eager to leverage my experience at a global corporation and technical skills learnt from Computer Programming Program at Seneca College in a web developer role.
-              </p>
-              <p>
-                Link to the info about my favorite movie: <Link href="/movies/The Ace of Hearts">{props.movie.title}</Link>
+                <span><strong>Hello Message: </strong></span>
+                Hello, my name is Song Joo. I am a future full-stack developer who is dedicated to maintaining a continuous learning mindset and tackling challenges with resilience. My goal is to contribute to web solutions while fostering positive collaborations.
               </p>
             </Card.Body>
-            <MovieDetails movie={props.movie} />            
+
+            <Card.Body>
+              <p>
+                <span><strong>Project Name: </strong></span> Movie Search Engine
+              </p>
+              <p>
+                <span><strong>Stacks utilized in the project: </strong></span>
+              </p>
+              <p>
+                <span><strong>Available Functions: </strong></span>
+              </p>
+            </Card.Body>
           </Card>
       </>
     )

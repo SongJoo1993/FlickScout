@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useAtom } from 'jotai';
 import { searchHistoryAtom } from '@/store';
 import {FaRegUserCircle} from 'react-icons/fa';
+import { IconContext } from "react-icons";  
 
 export default function MainNav() {
     const router = useRouter();
@@ -71,6 +72,7 @@ export default function MainNav() {
                 <Dropdown style={{marginLeft: "0.7rem"}}>
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         <FaRegUserCircle />
+                        &nbsp;
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Link href="/login" passHref legacyBehavior>
