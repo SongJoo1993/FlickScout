@@ -111,6 +111,7 @@ module.exports = class MoviesDB {
       else {
         const saltRounds = 10;
         let newUser = new this.User(userData);
+        console.log('HELLO');
         newUser.password  = await bcrypt.hash(userData.password, saltRounds);
         return newUser.save().then(res => {
           return res;

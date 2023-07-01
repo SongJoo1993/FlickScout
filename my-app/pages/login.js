@@ -19,7 +19,12 @@ export default function Login(props) {
     });
 
     async function submitLogin(data, e) {
-        console.log(data);
+        if(userName && password) {
+
+        }
+        else {
+            
+        }
         // try{
         // await authenticateUser(user, password);
         // router.push("/");
@@ -41,13 +46,15 @@ export default function Login(props) {
             <Form.Group >
                 <strong><Form.Label>User:</Form.Label></strong>
                 <Form.Control 
-                    {...register("userName")}
+                    {...register("userName"), {required: true}}
                     type="text" 
                     // value={user} 
                     id="userName" 
                     name="userName" 
                     // onChange={e => setUser(e.target.value)}
                      />
+                     {/* Form Validation to be worked! */}
+                     {/* {errors.userName?.type === "required" && <span><br />First Name is required</span>} */}
             </Form.Group>
             <br />
             <Form.Group>

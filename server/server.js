@@ -1,46 +1,50 @@
-// Simple API Setup
 const express = require('express');
 const app = express();
-const people = require('./MOCK_DATA.json');
 const cors = require("cors");
 require('dotenv').config();
 const MoviesDB = require("./modules/moviesDB.js");
 const db = new MoviesDB();
-// const userService = require("./modules/userDB");
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
 const HTTP_PORT = process.env.PORT || 8080;
+// const people = require('./MOCK_DATA.json');
+// const userService = require("./modules/userDB");
+const userRoute = require('./routes/User.js');
+const movieRoute = require('./routes/Movie.js');
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use("/api/user", userRoute);
 
 // Get tester
 app.get('/', (req, res) => {
     res.json({message: "API listening"});
 });
 
-// Register a new user!
-app.post("/api/user/register", (req, res) => {
-    db
-    .registerUser(req.body)
-    .then(user => {
-        res.json(user);
-    })
-    .catch((error)=> {
-        res.json({ "message": error.message });
-    })
-});
+// // Register a new user!
+// app.post("/api/user/register", (req, res) => {
+//     db
+//     .registerUser(req.body)
+//     .then(user => {
+//         res.json(user);
+//     })
+//     .catch((error)=> {
+//         res.json({ "message": error.message });
+//     })
+// });
 
-// User Log-in
-app.post("/api/user/login", (req, res) => {
-    db.checkUser(req.body)
-    .then((user) => {
-        res.json(user);
-    })
-    .catch(error =>  {
-        res.json({"message": error.message});
-    })
-
-});
+// // User Log-in
+// app.post("/api/user/login", (req, res) => {
+//     db.checkUser(req.body)
+//     .then((user) => {
+//         res.json(user);
+//     })
+//     .catch(error =>  {
+//         res.json({"message": error.message});
+//     })
+// });
 
 // Add a new movie
 app.post('/api/movies', async (req,res) => {

@@ -2,6 +2,7 @@ import Link from "next/link"
 import Card from 'react-bootstrap/Card';
 import MovieDetails from "@/components/MovieDetails";
 import PageHeader from "@/components/PageHeader";
+import {FaReact, BiLogoMongodb} from 'react-icons/fa';
 
 // This function gets called at build time
 export function getStaticProps() {
@@ -24,7 +25,7 @@ export default function About(props) {
                 Hello, my name is Song Joo. I am a future full-stack developer who is dedicated to maintaining a continuous learning mindset and tackling challenges with resilience. My goal is to contribute to web solutions while fostering positive collaborations.
               </p>
             </Card.Body>
-
+            {/* Project Description to be added! */}
             <Card.Body>
               <p>
                 <span><strong>Project Name: </strong></span> Movie Search Engine
