@@ -86,6 +86,7 @@ module.exports = class MoviesDB {
       db.once('open', () => {
         this.Movie = db.model("movies", movieSchema);
         this.User = db.model("users", userSchema);
+        console.log("init",this.User)
         resolve();
       });
     });
@@ -111,7 +112,6 @@ module.exports = class MoviesDB {
       else {
         const saltRounds = 10;
         let newUser = new this.User(userData);
-        console.log('HELLO');
         newUser.password  = await bcrypt.hash(userData.password, saltRounds);
         return newUser.save().then(res => {
           return res;

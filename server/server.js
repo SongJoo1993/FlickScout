@@ -7,105 +7,81 @@ const db = new MoviesDB();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
+const userRoute = require('./routes/User.js')(db);
+const movieRoute = require('./routes/Movie.js')(db);
 const HTTP_PORT = process.env.PORT || 8080;
-// const people = require('./MOCK_DATA.json');
-// const userService = require("./modules/userDB");
-const userRoute = require('./routes/User.js');
-const movieRoute = require('./routes/Movie.js');
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use("/api/user", userRoute);
+app.use("/api/movies", movieRoute);
 
 // Get tester
 app.get('/', (req, res) => {
     res.json({message: "API listening"});
 });
 
-// // Register a new user!
-// app.post("/api/user/register", (req, res) => {
-//     db
-//     .registerUser(req.body)
-//     .then(user => {
-//         res.json(user);
-//     })
-//     .catch((error)=> {
-//         res.json({ "message": error.message });
-//     })
+// // Add a new movie
+// app.post('/api/movies', async (req,res) => {
+//     try {
+//         const result = await db.addNewMovie(req.body);
+//         res.status(200).json(result);
+//         console.log("successfully added!");
+//     } catch(err) {
+//         res.status(404).json({message: err});
+//     }
+// })
+
+// // Get movies
+// app.get('/api/movies', async (req, res) => {
+//     const {page, perPage, title} = req.query;
+//     try{
+//         let result = await db.getAllMovies(page, perPage, title);
+//         res.json(result);
+//     }catch(err){
+//         res.status(404).json({message: "ERR!"});
+//     }
 // });
 
-// // User Log-in
-// app.post("/api/user/login", (req, res) => {
-//     db.checkUser(req.body)
-//     .then((user) => {
-//         res.json(user);
+// // Get the result of Advanced Search
+// app.get("/api/movies/search", async (req,res) => {
+//     // console.log(req.query);
+//     try{
+//         let result = await db.getSearchedMovies(req.query);
+//         res.json(result);
+//     }catch(err){
+//         res.status(404).json({message: "ERR!"});
+//     }
+// }); 
+
+// // Get a single movie
+// app.get("/api/movies/:id", async (req,res) => {
+//     try{
+//         let result = await db.getMovieById(req.params.id);
+//         res.json(result);
+//     }catch(err){
+//         res.status(404).json({message: err});
+//     }
+// }); 
+
+// // Update a movie
+// app.put("/api/movies/:id", (req,res) => {
+//     db.updateMovieById(req.body, req.params.id).then(data => {
+//         res.json(data);
+//     }).catch(err => {
+//         res.status(400).json({message: err});
 //     })
-//     .catch(error =>  {
-//         res.json({"message": error.message});
+// }); 
+
+// // Delete a movie
+// app.delete("/api/movies/:id", (req,res) => {
+//     db.deleteMovieById(req.params.id).then( () => {
+//         res.status(204).end();
+//     }).catch( err => {
+//         res.status(404).json({message: err});
 //     })
 // });
-
-// Add a new movie
-app.post('/api/movies', async (req,res) => {
-    try {
-        const result = await db.addNewMovie(req.body);
-        res.status(200).json(result);
-        console.log("successfully added!");
-    } catch(err) {
-        res.status(404).json({message: err});
-    }
-})
-
-// Get movies
-app.get('/api/movies', async (req, res) => {
-    const {page, perPage, title} = req.query;
-    try{
-        let result = await db.getAllMovies(page, perPage, title);
-        res.json(result);
-    }catch(err){
-        res.status(404).json({message: "ERR!"});
-    }
-});
-
-// Get the result of Advanced Search
-app.get("/api/search", async (req,res) => {
-    // console.log(req.query);
-    try{
-        let result = await db.getSearchedMovies(req.query);
-        res.json(result);
-    }catch(err){
-        res.status(404).json({message: "ERR!"});
-    }
-}); 
-
-// Get a single movie
-app.get("/api/movies/:id", async (req,res) => {
-    try{
-        let result = await db.getMovieById(req.params.id);
-        res.json(result);
-    }catch(err){
-        res.status(404).json({message: err});
-    }
-}); 
-
-// Update a movie
-app.put("/api/movies/:id", (req,res) => {
-    db.updateMovieById(req.body, req.params.id).then(data => {
-        res.json(data);
-    }).catch(err => {
-        res.status(400).json({message: err});
-    })
-}); 
-
-// Delete a movie
-app.delete("/api/movies/:id", (req,res) => {
-    db.deleteMovieById(req.params.id).then( () => {
-        res.status(204).end();
-    }).catch( err => {
-        res.status(404).json({message: err});
-    })
-});
 
 // DB initializer
 db.initialize(process.env.MONGODB_CONN_STRING).then(() => {

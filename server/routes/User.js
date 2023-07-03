@@ -1,31 +1,32 @@
 const express = require('express');
-const app = express();
-const MoviesDB = require("../modules/moviesDB");
-const db = new MoviesDB();
+const router = express.Router();
 
-// Register a new user!
-app.post("/register", (req, res) => {
-    console.log(db);
+const userRoutes = (db) => {
+  // Register a new user
+  router.post("/register", (req, res) => {
     db
-    .registerUser(req.body)
-    .then(user => {
+      .registerUser(req.body)
+      .then(user => {
         res.json(user);
-    })
-    .catch((error)=> {
+      })
+      .catch((error) => {
         res.json({ "message": error.message });
-    })
-});
+      });
+  });
 
-// User Log-in
-app.post("/login", (req, res) => {
-    db.checkUser(req.body)
-    .then((user) => {
+  // User Log-in
+  router.post("/login", (req, res) => {
+    db
+      .checkUser(req.body)
+      .then((user) => {
         res.json(user);
-    })
-    .catch(error =>  {
-        res.json({"message": error.message});
-    })
+      })
+      .catch((error) => {
+        res.json({ "message": error.message });
+      });
+  });
 
-});
+  return router;
+};
 
-module.exports = app;
+module.exports = userRoutes;
