@@ -19,19 +19,16 @@ export default function Login(props) {
     });
 
     async function submitLogin(data, e) {
-        console.log(userName, password)
-        if(userName && password) {
-
+        const {userName, password} = data;
+        try{
+            if(await authenticateUser(userName, password)) {
+                router.push("/");
+            }
         }
-        else {
-            
+        catch(err){
+            console.log(err);
+            setWarning(err.message);
         }
-        // try{
-        // await authenticateUser(user, password);
-        // router.push("/");
-        // }catch(err){
-        // setWarning(err.message);
-        // }
     }
 
     return (
@@ -72,12 +69,12 @@ export default function Login(props) {
                     {errors.password?.type === "required" && 
                 <span style={{color: 'red'}}>Please enter your password.</span>}
             </Form.Group  >
-            {warning && <>
+            {warning && (<>
             <br />
             <Alert variant='danger'>
                 {warning}
             </Alert>
-            </>}
+            </>)}
             <br />
             <div style={{textAlign: "center"}}>
                 <Button 

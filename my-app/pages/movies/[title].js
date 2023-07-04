@@ -6,6 +6,8 @@ import NoImg from '../../public/no-img.jpg'
 import Alert from 'react-bootstrap/Alert';
 import Home from '../index';
 import PageHeader from "@/components/PageHeader";
+import { getToken } from "../../lib/authenticate";
+
 // import SingleMovieModal from '@/components/SingleMovieModal'
 
 const PER_PAGE = 100;
@@ -13,12 +15,15 @@ const PER_PAGE = 100;
 export default function MovieTitle() {
   const router = useRouter();
   const {title} = router.query;
-  const {data, error} = useSWR(`http://localhost:8080/api/movies?page=1&perPage=${PER_PAGE}&title=${title}`);
+  const fetcher = (url) => fetch(url, { headers: { Authorization: `JWT ${getToken()}` }}).then((res) => res.json());
+  const {data, error} = useSWR(`http://localhost:8080/api/movies?page=1&perPage=${PER_PAGE}&title=${title}`, fetcher);
   const [modalShow, setModalShow] = useState(false);
 
   function backToHome() {
     router.push('/');
   }
+
+  console.log("title detail page entered", data)
 
   if(data?.pageData == null || data?.pageData == undefined) {
     return null;

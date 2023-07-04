@@ -8,8 +8,10 @@ import { useAtom } from 'jotai';
 import { searchHistoryAtom } from '@/store';
 import {FaRegUserCircle} from 'react-icons/fa';
 import { IconContext } from "react-icons";  
+import {readToken, removeToken} from "@/lib/authenticate";
 
 export default function MainNav() {
+    let token = readToken();
     const router = useRouter();
     const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -20,6 +22,11 @@ export default function MainNav() {
         }
     })
     
+    function logout() {
+        removeToken();
+        router.push('/login');
+    }
+
     function searchValidation(data) {
         if(data.searchValue.length <= 0) {
             return alert("Please enter the movie name.")
@@ -52,37 +59,44 @@ export default function MainNav() {
                 <Navbar.Brand>Movie Search Engine</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggle}/>
                 <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <Link href="/" passHref legacyBehavior><Nav.Link>Movies</Nav.Link></Link>
-                    <Link href="/about" passHref legacyBehavior><Nav.Link>About</Nav.Link></Link>
-                    <Link href="/search" passHref legacyBehavior><Nav.Link>Advanced Search</Nav.Link></Link>
-                </Nav>
-                <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
-                    <Form.Control
-                    type="search"
-                    placeholder="Quick Search by Title"
-                    {...register("searchValue")}
-                    className="me-2"
-                    aria-label="Search"
-                    />
-                    <Button variant="secondary" type="submit">Search</Button>
-                </Form>
-                &nbsp;
-                {/* Add Icon inside title in the below tag */}
-                <Dropdown style={{marginLeft: "0.7rem"}}>
-                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                        <FaRegUserCircle />
-                        &nbsp;
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Link href="/login" passHref legacyBehavior>
-                            <Dropdown.Item>Sign in</Dropdown.Item>
-                        </Link>
-                        <Link href="/signup" passHref legacyBehavior>
-                            <Dropdown.Item>Sign up</Dropdown.Item>
-                        </Link>
-                    </Dropdown.Menu>
-                </Dropdown>
+                    <Nav className="me-auto">
+                        <Link href="/" passHref legacyBehavior><Nav.Link>Movies</Nav.Link></Link>
+                        <Link href="/about" passHref legacyBehavior><Nav.Link>About</Nav.Link></Link>
+                        <Link href="/search" passHref legacyBehavior><Nav.Link>Advanced Search</Nav.Link></Link>
+                    </Nav>
+                    <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
+                        <Form.Control
+                        type="search"
+                        placeholder="Quick Search by Title"
+                        {...register("searchValue")}
+                        className="me-2"
+                        aria-label="Search"
+                        />
+                        <Button variant="secondary" type="submit">Search</Button>
+                    </Form>
+                    &nbsp;
+                    {/* Add Icon inside title in the below tag */}
+                    {!token &&
+                        <Dropdown style={{marginLeft: "0.7rem"}}>
+                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                <FaRegUserCircle />
+                                &nbsp;
+                            </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Link href="/login" passHref legacyBehavior>
+                                        <Dropdown.Item>Log in</Dropdown.Item>
+                                    </Link>
+                                    <Link href="/signup" passHref legacyBehavior>
+                                        <Dropdown.Item>Sign up</Dropdown.Item>
+                                    </Link>
+                                </Dropdown.Menu>                    
+                        </Dropdown>                    
+                    }
+                    {token &&
+                        <Nav className="me-auto">
+                            <Nav.Link onClick={logout}>Logout</Nav.Link>
+                        </Nav>
+                    }
                 {/* Appear Below when logged in successfully 
                 <Nav>
                   <NavDropdown title="User Name" id="basic-nav-dropdown">

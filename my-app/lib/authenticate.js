@@ -8,9 +8,10 @@ export async function authenticateUser(user, pwd) {
             'content-type': 'application/json',
         },
     });
-
+    
     const data = await res.json();
-
+    console.log(data);
+    
     if(res.status === 200) {
         setToken(data.token);
         return  true;
@@ -21,6 +22,7 @@ export async function authenticateUser(user, pwd) {
 
 function setToken(token) {
     localStorage.setItem('access_token', token);
+    console.log(localStorage);
 }
 
 export function getToken() {

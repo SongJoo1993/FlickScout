@@ -4,10 +4,13 @@ import {Pagination, Accordion, Row, Col} from 'react-bootstrap';
 import MovieDetails from "@/components/MovieDetails";
 import PageHeader from "@/components/PageHeader";
 import Movies from "@/components/Movies";
+import { getToken, readToken } from "../lib/authenticate";
 
 const PER_PAGE = 12;
 
 export default function Home(props) {
+  let token = readToken();
+  console.log(token)
   const [page, setPage] = useState(1);
   const [pageData, setPageData] = useState([]);
   const [total, setTotal] = useState(0);
@@ -20,8 +23,11 @@ export default function Home(props) {
   : useMemo(() => { 
     return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`}, [page]);
 
-  const { data, error, isLoading } = useSWR(address);
-  
+  const fetcher = (url) => fetch(url, { headers: { Authorization: `JWT ${getToken()}` }}).then((res) => res.json());
+
+  const { data, error, isLoading } = useSWR(address, fetcher);
+  // const { data, error, isLoading } = useSWR([address, { headers: { Authorization: `JWT ${getToken()}` }}]);
+
   useEffect(() => {
     if(data) {
       setPageData(data.pageData);

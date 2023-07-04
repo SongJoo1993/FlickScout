@@ -86,7 +86,6 @@ module.exports = class MoviesDB {
       db.once('open', () => {
         this.Movie = db.model("movies", movieSchema);
         this.User = db.model("users", userSchema);
-        console.log("init",this.User)
         resolve();
       });
     });
@@ -99,7 +98,6 @@ module.exports = class MoviesDB {
       .exec();
       return user;
     } catch (err) {
-      console.log("Unable to find user " + userData.userName);
       return null;
     }
   }
@@ -134,7 +132,6 @@ module.exports = class MoviesDB {
               return res; 
             });
             if(result==true) {
-              // console.log("reulst: ", result, user)
               return user;
             }
             else {
