@@ -29,10 +29,10 @@ const userRoutes = (db, jwtOptions) => {
           favourites: user.favourites,
           history: user.history
       };
-
+      console.log("payload created!")
       let token = jwt.sign(payload, jwtOptions.secretOrKey);
 
-        res.json({"user": user, "token": token});
+      res.json({"user": user, "token": token});
       })
       .catch((error) => {
         res.json({ "message": error.message });

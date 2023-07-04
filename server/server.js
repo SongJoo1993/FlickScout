@@ -23,7 +23,6 @@ jwtOptions.secretOrKey = process.env.JWT_SECRET;
 const userRoute = require('./routes/User.js')(db, jwtOptions);
 const movieRoute = require('./routes/Movie.js')(db, passport);
 
-
 let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     console.log('payload received', jwt_payload);
 
@@ -33,8 +32,8 @@ let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
             userName: jwt_payload.userName,
             fullName: jwt_payload.fullName,
             role: jwt_payload.role,
-            favourites: user.favourites,
-            history: user.history
+            favourites: jwt_payload.favourites,
+            history: jwt_payload.history
         })
     }
     else {

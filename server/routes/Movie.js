@@ -6,7 +6,6 @@ const userRoutes = (db, passport) => {
     // Get movies
     router.get('/', passport.authenticate('jwt', {session: false}),
     async (req, res) => {
-        console.log("req.user: ",req.user);
         const {page, perPage, title} = req.query;
         try{
             let result = await db.getAllMovies(page, perPage, title);
