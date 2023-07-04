@@ -134,7 +134,7 @@ module.exports = class MoviesDB {
               return res; 
             });
             if(result==true) {
-              console.log("reulst: ", result, user)
+              // console.log("reulst: ", result, user)
               return user;
             }
             else {

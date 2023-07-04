@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
-const userRoutes = (db) => {
+const userRoutes = (db, jwtOptions) => {
   // Register a new user
   router.post("/register", (req, res) => {
     db
@@ -20,7 +21,7 @@ const userRoutes = (db) => {
       .checkUser(req.body)
       .then((user) => {
 
-        let payload = { 
+      let payload = { 
           _id: user._id,
           userName: user.userName,
           fullName: user.fullName,

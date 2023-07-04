@@ -4,13 +4,12 @@ const cors = require("cors");
 require('dotenv').config();
 const MoviesDB = require("./modules/moviesDB.js");
 const db = new MoviesDB();
-const userRoute = require('./routes/User.js')(db);
-const movieRoute = require('./routes/Movie.js')(db);
-const HTTP_PORT = process.env.PORT || 8080;
-
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
+// const userRoute = require('./routes/User.js')(db, jwtOptions);
+// const movieRoute = require('./routes/Movie.js')(db, passport);
+const HTTP_PORT = process.env.PORT || 8080;
 
 // JSON Web Token Setup
 let ExtractJwt = passportJWT.ExtractJwt,
@@ -20,6 +19,10 @@ let ExtractJwt = passportJWT.ExtractJwt,
 let jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
 jwtOptions.secretOrKey = process.env.JWT_SECRET;
+
+const userRoute = require('./routes/User.js')(db, jwtOptions);
+const movieRoute = require('./routes/Movie.js')(db, passport);
+
 
 let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     console.log('payload received', jwt_payload);
