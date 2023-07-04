@@ -2,13 +2,13 @@ import { Card, Form, Alert, Button } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form'
-// import { authenticateUser } from "../lib/authenticate";
+import { authenticateUser } from "../lib/authenticate";
 
 
 export default function Login(props) {
-    const [warning, setWarning] = useState("");
     // const [user, setUser] = useState("");
     // const [password, setPassword] = useState("");
+    const [warning, setWarning] = useState("");
     const router = useRouter();
 
     const {register, handleSubmit, formState: {errors}} = useForm({
@@ -19,6 +19,7 @@ export default function Login(props) {
     });
 
     async function submitLogin(data, e) {
+        console.log(userName, password)
         if(userName && password) {
 
         }
@@ -37,14 +38,14 @@ export default function Login(props) {
     <div style={{ maxWidth: "70%", margin: "0 auto"}}>
         <br/>
         <Card bg="light">
-            <Card.Body>
-            <h2>Login</h2>
+            <Card.Body style={{textAlign: "center"}}>
+            <h2>Welcome! Please sign in.</h2>
             </Card.Body>
         </Card>
         <br />
         <Form onSubmit={handleSubmit(submitLogin)}>
             <Form.Group >
-                <strong><Form.Label>User:</Form.Label></strong>
+                <strong><Form.Label>Username:</Form.Label></strong>
                 <Form.Control 
                 {...register("userName", {required: true})}
                 type="text" 
@@ -54,7 +55,8 @@ export default function Login(props) {
                 // onChange={e => setUser(e.target.value)}
                 />
                 {/* Form Validation to be worked! */}
-                {errors.userName?.type === "required" && <span><br />First Name is required</span>}
+                {errors.userName?.type === "required" && 
+                <span style={{color: 'red'}}>Please enter your username.</span>}
             </Form.Group>
             <br />
             <Form.Group>
@@ -67,6 +69,8 @@ export default function Login(props) {
                     name="password" 
                     // onChange={e => setPassword(e.target.value)} 
                     />
+                    {errors.password?.type === "required" && 
+                <span style={{color: 'red'}}>Please enter your password.</span>}
             </Form.Group  >
             {warning && <>
             <br />
