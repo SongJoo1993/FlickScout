@@ -19,7 +19,19 @@ const userRoutes = (db) => {
     db
       .checkUser(req.body)
       .then((user) => {
-        res.json(user);
+
+        let payload = { 
+          _id: user._id,
+          userName: user.userName,
+          fullName: user.fullName,
+          role: user.role,
+          favourites: user.favourites,
+          history: user.history
+      };
+
+      let token = jwt.sign(payload, jwtOptions.secretOrKey);
+
+        res.json({"user": user, "token": token});
       })
       .catch((error) => {
         res.json({ "message": error.message });

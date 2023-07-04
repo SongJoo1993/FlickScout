@@ -4,84 +4,54 @@ const cors = require("cors");
 require('dotenv').config();
 const MoviesDB = require("./modules/moviesDB.js");
 const db = new MoviesDB();
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
-const passportJWT = require('passport-jwt');
 const userRoute = require('./routes/User.js')(db);
 const movieRoute = require('./routes/Movie.js')(db);
 const HTTP_PORT = process.env.PORT || 8080;
+
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
+
+// JSON Web Token Setup
+let ExtractJwt = passportJWT.ExtractJwt,
+    JwtStrategy = passportJWT.Strategy;
+
+// Configure Strategy options
+let jwtOptions = {};
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
+jwtOptions.secretOrKey = process.env.JWT_SECRET;
+
+let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
+    console.log('payload received', jwt_payload);
+
+    if(jwt_payload) {
+        next(null, {
+            _id: jwt_payload._id,
+            userName: jwt_payload.userName,
+            fullName: jwt_payload.fullName,
+            role: jwt_payload.role,
+            favourites: user.favourites,
+            history: user.history
+        })
+    }
+    else {
+        next(null, false);
+    }
+});
+
+passport.use(strategy);
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use("/api/user", userRoute);
 app.use("/api/movies", movieRoute);
+app.use(passport.initialize());
 
 // Get tester
 app.get('/', (req, res) => {
     res.json({message: "API listening"});
 });
-
-// // Add a new movie
-// app.post('/api/movies', async (req,res) => {
-//     try {
-//         const result = await db.addNewMovie(req.body);
-//         res.status(200).json(result);
-//         console.log("successfully added!");
-//     } catch(err) {
-//         res.status(404).json({message: err});
-//     }
-// })
-
-// // Get movies
-// app.get('/api/movies', async (req, res) => {
-//     const {page, perPage, title} = req.query;
-//     try{
-//         let result = await db.getAllMovies(page, perPage, title);
-//         res.json(result);
-//     }catch(err){
-//         res.status(404).json({message: "ERR!"});
-//     }
-// });
-
-// // Get the result of Advanced Search
-// app.get("/api/movies/search", async (req,res) => {
-//     // console.log(req.query);
-//     try{
-//         let result = await db.getSearchedMovies(req.query);
-//         res.json(result);
-//     }catch(err){
-//         res.status(404).json({message: "ERR!"});
-//     }
-// }); 
-
-// // Get a single movie
-// app.get("/api/movies/:id", async (req,res) => {
-//     try{
-//         let result = await db.getMovieById(req.params.id);
-//         res.json(result);
-//     }catch(err){
-//         res.status(404).json({message: err});
-//     }
-// }); 
-
-// // Update a movie
-// app.put("/api/movies/:id", (req,res) => {
-//     db.updateMovieById(req.body, req.params.id).then(data => {
-//         res.json(data);
-//     }).catch(err => {
-//         res.status(400).json({message: err});
-//     })
-// }); 
-
-// // Delete a movie
-// app.delete("/api/movies/:id", (req,res) => {
-//     db.deleteMovieById(req.params.id).then( () => {
-//         res.status(204).end();
-//     }).catch( err => {
-//         res.status(404).json({message: err});
-//     })
-// });
 
 // DB initializer
 db.initialize(process.env.MONGODB_CONN_STRING).then(() => {
