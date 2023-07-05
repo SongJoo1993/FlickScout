@@ -11,7 +11,7 @@ const userRoutes = (db, jwtOptions) => {
         res.json(user);
       })
       .catch((error) => {
-        res.json({ "message": error.message });
+        res.status(404).json({ "message": error.message });
       });
   });
 
@@ -35,7 +35,7 @@ const userRoutes = (db, jwtOptions) => {
       res.json({"user": user, "token": token});
       })
       .catch((error) => {
-        res.json({ "message": error.message });
+        res.status(404).json({ "message": error.message });
       });
   });
 

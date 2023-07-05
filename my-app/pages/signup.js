@@ -32,7 +32,7 @@ export default function Login(props) {
     }
 
     return (
-    <div style={{ maxWidth: "70%", margin: "0 auto"}}>
+    <div style={{ maxWidth: "50%", margin: "0 auto"}}>
         <br />
         <Card bg="light">
             <Card.Body>

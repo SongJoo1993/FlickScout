@@ -1,4 +1,5 @@
 import { Card, Form, Alert, Button } from "react-bootstrap";
+import Link from "next/link"
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form'
@@ -21,18 +22,17 @@ export default function Login(props) {
     async function submitLogin(data, e) {
         const {userName, password} = data;
         try{
-            if(await authenticateUser(userName, password)) {
-                router.push("/");
-            }
+            await authenticateUser(userName, password);
+            router.push("/");
         }
         catch(err){
-            console.log(err);
+            console.log("sign in error:", err);
             setWarning(err.message);
         }
     }
 
     return (
-    <div style={{ maxWidth: "70%", margin: "0 auto"}}>
+    <div style={{ maxWidth: "50%", margin: "0 auto"}}>
         <br/>
         <Card bg="light">
             <Card.Body style={{textAlign: "center"}}>
@@ -86,6 +86,10 @@ export default function Login(props) {
                 </Button>
             </div>
         </Form>
+        <br/>
+        <p style={{textAlign: "center"}}>
+        Need a new <Link href="/signup">account</Link>?
+        </p>
     </div>
     );
 }
