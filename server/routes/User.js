@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const userRoutes = (db, jwtOptions) => {
   // Register a new user
   router.post("/register", (req, res) => {
+    console.log(req.body);
     db
       .registerUser(req.body)
       .then(user => {

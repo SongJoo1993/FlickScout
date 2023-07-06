@@ -5,46 +5,48 @@ import { useForm } from 'react-hook-form'
 // import { authenticateUser } from "../lib/authenticate";
 
 
-export default function Login(props) {
+export default function Signup(props) {
     const [warning, setWarning] = useState("");
     // const [user, setUser] = useState("");
-    // const [password, setPassword] = useState("");
+    const [adminPassword, setAdminPassword] = useState(undefined);
     const router = useRouter();
 
-    const {register, handleSubmit, formState: {errors}} = useForm({
+    const {register, watch, getValues, handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
         userName: "",
         fullName: "",
         password: "",
         password2: "",
         role:""
-    }
-    });
+    }});
 
-    async function submitLogin(data, e) {
+    const watchRole = watch("role", undefined);
+
+    async function submitSignUp(data, e) {
+        const {userName, password, password2, role} = data;
         console.log(data);
-        // try{
-        // await authenticateUser(user, password);
-        // router.push("/");
-        // }catch(err){
-        // setWarning(err.message);
-        // }
+        // Call reigster endpoint!
+        try{
+        
+        }catch(err){
+
+        }
     }
 
     return (
     <div style={{ maxWidth: "50%", margin: "0 auto"}}>
         <br />
         <Card bg="light">
-            <Card.Body>
-            <h2>Create account</h2>
+            <Card.Body style={{textAlign: "center"}}>
+            <h2>Create your Account</h2>
             </Card.Body>
         </Card>
         <br />
-        <Form onSubmit={handleSubmit(submitLogin)}>
+        <Form onSubmit={handleSubmit(submitSignUp)}>
             <Form.Group >
-                <strong><Form.Label>User ID:</Form.Label></strong>
+                <strong><Form.Label>Username:</Form.Label></strong>
                 <Form.Control 
-                    {...register("userName")}
+                    {...register("userName", {required: true})}
                     type="text" 
                     // value={user} 
                     id="userName" 
@@ -54,7 +56,7 @@ export default function Login(props) {
             </Form.Group>
             <br />
             <Form.Group >
-                <strong><Form.Label>Your name:</Form.Label></strong>
+                <strong><Form.Label>Full name:</Form.Label></strong>
                 <Form.Control 
                     {...register("fullName")}
                     type="text" 
@@ -68,7 +70,7 @@ export default function Login(props) {
             <Form.Group>
                 <strong><Form.Label>Password:</Form.Label></strong>
                 <Form.Control
-                    {...register("password")}
+                    {...register("password", {required: true})}
                     type="password" 
                     // value={password} 
                     id="password" 
@@ -79,7 +81,7 @@ export default function Login(props) {
             <Form.Group>
                 <strong><Form.Label> Re-enter password:</Form.Label></strong>
                 <Form.Control
-                    {...register("password2")}
+                    {...register("password2", {required: true})}
                     type="password" 
                     // value={password} 
                     id="password" 
@@ -90,13 +92,30 @@ export default function Login(props) {
             <Form.Group>
                 <strong><Form.Label>Role</Form.Label></strong>
                 <Form.Select 
-                    {...register("role")}
+                    {...register("role", {required: true})}
                     name="role" 
                     className="mb-3">
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                 </Form.Select>
             </Form.Group>
+            {/* contionally pop admin pwd */}
+            {(watchRole === "admin") &&
+            <Form.Group>
+                <strong><Form.Label>Admin Password</Form.Label></strong>
+                <Form.Control
+                    // {...register ("adminPassword", {required: true})}
+                    type="password"
+                    id="adminPwd"
+                    name="adminPwd" 
+                    className="mb-3"
+                    onChange={(e) => {setAdminPassword(e.target.value)}}
+                    >
+                </Form.Control>
+                {(adminPassword === "123")  && <span style={{color: 'blue'}}>You are verified!</span>}
+                {(adminPassword === undefined)  && <span style={{color: 'black'}}>Please enter the password</span>}
+                {(adminPassword !== undefined && adminPassword !== "123")  && <span style={{color: 'red'}}>Wrong admin password!</span>}
+            </Form.Group>}
             {warning && <>
             <br />
             <Alert variant='danger'>

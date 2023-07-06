@@ -19,7 +19,7 @@ export default function Login(props) {
     }
     });
 
-    async function submitLogin(data, e) {
+    async function submitLogIn(data, e) {
         const {userName, password} = data;
         try{
             await authenticateUser(userName, password);
@@ -36,11 +36,11 @@ export default function Login(props) {
         <br/>
         <Card bg="light">
             <Card.Body style={{textAlign: "center"}}>
-            <h2>Welcome! Please sign in.</h2>
+            <h2>Welcome</h2>
             </Card.Body>
         </Card>
         <br />
-        <Form onSubmit={handleSubmit(submitLogin)}>
+        <Form onSubmit={handleSubmit(submitLogIn)}>
             <Form.Group >
                 <strong><Form.Label>Username:</Form.Label></strong>
                 <Form.Control 
@@ -82,7 +82,7 @@ export default function Login(props) {
                 className="pull-right" 
                 type="submit"
                 style={{width: "50%"}}>
-                    Login
+                    Log In
                 </Button>
             </div>
         </Form>
