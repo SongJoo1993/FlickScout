@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form'
 
 export default function Signup(props) {
     const [warning, setWarning] = useState("");
-    // const [user, setUser] = useState("");
     const [adminPassword, setAdminPassword] = useState(undefined);
     const router = useRouter();
 
@@ -23,19 +22,39 @@ export default function Signup(props) {
     const watchRole = watch("role", undefined);
 
     async function submitSignUp(data, e) {
-        const {userName, password, password2, role} = data;
-        console.log(data);
-        // Call reigster endpoint!
+        const {userName, fullName, password, password2, role} = data;
         try{
-        
+            if (role === 'user' || role === 'admin'&& adminPassword === '123') {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/register`, {
+                    method: `POST`,
+                    body: JSON.stringify({
+                        userName: userName,
+                        fullName: fullName,
+                        role: role,
+                        password:  password,
+                        password2:  password2
+                    }),
+                    headers: {
+                        'content-type': 'application/json',
+                    },
+                });
+                const data = await res.json();
+                if(res.status === 200) {
+                    router.push("/login");
+                } else  {
+                    throw new Error(data.message);
+                }
+            }
+            else {
+                throw new Error("Please provide valid admin password!");
+            }
         }catch(err){
-
+            setWarning(err.message);
         }
     }
 
     return (
     <div style={{ maxWidth: "50%", margin: "0 auto"}}>
-        <br />
         <Card bg="light">
             <Card.Body style={{textAlign: "center"}}>
             <h2>Create your Account</h2>
@@ -96,7 +115,7 @@ export default function Signup(props) {
                     name="role" 
                     className="mb-3">
                     <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="admin">Administrator</option>
                 </Form.Select>
             </Form.Group>
             {/* contionally pop admin pwd */}

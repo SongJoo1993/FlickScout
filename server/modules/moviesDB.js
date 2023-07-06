@@ -123,6 +123,7 @@ module.exports = class MoviesDB {
         })
       }
   }
+  
   // Login User
   async checkUser(userData) {
     let error = new Error();
