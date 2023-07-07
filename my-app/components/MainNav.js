@@ -21,7 +21,7 @@ export default function MainNav() {
             searchValue: undefined,
         }
     })
-    
+    console.log("token ",token)
     function logout() {
         removeToken();
         router.push('/login');
@@ -56,7 +56,7 @@ export default function MainNav() {
         <>
         <Navbar className="navbar-dark bg-dark fixed-top" expand='lg' expanded={isExpanded}>
             <Container>
-                <Navbar.Brand>Movie Search Engine</Navbar.Brand>
+                <Link href="/" passHref legacyBehavior><Navbar.Brand>Movie Search Engine</Navbar.Brand></Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggle}/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -92,26 +92,26 @@ export default function MainNav() {
                                 </Dropdown.Menu>                    
                         </Dropdown>                    
                     }
-                    {token &&
-                        <Nav className="me-auto">
-                            <Nav.Link onClick={logout}>Logout</Nav.Link>
-                        </Nav>
-                    }
-                {/* Appear Below when logged in successfully 
+                {/* Appear Below when logged in successfully  */}
+                {token && 
                 <Nav>
-                  <NavDropdown title="User Name" id="basic-nav-dropdown">
-                      <Link href="/favourites" passHref legacyBehavior>
+                  <NavDropdown title={token.userName} id="basic-nav-dropdown">
+                    <Link href="/favourites" passHref legacyBehavior>
                         <NavDropdown.Item active={router.pathname === "/favourites"} onClick={expandOff}>
-                          Favourites
+                            Favourites
                         </NavDropdown.Item>
-                      </Link>
-                      <Link href="/history" passHref legacyBehavior>
+                    </Link>
+                    <Link href="/history" passHref legacyBehavior>
                         <NavDropdown.Item active={router.pathname === "/history"} onClick={expandOff}>
-                          History
+                        Search History
                         </NavDropdown.Item>
-                      </Link>
+                    </Link>
+                    <NavDropdown.Item onClick={logout}>
+                      Log out
+                    </NavDropdown.Item>
                     </NavDropdown>
-                </Nav> */}
+                </Nav>
+                }
                 </Navbar.Collapse>
             </Container>
         </Navbar>

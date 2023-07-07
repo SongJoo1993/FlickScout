@@ -54,7 +54,7 @@ const userRoutes = (db, passport) => {
         }).catch(err => {
             res.status(400).json({message: err});
         })
-    }); 
+    });
 
     // Delete a movie
     router.delete("/:id", (req,res) => {

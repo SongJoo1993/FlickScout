@@ -123,7 +123,7 @@ module.exports = class MoviesDB {
         })
       }
   }
-  
+
   // Login User
   async checkUser(userData) {
     let error = new Error();
@@ -156,7 +156,7 @@ module.exports = class MoviesDB {
     let findBy = title ? { title: { $regex: new RegExp(title, 'gi') } } : {};
     if (+page && +perPage) {
       const [pageData, total] = await Promise.all([
-        this.Movie.find(findBy).sort({ year: +1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),
+        this.Movie.find(findBy).sort({ year: -1 }).skip((page - 1) * +perPage).limit(+perPage).exec(),
         this.Movie.countDocuments(findBy),
       ]);
       return { pageData, total };

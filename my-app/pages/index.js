@@ -104,8 +104,7 @@ export default function Home(props) {
     <>
       {title ? 
         <PageHeader textHead ="Search Key Word:" textTail = {title.toUpperCase()} totalMovies={total}/>
-      : <PageHeader textHead ="Film Collection :" textTail ="Sorted by Date"/>
-      }
+      : <PageHeader textHead ="Film Collection :" textTail ="Sorted by Date Descending Order"/>}
       <Row xs={1} md={2} lg={4} className="g-4">
         {pageData?.map(movie => (
           <Col key={movie._id} style={{height: "30rem"}}>
