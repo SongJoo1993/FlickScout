@@ -5,7 +5,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">Movie Search Engine - Web Application</h3>
 
   <p align="center">
     An awesome README template to jumpstart your projects!
@@ -15,7 +15,7 @@
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/SongJoo1993/MovieSearchEngine/issues">Report Bug</a>
     ·
     <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
   </p>
@@ -56,12 +56,7 @@
 
 Demo: [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-A simple movie search website allowing users to search movies by various categories such as title, casts, and IMDB rating.
-
-Here's why I created this web application:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+**Movie Search Engine** is a movie search web application allowing users to search movies by various categories such as title, casts, and IMDB rating. It has been built using 
 
 Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
 
@@ -71,9 +66,8 @@ Use the `BLANK_README.md` to get started.
 
 
 
-### Built With
+## Built With 🛠
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 #### Front-end Stacks
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
@@ -127,7 +121,8 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Authentication Diagram
+![My Image](auth-diagram.jpg.jpg)
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
@@ -137,15 +132,25 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <!-- ROADMAP -->
 ## Roadmap
-
-- [x] Add Changelog
+#### Front-end Features
+- [x] Form implementation/validation using **[React Hook Form](https://react-hook-form.com/docs/useform)**
+- [x] Track user's movie favourites/search history using **[Jotai](https://jotai.org/)** (a state management solution) 
+- [x] Implement **[React Bootstrap](https://react-bootstrap.netlify.app/)** features:
+    - [x] [Carousels](https://react-bootstrap.netlify.app/docs/components/carousel)
+    - [x] [Pagination](https://react-bootstrap.netlify.app/docs/components/pagination)
+    - [x] [Cards](https://react-bootstrap.netlify.app/docs/components/cards)
+    - [x] [Modals](https://react-bootstrap.netlify.app/docs/components/modal)
+- [ ] Multi-language Support
+    - [ ] Chinese
+    - [ ] Spanish
+#### Back-end Features
 - [x] Add back to top links
 - [ ] Add Additional Templates w/ Examples
 - [ ] Add "components" document to easily copy & paste sections of the readme
 - [ ] Multi-language Support
     - [ ] Chinese
     - [ ] Spanish
-
+    - [ ] 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -208,5 +213,3 @@ Use this space to list resources you find helpful and would like to give credit 
 [NodeJS-url]: https://nodejs.org/en
 [ExpressJS.com]: https://img.shields.io/badge/ExpressJS-1010?logo=express&logoColor=white&color=black
 [ExpressJS-url]: https://expressjs.com
-
-
