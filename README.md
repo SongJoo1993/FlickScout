@@ -53,17 +53,31 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+<!-- Demo: [![Product Name Screen Shot][product-screenshot]](https://example.com) --> 
 
-Demo: [![Product Name Screen Shot][product-screenshot]](https://example.com)
+### Description
+**Movie Search Engine** is a full-stack movie search web application allowing users to search movies by various categories such as title, casts, and IMDB rating. It has been built using [MERN stack](https://www.mongodb.com/mern-stack).
 
-**Movie Search Engine** is a movie search web application allowing users to search movies by various categories such as title, casts, and IMDB rating. It has been built using 
+### Motivation
+Learning and skill development: Building a full-stack web application provides an opportunity to enhance programming skills, gain experience in various technologies, and understand the complexities of building a real-world application.
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+### Problem Solving:
+The movie search web application solves the problem of finding relevant movies based on user's preferences. It offers users a centralized platform where they can search for movies by title, rating, genre, and other criteria, thereby facilitating the discovery of movies that align with their interests.
 
-Use the `BLANK_README.md` to get started.
+### Learnings
+#### Front-end development: 
+Using CSS framework of Bootstrap, React-Bootstrap, I learned how to structure and organize components, leverage Bootstrap's responsive design features, and create a visually appealing and user-friendly interface
+#### Back-end development: 
+I created my own server using Express.js, a popular Node.js framework, to handle the back-end logic and API endpoints. I learned how to define routes, handle requests, and establish communication between the client and the server.
+#### Database management: 
+With MongoDB, I learned how to work with a NoSQL database and utilize the power of MongoDB's document-oriented model. I gained experience in creating and managing collections, defining schemas, and performing CRUD operations to store and retrieve movie information and user data.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+#### Challenges:
+Implementing the advanced search functionality for the movie search web application was difficult since handling the dynamic query generation and search process through MongoDB required extensive research and experimentation.
 
+Constructing dynamic queries based on various search parameters and their combinations involved meticulous consideration of different query operators, such as $gte, $lte, and $regex, to achieve the desired search results. Additionally, ensuring the search functionality was efficient and performed well with a large dataset was a significant challenge since it required careful consideration of indexing strategies.
+
+Overcoming these challenges involved thorough testing, debugging, and refining the search functionality. In addition, leveraging online resources proved invaluable in finding effective solutions and optimizing the search functionality.
 
 
 ## Built With 🛠
@@ -78,9 +92,6 @@ Use the `BLANK_README.md` to get started.
 * [![NodeJS][NodeJS.com]][NodeJS-url]
 * [![ExpressJS][ExpressJS.com]][ExpressJS-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -90,69 +101,107 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
   ```
 
 ### Installation
+To run the Movie Search Engine application, follow the steps below to install the necessary dependencies for both the front-end and back-end components:
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+#### Front-end(my-app folder)
+1. Navigate to the my-app folder:
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   cd my-app
    ```
-3. Install NPM packages
+2. Install the dependencies using npm:
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+   
+#### Back-end (server folder)
+1. Navigate to the server folder:
+   ```sh
+   npm install
    ```
+2. Install the dependencies using npm:
+   ```js
+   npm install
+   ```
+#### Configuration
+1. In the my-app folder, create a file named .env.local and add the following environment variables:
+   ```sh
+   NEXT_PUBLIC_API_URL=http://localhost:8080/api
+   ```
+   This sets the base URL for API requests from the front-end. Adjust the URL if your server is running on a different port or domain.
+   
+3. In the server folder, create a file named .env and configure the following environment variables:
+   ```sh
+   PORT=8080
+   MONGODB_URI=<your_mongodb_uri>
+   SECRET_KEY=<your_secret_key>
+   ```
+   Replace <your_mongodb_uri> with the connection URI for your MongoDB Atlas database. Also, generate a secure <your_secret_key> for signing JSON Web Tokens (JWT) used in authentication.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+#### Running the Application
+To start the Movie Search Engine application, follow these steps:
+1. In the my-app folder, start the front-end development server:
+   ```sh
+   npm run dev
+   ```
+   This command starts the development server for the front-end application.
+   
+2. In the server folder, start the back-end server:
+   ```sh
+   nodemon server.js
+   ```
+   The server uses nodemon to automatically restart whenever changes are made to the server-side code during development.
+
+2. Open your web browser and access the Movie Search Engine application at http://localhost:3000.
+Make sure you have Node.js and npm installed on your system before running the application.
 
 <!-- ROADMAP -->
 ## Roadmap
 #### Front-end Features
-- [x] Form implementation/validation using **[React Hook Form](https://react-hook-form.com/docs/useform)**
+- [x] Quick/Advanced search form implementation/validation using **[React Hook Form](https://react-hook-form.com/docs/useform)**
 - [x] Track user's movie favourites/search history using **[Jotai](https://jotai.org/)** (a state management solution) 
 - [x] Implement **[React Bootstrap](https://react-bootstrap.netlify.app/)** features:
-    - [x] [Carousels](https://react-bootstrap.netlify.app/docs/components/carousel)
-    - [x] [Pagination](https://react-bootstrap.netlify.app/docs/components/pagination)
-    - [x] [Cards](https://react-bootstrap.netlify.app/docs/components/cards)
-    - [x] [Modals](https://react-bootstrap.netlify.app/docs/components/modal)
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+    - [x] [Carousels](https://react-bootstrap.netlify.app/docs/components/carousel) for quick-searched movies under 10 results
+    - [x] [Pagination](https://react-bootstrap.netlify.app/docs/components/pagination) for quick/advanced-searched movies more than 10 results
+    - [x] [Cards](https://react-bootstrap.netlify.app/docs/components/cards) for displaying each movie
+    - [x] [Modals](https://react-bootstrap.netlify.app/docs/components/modal) for detailed information about them selected movie
+- [ ] Role-based navigation based on the user's role
+    - [ ] Only admin users have access to create, update, delete movies and look up user information. 
+
 #### Back-end Features
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-    - [ ] 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+- [x] Server-side Routing using [Express.js](https://expressjs.com) to handle server-side routing and API endpoints
+- [x] Data Storage using [MongoDB Atlas](https://www.mongodb.com/atlas) to store movie information and user data<br/>
+      (The sample movie dataset provided by MongoDB Atlas was used as a starting point for the application's movie collection.)
+- [x] Authentication/authorization:
+    - [x]  User registration using [bcrypt](https://www.npmjs.com/package/bcrypt) to securely hash password
+    - [x]  User login using [JSON Web Token (JWT)](https://jwt.io/) containing a digitally signed payload with user information
+    - [x]  Protected routes using [Passport.js](https://www.passportjs.org/) to provide strategies for local authentication allowing authorized users to access protected routes
+- [x] Error handling with custom error messages and status codes for different scenarios.
+- [x] Advanced search Logic:
+    - [x] Accept query parameters and generate search query
+    - [x] Process the search query and constructs a MongoDB query to retrieve the matching movies
+- [ ] Role-based access control allowing restricted APIs such as managing users and editing movie data
+- [ ] Leverage simple mail transfer protocol (SMTP) using the SendGrid Email API to communicate with users
+ 
 <!-- USAGE EXAMPLES -->
-## Usage
-
-Authentication Diagram
+#### Authentication/Authorization Diagram
 ![My Image](auth-diagram.jpg)
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+<!-- USAGE EXAMPLES -->
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## Usage
 
-
+1. Register a new user account and log in with an existing account.
+2. Use the search bar to enter keywords and find movies.
+3. Click on a movie to view its detailed information.
+4. Add movies to your favourite list by clicking the "+Favourite" button.
+5. Navigate to the favourite page to see your saved movies.
+    Logout when you're done using the application.
 
 <!-- CONTACT -->
 ## Contact
@@ -160,27 +209,6 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 Email - songjoo29@gmail.com
 
 LinkedIn: [https://www.linkedin.com/in/songjoo/](https://www.linkedin.com/in/songjoo/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
