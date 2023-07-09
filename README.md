@@ -42,11 +42,11 @@ The movie search web application solves the problem of finding relevant movies b
 
 ### Learnings
 #### Front-end development: 
-Using CSS framework of Bootstrap, React-Bootstrap, I learned how to structure and organize components, leverage Bootstrap's responsive design features, and create a visually appealing and user-friendly interface
+Using CSS framework of Bootstrap, [React Bootstrap](https://react-bootstrap.netlify.app/), I learned how to structure and organize components, leverage Bootstrap's responsive design features, and create a visually appealing and user-friendly interface
 #### Back-end development: 
-I created my own server using Express.js, a popular Node.js framework, to handle the back-end logic and API endpoints. I learned how to define routes, handle requests, and establish communication between the client and the server.
+I created my own server using [Express.js](https://expressjs.com), a popular [Node.js](https://nodejs.org/en) framework, to handle the back-end logic and API endpoints. I learned how to define routes, handle requests, and establish communication between the client and the server.
 #### Database management: 
-With MongoDB, I learned how to work with a NoSQL database and utilize the power of MongoDB's document-oriented model. I gained experience in creating and managing collections, defining schemas, and performing CRUD operations to store and retrieve movie information and user data.
+With [MongoDB](https://www.mongodb.com/), I learned how to work with a [NoSQL](https://www.mongodb.com/nosql-explained) database and utilize the power of MongoDB's document-oriented model. I gained experience in creating and managing collections, defining schemas, and performing CRUD operations to store and retrieve movie information and user data.
 
 #### Challenges:
 Implementing the advanced search functionality for the movie search web application was difficult since handling the dynamic query generation and search process through MongoDB required extensive research and experimentation.
@@ -98,7 +98,7 @@ To run the Movie Search Engine application, follow the steps below to install th
 #### Back-end (server folder)
 1. Navigate to the server folder:
    ```sh
-   npm install
+   cd server
    ```
 2. Install the dependencies using npm:
    ```js
