@@ -26,7 +26,7 @@ export default function Login(props) {
             router.push("/");
         }
         catch(err){
-            console.log("sign in error:", err);
+            // console.log("sign in error:", err);
             setWarning(err.message);
         }
     }

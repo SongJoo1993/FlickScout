@@ -21,7 +21,7 @@ export default function MainNav() {
             searchValue: undefined,
         }
     })
-    console.log("token ",token)
+    // console.log("token ",token)
     function logout() {
         removeToken();
         router.push('/login');
