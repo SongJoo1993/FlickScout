@@ -1,32 +1,3 @@
-
-<!-- TABLE OF CONTENTS -->
-<!-- <details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details> -->
-
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 <!-- Demo: [![Product Name Screen Shot][product-screenshot]](https://example.com) --> 
@@ -67,6 +38,7 @@ Overcoming these challenges involved thorough testing, debugging, and refining t
 * [![Mongodb][Mongodb.com]][Mongodb-url]
 * [![NodeJS][NodeJS.com]][NodeJS-url]
 * [![ExpressJS][ExpressJS.com]][ExpressJS-url]
+* [![PassportJS][PassportJS.com]][PassportJS-url]
 
 
 <!-- GETTING STARTED -->
@@ -114,8 +86,8 @@ To run the Movie Search Engine application, follow the steps below to install th
 3. In the server folder, create a file named .env and configure the following environment variables:
    ```sh
    PORT=8080
-   MONGODB_URI=<your_mongodb_uri>
-   SECRET_KEY=<your_secret_key>
+   MONGODB_CONN_STRING=<your_mongodb_uri>
+   JWT_SECRET=<your_secret_key>
    ```
    Replace <your_mongodb_uri> with the connection URI for your MongoDB Atlas database. Also, generate a secure <your_secret_key> for signing JSON Web Tokens (JWT) used in authentication.
 
@@ -164,12 +136,11 @@ Make sure you have Node.js and npm installed on your system before running the a
 - [ ] Role-based access control allowing restricted APIs such as managing users and editing movie data
 - [ ] Leverage simple mail transfer protocol (SMTP) using the SendGrid Email API to communicate with users
  
-<!-- USAGE EXAMPLES -->
+<!-- Diagram-->
 #### Authentication/Authorization Diagram
 ![My Image](auth-diagram.jpg)
 
-<!-- USAGE EXAMPLES -->
-
+<!-- USAGE-->
 ## Usage
 
 1. Register a new user account and log in with an existing account.
@@ -188,7 +159,6 @@ LinkedIn: [https://www.linkedin.com/in/songjoo/](https://www.linkedin.com/in/son
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
@@ -214,3 +184,6 @@ LinkedIn: [https://www.linkedin.com/in/songjoo/](https://www.linkedin.com/in/son
 [NodeJS-url]: https://nodejs.org/en
 [ExpressJS.com]: https://img.shields.io/badge/ExpressJS-1010?logo=express&logoColor=white&color=black
 [ExpressJS-url]: https://expressjs.com
+[PassportJS.com]: https://img.shields.io/badge/Passport-1909?logo=passport&logoColor=%2334E27A&color=black
+[PassportJS-url]: http://www.passportjs.org/
+

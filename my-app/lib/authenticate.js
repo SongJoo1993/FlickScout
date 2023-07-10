@@ -1,51 +1,50 @@
 import jwt_decode from 'jwt-decode';
 
 export async function authenticateUser(user, pwd) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/login`, {
-        method: `POST`,
-        body: JSON.stringify({userName: user, password: pwd}),
-        headers: {
-            'content-type': 'application/json',
-        },
-    });
-    const data = await res.json();
-        
-    if(res.status === 200) {
-        setToken(data.token);
-        return  true;
-    } else  {
-        throw new Error(data.message);
-    }
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/login`, {
+    method: `POST`,
+    body: JSON.stringify({ userName: user, password: pwd }),
+    headers: {
+      'content-type': 'application/json',
+    },
+  });
+  const data = await res.json();
+
+  if (res.status === 200) {
+    setToken(data.token);
+    return true;
+  } else {
+    throw new Error(data.message);
+  }
 }
 
 function setToken(token) {
-    localStorage.setItem('access_token', token);
-    console.log(localStorage);
+  localStorage.setItem('access_token', token);
+  console.log(localStorage);
 }
 
 export function getToken() {
-    try {
-        return localStorage.getItem('access_token');
-    }
-    catch {
-        return null;
-    }
+  try {
+    return localStorage.getItem('access_token');
+  } catch {
+    return null;
+  }
 }
 
 export function removeToken() {
-    localStorage.removeItem('access_token');
+  localStorage.removeItem('access_token');
 }
 
 export function readToken() {
-    try {
-        const token = getToken();
-        return token ? jwt_decode(token) : null;
-    } catch (error) {
-        return null;
-    }
+  try {
+    const token = getToken();
+    return token ? jwt_decode(token) : null;
+  } catch (error) {
+    return null;
+  }
 }
 
 export function isAuthenticated() {
-    const token = readToken();
-    return token ? true : false;
+  const token = readToken();
+  return token ? true : false;
 }

@@ -1,14 +1,15 @@
 import Card from 'react-bootstrap/Card';
 
 export default function PageHeader(props) {
-    return (
+  return (
     <>
-    <Card className='bg-light'>
+      <Card className="bg-light">
         <Card.Body>
-          <strong>{props.textHead}</strong> {props.textTail} {props.totalMovies ? `(${props.totalMovies} Movies Searched)`: ""}
+          <strong>{props.textHead}</strong> {props.textTail}{' '}
+          {props.totalMovies ? `(${props.totalMovies} Movies Searched)` : ''}
         </Card.Body>
-    </Card>
-    <br />  
+      </Card>
+      <br />
     </>
-    )
+  );
 }
