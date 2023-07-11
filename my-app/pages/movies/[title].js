@@ -35,7 +35,7 @@ export default function MovieTitle() {
         <Alert variant="danger" onClose={() => backToHome()} dismissible>
           <Alert.Heading>
             {' '}
-            No Results Found with "{title.toUpperCase()}".
+            No Results Found with &quot;{title}&quot;.
           </Alert.Heading>
         </Alert>
       </>

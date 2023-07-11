@@ -16,11 +16,15 @@ export default function Home(props) {
   const { title } = props;
   let totalPage = Math.ceil(total / PER_PAGE);
 
+  // const address = title
+  //   ? `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
+  //   : useMemo(() => {
+  //       return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`;
+  //     }, [page]);
+
   const address = title
     ? `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
-    : useMemo(() => {
-        return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`;
-      }, [page]);
+    : `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`;
 
   const fetcher = (url) =>
     fetch(url, { headers: { Authorization: `JWT ${getToken()}` } }).then(
