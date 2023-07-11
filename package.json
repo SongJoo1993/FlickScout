@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  },
+  "scripts": {
+    "prettier:frontend": "prettier --write \"my-app/**/*.js\"",
+    "prettier:backend": "prettier --write \"server/**/*.js\"",
+    "prettier:all": "npm run prettier:frontend && npm run prettier:backend"
+  }
+}
