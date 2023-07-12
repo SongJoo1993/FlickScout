@@ -1,9 +1,9 @@
-import useSWR from 'swr';
-import { useState } from 'react';
-import Link from 'next/link';
-import { Card, Button } from 'react-bootstrap';
-import NoImg from '../public/no-img.jpg';
-import SingleMovieModal from './SingleMovieModal';
+import useSWR from "swr";
+import { useState } from "react";
+import Link from "next/link";
+import { Card, Button } from "react-bootstrap";
+import NoImg from "../public/no-img.jpg";
+import SingleMovieModal from "./SingleMovieModal";
 
 //receive ID and spread
 function Movies(props) {
@@ -14,26 +14,26 @@ function Movies(props) {
     <>
       <Card
         style={{
-          display: 'block',
-          width: 'auto',
-          position: 'relative',
-          height: '100%',
+          display: "block",
+          width: "auto",
+          position: "relative",
+          height: "100%",
         }}
       >
         <Card.Img
           height="70%"
           variant="top"
           src={data?.poster || NoImg.src}
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: "cover" }}
         />
-        <Card.Body style={{ height: '30%', position: 'relative' }}>
-          <Card.Title>{data?.title || 'N/A'}</Card.Title>
+        <Card.Body style={{ height: "30%", position: "relative" }}>
+          <Card.Title>{data?.title || "N/A"}</Card.Title>
           <Button
             variant="primary"
             onClick={() => {
               setModalShow(true);
             }}
-            style={{ position: 'absolute', bottom: '1rem', right: '1rem' }}
+            style={{ position: "absolute", bottom: "1rem", right: "1rem" }}
           >
             <strong>Details</strong>
           </Button>

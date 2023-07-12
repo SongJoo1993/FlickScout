@@ -5,17 +5,17 @@ import {
   Form,
   NavDropdown,
   Dropdown,
-} from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Link from 'next/link';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { useAtom } from 'jotai';
-import { searchHistoryAtom } from '@/store';
-import { FaRegUserCircle } from 'react-icons/fa';
-import { IconContext } from 'react-icons';
-import { readToken, removeToken } from '@/lib/authenticate';
+} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { useAtom } from "jotai";
+import { searchHistoryAtom } from "@/store";
+import { FaRegUserCircle } from "react-icons/fa";
+import { IconContext } from "react-icons";
+import { readToken, removeToken } from "@/lib/authenticate";
 
 export default function MainNav() {
   let token = readToken();
@@ -31,12 +31,12 @@ export default function MainNav() {
 
   function logout() {
     removeToken();
-    router.push('/login');
+    router.push("/login");
   }
 
   function searchValidation(data) {
     if (data.searchValue.length <= 0) {
-      return alert('Please enter the movie name.');
+      return alert("Please enter the movie name.");
     }
     return true;
   }
@@ -90,7 +90,7 @@ export default function MainNav() {
               <Form.Control
                 type="search"
                 placeholder="Quick Search by Title"
-                {...register('searchValue')}
+                {...register("searchValue")}
                 className="me-2"
                 aria-label="Search"
               />
@@ -101,7 +101,7 @@ export default function MainNav() {
             &nbsp;
             {/* Add Icon inside title in the below tag */}
             {!token && (
-              <Dropdown style={{ marginLeft: '0.7rem' }}>
+              <Dropdown style={{ marginLeft: "0.7rem" }}>
                 <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                   <FaRegUserCircle />
                   &nbsp;
@@ -122,7 +122,7 @@ export default function MainNav() {
                 <NavDropdown title={token.userName} id="basic-nav-dropdown">
                   <Link href="/favourites" passHref legacyBehavior>
                     <NavDropdown.Item
-                      active={router.pathname === '/favourites'}
+                      active={router.pathname === "/favourites"}
                       onClick={expandOff}
                     >
                       Favourites
@@ -130,7 +130,7 @@ export default function MainNav() {
                   </Link>
                   <Link href="/history" passHref legacyBehavior>
                     <NavDropdown.Item
-                      active={router.pathname === '/history'}
+                      active={router.pathname === "/history"}
                       onClick={expandOff}
                     >
                       Search History

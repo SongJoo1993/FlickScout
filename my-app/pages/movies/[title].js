@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import useSWR from 'swr';
-import Carousel from 'react-bootstrap/Carousel';
-import NoImg from '../../public/no-img.jpg';
-import Alert from 'react-bootstrap/Alert';
-import Home from '../index';
-import PageHeader from '@/components/PageHeader';
-import { getToken } from '../../lib/authenticate';
+import { useRouter } from "next/router";
+import { useState } from "react";
+import useSWR from "swr";
+import Carousel from "react-bootstrap/Carousel";
+import NoImg from "../../public/no-img.jpg";
+import Alert from "react-bootstrap/Alert";
+import Home from "../index";
+import PageHeader from "@/components/PageHeader";
+import { getToken } from "../../lib/authenticate";
 
 const PER_PAGE = 100;
 
@@ -23,7 +23,7 @@ export default function MovieTitle() {
   );
 
   function backToHome() {
-    router.push('/');
+    router.push("/");
   }
 
   if (data?.pageData == null || data?.pageData == undefined) {
@@ -34,7 +34,7 @@ export default function MovieTitle() {
         <br />
         <Alert variant="danger" onClose={() => backToHome()} dismissible>
           <Alert.Heading>
-            {' '}
+            {" "}
             No Results Found with &quot;{title}&quot;.
           </Alert.Heading>
         </Alert>
@@ -58,28 +58,28 @@ export default function MovieTitle() {
       <Carousel variant="dark" className="w-100 h-100">
         {data?.pageData?.map((movie) => (
           <Carousel.Item className="c-container" key={movie._id}>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <img
                 className="img-fluid"
                 src={movie.poster || NoImg.src}
                 alt={`image of ${movie.title}`}
                 style={{
-                  marginTop: '20px',
-                  minWidth: '300px',
-                  maxHeight: '500px',
-                  minHeight: '300px',
-                  marginBottom: '25px',
+                  marginTop: "20px",
+                  minWidth: "300px",
+                  maxHeight: "500px",
+                  minHeight: "300px",
+                  marginBottom: "25px",
                 }}
               />
             </div>
             <Carousel.Caption
-              style={{ position: 'relative', left: 'auto', right: 'auto' }}
+              style={{ position: "relative", left: "auto", right: "auto" }}
             >
               <h3>
-                {movie.title}{' '}
+                {movie.title}{" "}
                 {movie.year && movie.directors
                   ? `(${movie.year} : ${movie.directors})`
-                  : ''}
+                  : ""}
               </h3>
             </Carousel.Caption>
           </Carousel.Item>

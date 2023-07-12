@@ -1,4 +1,4 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from "react-bootstrap";
 
 export default function MovieDetails(props) {
   const { poster } = props.movie;
@@ -16,13 +16,13 @@ export default function MovieDetails(props) {
           <></>
         )}
         <Col md>
-          <strong>Directed By:</strong> {props.movie.directors.join(',')}
+          <strong>Directed By:</strong> {props.movie.directors.join(",")}
           <br />
           <br />
           <p>{props.movie.fullplot}</p>
-          <strong>Cast:</strong> {props.movie.cast.join(', ') || 'N/A'} <br />
+          <strong>Cast:</strong> {props.movie.cast.join(", ") || "N/A"} <br />
           <br />
-          <strong>Awards:</strong> {props.movie.awards.text || 'N/A'}
+          <strong>Awards:</strong> {props.movie.awards.text || "N/A"}
           <br />
           <strong>IMDB Rating:</strong> {props.movie.imdb.rating} (
           {props.movie.imdb.votes} votes) <br />

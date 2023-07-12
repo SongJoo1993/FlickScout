@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { isAuthenticated } from '../lib/authenticate';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { isAuthenticated } from "../lib/authenticate";
 
-const PUBLIC_PATHS = ['/login', '/signup'];
+const PUBLIC_PATHS = ["/login", "/signup"];
 
 export default function RouteGuard(props) {
   const router = useRouter();
@@ -13,19 +13,19 @@ export default function RouteGuard(props) {
     authCheck(router.pathname);
 
     // on route change complete - run auth check
-    router.events.on('routeChangeComplete', authCheck);
+    router.events.on("routeChangeComplete", authCheck);
 
     // unsubscribe from events in useEffect return function
     return () => {
-      router.events.off('routeChangeComplete', authCheck);
+      router.events.off("routeChangeComplete", authCheck);
     };
   }, []);
 
   function authCheck(url) {
-    const path = url.split('?')[0];
+    const path = url.split("?")[0];
     if (!isAuthenticated() && !PUBLIC_PATHS.includes(path)) {
       setAuthorized(false);
-      router.push('/login');
+      router.push("/login");
     } else {
       setAuthorized(true);
     }

@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router';
-import { useState, useEffect, useMemo } from 'react';
-import useSWR from 'swr';
-import Movies from '@/components/Movies';
-import PageHeader from '@/components/PageHeader';
-import { Pagination, Row, Col } from 'react-bootstrap';
-import Alert from 'react-bootstrap/Alert';
+import { useRouter } from "next/router";
+import { useState, useEffect, useMemo } from "react";
+import useSWR from "swr";
+import Movies from "@/components/Movies";
+import PageHeader from "@/components/PageHeader";
+import { Pagination, Row, Col } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 
 const PER_PAGE = 12;
 
@@ -14,7 +14,7 @@ export default function SearchResults() {
   const [total, setTotal] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
-  var queryStr = '';
+  var queryStr = "";
   let totalPage = Math.ceil(total / PER_PAGE);
 
   for (const props in router.query) {
@@ -42,7 +42,7 @@ export default function SearchResults() {
   }, [page]);
 
   function backToHome() {
-    router.push('/search');
+    router.push("/search");
   }
 
   if (error) {
@@ -113,7 +113,7 @@ export default function SearchResults() {
       />
       <Row xs={1} md={2} lg={4} className="g-4">
         {pageData?.map((movie) => (
-          <Col key={movie._id} style={{ height: '30rem' }}>
+          <Col key={movie._id} style={{ height: "30rem" }}>
             <Movies movieID={movie._id} />
           </Col>
         ))}

@@ -1,9 +1,9 @@
-import useSWR from 'swr';
-import { useState, useEffect, useMemo } from 'react';
-import { Pagination, Accordion, Row, Col } from 'react-bootstrap';
-import PageHeader from '@/components/PageHeader';
-import Movies from '@/components/Movies';
-import { getToken, readToken } from '../lib/authenticate';
+import useSWR from "swr";
+import { useState, useEffect, useMemo } from "react";
+import { Pagination, Accordion, Row, Col } from "react-bootstrap";
+import PageHeader from "@/components/PageHeader";
+import Movies from "@/components/Movies";
+import { getToken, readToken } from "../lib/authenticate";
 
 const PER_PAGE = 12;
 
@@ -114,7 +114,7 @@ export default function Home(props) {
       )}
       <Row xs={1} md={2} lg={4} className="g-4">
         {pageData?.map((movie) => (
-          <Col key={movie._id} style={{ height: '30rem' }}>
+          <Col key={movie._id} style={{ height: "30rem" }}>
             <Movies movieID={movie._id} />
           </Col>
         ))}

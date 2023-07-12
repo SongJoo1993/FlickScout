@@ -1,10 +1,10 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { useAtom } from 'jotai';
-import { searchHistoryAtom } from '@/store';
-import { Card, Button } from 'react-bootstrap';
-import ListGroup from 'react-bootstrap/ListGroup';
-import styles from '@/styles/History.module.css';
+import React from "react";
+import { useRouter } from "next/router";
+import { useAtom } from "jotai";
+import { searchHistoryAtom } from "@/store";
+import { Card, Button } from "react-bootstrap";
+import ListGroup from "react-bootstrap/ListGroup";
+import styles from "@/styles/History.module.css";
 
 export default function History() {
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);

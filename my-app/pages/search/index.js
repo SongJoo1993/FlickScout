@@ -1,9 +1,9 @@
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import { categories, language, country, ranges } from '../../public/searchItem';
-import { useAtom } from 'jotai';
-import { searchHistoryAtom } from '@/store';
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import { categories, language, country, ranges } from "../../public/searchItem";
+import { useAtom } from "jotai";
+import { searchHistoryAtom } from "@/store";
 
 export default function AdvancedSearchForm() {
   const router = useRouter();
@@ -15,27 +15,27 @@ export default function AdvancedSearchForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: '',
-      directors: '',
-      cast: '',
+      title: "",
+      directors: "",
+      cast: "",
       runTimeFrom: 0,
       runTimeTo: 0,
       genre: [],
-      countries: '',
-      languages: '',
-      fromRate: '',
-      toRate: '',
-      fromDate: '',
-      toDate: '',
+      countries: "",
+      languages: "",
+      fromRate: "",
+      toRate: "",
+      fromDate: "",
+      toDate: "",
     },
   });
 
   function queryGenerator(data) {
-    let queryStr = '';
+    let queryStr = "";
     for (const property in data) {
-      if (typeof data[property] === 'string' && data[property].length > 0) {
+      if (typeof data[property] === "string" && data[property].length > 0) {
         queryStr += `${property}=${data[property]}&`;
-      } else if (property === 'genre' && data[property].length > 0) {
+      } else if (property === "genre" && data[property].length > 0) {
         data[property].forEach((element) => {
           queryStr += `${property}=${element}&`;
         });
@@ -51,7 +51,7 @@ export default function AdvancedSearchForm() {
   }
 
   function handleKeyPress(event) {
-    if (event.code === 'Enter') event.preventDefault();
+    if (event.code === "Enter") event.preventDefault();
   }
 
   return (
@@ -63,7 +63,7 @@ export default function AdvancedSearchForm() {
           </strong>
           <Form.Control
             id="title"
-            {...register('title')}
+            {...register("title")}
             type="text"
             placeholder="e.g. The Matrix"
             onKeyDown={handleKeyPress}
@@ -75,7 +75,7 @@ export default function AdvancedSearchForm() {
           </strong>
           <Form.Control
             id="directors"
-            {...register('directors')}
+            {...register("directors")}
             type="text"
             placeholder="e.g. Bernardo Bertolucci"
             onKeyDown={handleKeyPress}
@@ -89,7 +89,7 @@ export default function AdvancedSearchForm() {
           </strong>
           <Form.Control
             id="cast"
-            {...register('cast')}
+            {...register("cast")}
             type="text"
             placeholder="e.g. John Lone, Ruocheng Ying"
             onKeyDown={handleKeyPress}
@@ -103,14 +103,14 @@ export default function AdvancedSearchForm() {
         <Form.Group as={Col} className="mb-1">
           <Form.Label>From</Form.Label>
           <Form.Control
-            {...register('runTimeFrom', { min: 0, max: 1000 })}
+            {...register("runTimeFrom", { min: 0, max: 1000 })}
             type="number"
           />
         </Form.Group>
         <Form.Group as={Col} className="mb-1">
           <Form.Label>To</Form.Label>
           <Form.Control
-            {...register('runTimeTo', { min: 0, max: 1000 })}
+            {...register("runTimeTo", { min: 0, max: 1000 })}
             type="number"
           />
         </Form.Group>
@@ -124,7 +124,7 @@ export default function AdvancedSearchForm() {
           <div className="mb-3">
             {categories.map((gen, index) => (
               <Form.Check
-                {...register('genre')}
+                {...register("genre")}
                 value={gen}
                 key={index}
                 type="checkbox"
@@ -142,7 +142,7 @@ export default function AdvancedSearchForm() {
             <Form.Label>Country</Form.Label>
           </strong>
           <Form.Select
-            {...register('countries')}
+            {...register("countries")}
             name="countries"
             className="mb-3"
           >
@@ -160,7 +160,7 @@ export default function AdvancedSearchForm() {
             <Form.Label>Language</Form.Label>
           </strong>
           <Form.Select
-            {...register('languages')}
+            {...register("languages")}
             name="languages"
             className="mb-3"
           >
@@ -182,12 +182,12 @@ export default function AdvancedSearchForm() {
           <br />
           <Form.Label>From</Form.Label>
           <Form.Control
-            {...register('fromDate')}
+            {...register("fromDate")}
             type="date"
             className="mb-3"
           />
           <Form.Label>To</Form.Label>
-          <Form.Control {...register('toDate')} type="date" className="mb-3" />
+          <Form.Control {...register("toDate")} type="date" className="mb-3" />
         </Form.Group>
         <Form.Group as={Col}>
           <strong>
@@ -196,7 +196,7 @@ export default function AdvancedSearchForm() {
           <br />
           <Form.Label>From</Form.Label>
           <Form.Select
-            {...register('fromRate')}
+            {...register("fromRate")}
             className="mb-3"
             placeholder="From"
           >
@@ -210,7 +210,7 @@ export default function AdvancedSearchForm() {
           </Form.Select>
           <Form.Label>To</Form.Label>
           <Form.Select
-            {...register('toRate')}
+            {...register("toRate")}
             className="mb-3"
             placeholder="To"
           >

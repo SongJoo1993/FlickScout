@@ -1,11 +1,11 @@
-import jwt_decode from 'jwt-decode';
+import jwt_decode from "jwt-decode";
 
 export async function authenticateUser(user, pwd) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/login`, {
     method: `POST`,
     body: JSON.stringify({ userName: user, password: pwd }),
     headers: {
-      'content-type': 'application/json',
+      "content-type": "application/json",
     },
   });
   const data = await res.json();
@@ -19,20 +19,20 @@ export async function authenticateUser(user, pwd) {
 }
 
 function setToken(token) {
-  localStorage.setItem('access_token', token);
+  localStorage.setItem("access_token", token);
   console.log(localStorage);
 }
 
 export function getToken() {
   try {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem("access_token");
   } catch {
     return null;
   }
 }
 
 export function removeToken() {
-  localStorage.removeItem('access_token');
+  localStorage.removeItem("access_token");
 }
 
 export function readToken() {
