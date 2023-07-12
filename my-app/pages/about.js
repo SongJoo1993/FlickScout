@@ -28,9 +28,6 @@ export default function About(props) {
             tackling challenges with resilience. My goal is to contribute to web
             solutions while fostering positive collaborations.
           </p>
-        </Card.Body>
-        {/* Project Description to be added! */}
-        <Card.Body>
           <p>
             <span>
               <strong>Project Name: </strong>
