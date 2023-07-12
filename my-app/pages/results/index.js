@@ -23,7 +23,7 @@ export default function SearchResults() {
   queryStr = queryStr.slice(1);
 
   const { data, error, isLoading } = useSWR(
-    `http://localhost:8080/api/movies/search?${queryStr}&page=${page}&perPage=${PER_PAGE}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/movies/search?${queryStr}&page=${page}&perPage=${PER_PAGE}`,
   );
 
   useEffect(() => {

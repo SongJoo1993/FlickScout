@@ -18,7 +18,7 @@ export default function MovieTitle() {
       (res) => res.json(),
     );
   const { data, error } = useSWR(
-    `http://localhost:8080/api/movies?page=1&perPage=${PER_PAGE}&title=${title}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/movies?page=1&perPage=${PER_PAGE}&title=${title}`,
     fetcher,
   );
 

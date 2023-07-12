@@ -1,18 +1,6 @@
 import Card from "react-bootstrap/Card";
 import PageHeader from "@/components/PageHeader";
 
-// This function gets called at build time
-export function getStaticProps() {
-  // Call an external API endpoint to get posts
-  return new Promise((resolve, reject) => {
-    fetch("http://localhost:8080/api/movies/573a1391f29313caabcd6f98")
-      .then((res) => res.json())
-      .then((data) => {
-        resolve({ props: { movie: data } });
-      });
-  });
-}
-
 export default function About(props) {
   return (
     <>

@@ -7,9 +7,8 @@ import { favouritesAtom } from "@/store";
 import { useState } from "react";
 
 function SingleMovieModal(props) {
-  console.log(props.movieid);
   const { data, error } = useSWR(
-    `http://localhost:8080/api/movies/${props.movieid}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/movies/${props.movieid}`,
   );
   const {
     _id,
@@ -106,7 +105,7 @@ function SingleMovieModal(props) {
             variant={showAdded ? "primary" : "outline-primary"}
             onClick={favouritesClicked}
           >
-            {showAdded ? "+ Favourite(added)" : "+ Favourite"}
+            {showAdded ? "+ Favourite (added)" : "+ Favourite"}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -9,7 +9,7 @@ import SingleMovieModal from "./SingleMovieModal";
 function Movies(props) {
   const { movieID } = props;
   const [modalShow, setModalShow] = useState(false);
-  const { data, error } = useSWR(`http://localhost:8080/api/movies/${movieID}`);
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/movies/${movieID}`);
   return (
     <>
       <Card

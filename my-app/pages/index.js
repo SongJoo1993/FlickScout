@@ -23,8 +23,8 @@ export default function Home(props) {
   //     }, [page]);
 
   const address = title
-    ? `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
-    : `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`;
+    ? `${process.env.NEXT_PUBLIC_API_URL}/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
+    : `${process.env.NEXT_PUBLIC_API_URL}/movies?page=${page}&perPage=${PER_PAGE}`;
 
   const fetcher = (url) =>
     fetch(url, { headers: { Authorization: `JWT ${getToken()}` } }).then(
