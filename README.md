@@ -1,6 +1,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<!-- Demo: [![Product Name Screen Shot][product-screenshot]](https://example.com) --> 
+Demo: [Movie Search Engine](https://animated-kashata-8b339e.netlify.app)
+
 
 ### Description
 **Movie Search Engine** is a full-stack movie search web application allowing users to search movies by various categories such as title, casts, and IMDB rating. It has been built using [MERN stack](https://www.mongodb.com/mern-stack).
