@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
   userName: {
@@ -76,13 +76,13 @@ module.exports = class MoviesDB {
         useUnifiedTopology: true,
       });
 
-      db.once('error', (err) => {
+      db.once("error", (err) => {
         reject(err);
       });
 
-      db.once('open', () => {
-        this.Movie = db.model('movies', movieSchema);
-        this.User = db.model('users', userSchema);
+      db.once("open", () => {
+        this.Movie = db.model("movies", movieSchema);
+        this.User = db.model("users", userSchema);
         resolve();
       });
     });
@@ -103,7 +103,7 @@ module.exports = class MoviesDB {
   // Register User
   async registerUser(userData) {
     if (userData.password != userData.password2) {
-      throw new Error('Passwords do not match');
+      throw new Error("Passwords do not match");
     } else {
       const saltRounds = 10;
       let newUser = new this.User(userData);
@@ -115,9 +115,9 @@ module.exports = class MoviesDB {
         })
         .catch((err) => {
           if (err.code == 11000) {
-            throw new Error('User Name already taken');
+            throw new Error("User Name already taken");
           } else {
-            throw new Error('There was an error creating the user: ' + err);
+            throw new Error("There was an error creating the user: " + err);
           }
         });
     }
@@ -137,7 +137,7 @@ module.exports = class MoviesDB {
         if (result == true) {
           return user;
         } else {
-          error = Error('Wrong Password!');
+          error = Error("Wrong Password!");
           throw error;
         }
       })
@@ -146,21 +146,18 @@ module.exports = class MoviesDB {
         else throw new Error(`Unable to find user ${userData.userName}`);
       });
   }
-  
-  // Add User Records(favorites,histories) 
+
+  // Add User Records(favorites,histories)
   async addRecs(userData) {
-    console.log("userData", userData);
-    let error = new Error();
-    return this.User.findOne({ userName: userData.userName })
-      .exec()
-      .then(async (user) => {
-        console.log("user in MoviesDB: ", user);
-        // Add Favourites and History
-      })
-      .catch(() => {
-        if (error.message.length != 0) throw error;
-        else throw new Error(`Unable to find user ${userData.userName}`);
-      });
+    return this.User.findOneAndUpdate(
+      { _id: userData._id },
+      {
+        $set: {
+          favourites: userData.favourites,
+          history: userData.history,
+        },
+      },
+    );
   }
 
   async addNewMovie(data) {
@@ -170,7 +167,7 @@ module.exports = class MoviesDB {
   }
 
   async getAllMovies(page, perPage, title) {
-    let findBy = title ? { title: { $regex: new RegExp(title, 'gi') } } : {};
+    let findBy = title ? { title: { $regex: new RegExp(title, "gi") } } : {};
     if (+page && +perPage) {
       const [pageData, total] = await Promise.all([
         this.Movie.find(findBy)
@@ -183,7 +180,7 @@ module.exports = class MoviesDB {
       return { pageData, total };
     }
     return Promise.reject(
-      new Error('page and perPage query parameters must be valid numbers'),
+      new Error("page and perPage query parameters must be valid numbers"),
     );
   }
 
@@ -210,33 +207,33 @@ module.exports = class MoviesDB {
 
   searchQueryGen(query, finalQuery) {
     for (const props in query) {
-      if (props === 'genre') {
-        query[props] = query[props].split(',');
+      if (props === "genre") {
+        query[props] = query[props].split(",");
         finalQuery.genres = query[props];
-      } else if (props === 'runTimeFrom' || props === 'fromRate') {
+      } else if (props === "runTimeFrom" || props === "fromRate") {
         query[props] = query[props] * 1;
         query[props] = { $gte: query[props] };
-        if (props === 'runTimeFrom') {
+        if (props === "runTimeFrom") {
           finalQuery.runtime = query[props];
-        } else if (props === 'fromRate') {
-          let keyName = 'imdb.rating';
+        } else if (props === "fromRate") {
+          let keyName = "imdb.rating";
           finalQuery[keyName] = query[props];
         }
-      } else if (props === 'runTimeTo' || props === 'toRate') {
+      } else if (props === "runTimeTo" || props === "toRate") {
         query[props] = query[props] * 1;
         query[props] = { $lte: query[props] };
-        if (props === 'runTimeTo') {
+        if (props === "runTimeTo") {
           Object.assign(finalQuery.runtime, query[props]);
-        } else if (props === 'toRate') {
-          let keyName = 'imdb.rating';
+        } else if (props === "toRate") {
+          let keyName = "imdb.rating";
           Object.assign(finalQuery[keyName], query[props]);
         }
-      } else if (typeof query[props] === 'string' && !props.includes('Date')) {
-        query[props] = { $regex: new RegExp(query[props], 'i') };
+      } else if (typeof query[props] === "string" && !props.includes("Date")) {
+        query[props] = { $regex: new RegExp(query[props], "i") };
         finalQuery[`${props}`] = query[props];
       } else {
         query[props] = new Date(query[props]).toISOString();
-        if (props === 'fromDate') {
+        if (props === "fromDate") {
           query[props] = { $gte: query[props] };
           finalQuery.released = query[props];
         } else {
@@ -249,7 +246,7 @@ module.exports = class MoviesDB {
   }
 
   regexGenerator(str) {
-    return str ? { str: { $regex: new RegExp(str, 'gi') } } : {};
+    return str ? { str: { $regex: new RegExp(str, "gi") } } : {};
   }
 
   getMovieById(id) {

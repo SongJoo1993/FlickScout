@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const cors = require('cors');
-require('dotenv').config();
-const MoviesDB = require('./modules/moviesDB.js');
+const cors = require("cors");
+require("dotenv").config();
+const MoviesDB = require("./modules/moviesDB.js");
 const db = new MoviesDB();
-const passport = require('passport');
-const passportJWT = require('passport-jwt');
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
 const HTTP_PORT = process.env.PORT || 8080;
 
 // JSON Web Token Setup
@@ -14,14 +14,14 @@ let ExtractJwt = passportJWT.ExtractJwt,
 
 // Configure Strategy options
 let jwtOptions = {};
-jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
 jwtOptions.secretOrKey = process.env.JWT_SECRET;
 
-const userRoute = require('./routes/User.js')(db, jwtOptions);
-const movieRoute = require('./routes/Movie.js')(db, passport);
+const userRoute = require("./routes/User.js")(db, jwtOptions);
+const movieRoute = require("./routes/Movie.js")(db, passport);
 
 let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-  console.log('payload received', jwt_payload);
+  console.log("payload received", jwt_payload);
 
   if (jwt_payload) {
     next(null, {
@@ -42,13 +42,13 @@ passport.use(strategy);
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use('/api/user', userRoute);
-app.use('/api/movies', movieRoute);
+app.use("/api/user", userRoute);
+app.use("/api/movies", movieRoute);
 app.use(passport.initialize());
 
 // Get tester
-app.get('/', (req, res) => {
-  res.json({ message: 'API listening' });
+app.get("/", (req, res) => {
+  res.json({ message: "API listening" });
 });
 
 // DB initializer

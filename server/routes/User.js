@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const userRoutes = (db, jwtOptions) => {
   // Register a new user
-  router.post('/register', (req, res) => {
+  router.post("/register", (req, res) => {
     console.log(req.body);
     db.registerUser(req.body)
       .then((user) => {
@@ -16,7 +16,7 @@ const userRoutes = (db, jwtOptions) => {
   });
 
   // User Log-in
-  router.post('/login', (req, res) => {
+  router.post("/login", (req, res) => {
     db.checkUser(req.body)
       .then((user) => {
         let payload = {
@@ -38,11 +38,12 @@ const userRoutes = (db, jwtOptions) => {
   });
 
   // Add Favorites/History
-  router.post('/addRecs', (req, res) => {
+  router.post("/addRecs", (req, res) => {
     try {
       const result = db.addRecs(req.body);
+      console.log("result: ", result);
       res.status(200).json(result);
-      console.log('successfully added!');
+      console.log("successfully added!");
     } catch (err) {
       res.status(404).json({ message: err });
     }

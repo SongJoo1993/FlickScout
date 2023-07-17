@@ -12,9 +12,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
-import { searchHistoryAtom, favouritesAtom} from "@/store";
+import { searchHistoryAtom, favouritesAtom } from "@/store";
 import { FaRegUserCircle } from "react-icons/fa";
-// import { IconContext } from "react-icons";
 import { readToken, removeToken } from "@/lib/authenticate";
 
 export default function MainNav() {
@@ -30,30 +29,24 @@ export default function MainNav() {
     },
   });
 
-  function savingRecs(user, favorites, histories) {
+  function savingRecs(userID, favorites, histories) {
     const res = fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/addRecs`, {
       method: `POST`,
-      body: JSON.stringify({ userName: user, favourites: favorites, history: histories}),
+      body: JSON.stringify({
+        _id: userID,
+        favourites: favorites,
+        history: histories,
+      }),
       headers: {
         "content-type": "application/json",
       },
     });
-
-    console.log(res);
-    // const data = res.json();
-  
-    // if (res.status === 200) {
-    //   setToken(data.token);
-    //   return true;
-    // } else {
-    //   throw new Error(data.message);
-    // }
   }
 
   function logout() {
-    savingRecs(token.userName, favouritesMovie, searchHistory);
-    // removeToken();
-    // router.push("/login");
+    savingRecs(token._id, favouritesMovie, searchHistory);
+    removeToken();
+    router.push("/login");
   }
 
   function searchValidation(data) {
