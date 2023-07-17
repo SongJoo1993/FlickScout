@@ -37,6 +37,17 @@ const userRoutes = (db, jwtOptions) => {
       });
   });
 
+  // Add Favorites/History
+  router.post('/addRecs', (req, res) => {
+    try {
+      const result = db.addRecs(req.body);
+      res.status(200).json(result);
+      console.log('successfully added!');
+    } catch (err) {
+      res.status(404).json({ message: err });
+    }
+  });
+
   return router;
 };
 

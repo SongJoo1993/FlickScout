@@ -6,7 +6,6 @@ import Movies from "@/components/Movies";
 
 export default function Favourites() {
   const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
-  console.log(favouritesList);
 
   return (
     <div>

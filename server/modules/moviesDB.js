@@ -146,6 +146,22 @@ module.exports = class MoviesDB {
         else throw new Error(`Unable to find user ${userData.userName}`);
       });
   }
+  
+  // Add User Records(favorites,histories) 
+  async addRecs(userData) {
+    console.log("userData", userData);
+    let error = new Error();
+    return this.User.findOne({ userName: userData.userName })
+      .exec()
+      .then(async (user) => {
+        console.log("user in MoviesDB: ", user);
+        // Add Favourites and History
+      })
+      .catch(() => {
+        if (error.message.length != 0) throw error;
+        else throw new Error(`Unable to find user ${userData.userName}`);
+      });
+  }
 
   async addNewMovie(data) {
     const newMovie = new this.Movie(data);
