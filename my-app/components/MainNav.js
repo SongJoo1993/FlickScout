@@ -18,6 +18,7 @@ import { readToken, removeToken } from "@/lib/authenticate";
 
 export default function MainNav() {
   let token = readToken();
+  let admin = token?.role === "admin";
   const router = useRouter();
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
   const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
@@ -100,6 +101,11 @@ export default function MainNav() {
               <Link href="/search" passHref legacyBehavior>
                 <Nav.Link>Advanced Search</Nav.Link>
               </Link>
+              {admin && (
+                <Link href="/admin" passHref legacyBehavior>
+                  <Nav.Link>Admin Page</Nav.Link>
+                </Link>
+              )}
             </Nav>
             <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
               <Form.Control
