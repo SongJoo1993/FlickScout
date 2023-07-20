@@ -138,7 +138,7 @@ Make sure you have Node.js and npm installed on your system before running the a
 - [ ] Leverage simple mail transfer protocol (SMTP) using the SendGrid Email API to communicate with users
  
 <!-- Diagram-->
-#### Authentication/Authorization Diagram
+#### Authentication/Authorization Sequence Diagram
 ![My Image](auth-diagram.jpg)
 
 <!-- USAGE-->
