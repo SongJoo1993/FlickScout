@@ -20,7 +20,6 @@ export async function authenticateUser(user, pwd) {
 
 function setToken(token) {
   localStorage.setItem("access_token", token);
-  console.log(localStorage);
 }
 
 export function getToken() {

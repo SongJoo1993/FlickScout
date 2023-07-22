@@ -160,6 +160,20 @@ module.exports = class MoviesDB {
     );
   }
 
+  // Get Favorites
+  async getFavorite(id) {
+    return this.User.findOne({ _id: id })
+      .exec()
+      .then(async (user) => {
+        if(user.favourites.length === 0) {
+          console.log("no favourite contained");
+        }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   async addNewMovie(data) {
     const newMovie = new this.Movie(data);
     await newMovie.save();
