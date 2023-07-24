@@ -41,7 +41,6 @@ const userRoutes = (db, jwtOptions) => {
   router.post("/addRecs", (req, res) => {
     try {
       const result = db.addRecs(req.body);
-      console.log("result: ", result);
       res.status(200).json(result);
       console.log("successfully added!");
     } catch (err) {
@@ -49,9 +48,9 @@ const userRoutes = (db, jwtOptions) => {
     }
   });
   
-  router.get("/getFavorites/:id", (req,res) => {
+  router.get("/getFavorites/:id", async (req,res) => {
     try {
-      const result = db.getFavorite(req.params.id);
+      const result = await db.getFavorite(req.params.id);
       res.status(200).json(result);
     } catch(err) {
       res.status(404).json({ message: err });

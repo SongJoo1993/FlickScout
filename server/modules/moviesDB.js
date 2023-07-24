@@ -162,16 +162,18 @@ module.exports = class MoviesDB {
 
   // Get Favorites
   async getFavorite(id) {
-    return this.User.findOne({ _id: id })
+    try{
+      const favList = await this.User.findOne({ _id: id })
       .exec()
       .then(async (user) => {
-        if(user.favourites.length === 0) {
-          console.log("no favourite contained");
-        }
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+        const {favourites} = user;
+        return favourites;
+      });
+      return favList;
+    }
+    catch {
+      return null;
+    }
   }
 
   async addNewMovie(data) {
