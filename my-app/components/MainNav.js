@@ -31,16 +31,8 @@ export default function MainNav() {
   });
 
   function savingRecs(userID, favorites, histories) {
-    const { data, error, isLoading } = useSWR(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/getFavorites/${userID}`,
-      );
-      
-    if(data.length) {
-      favorites = [...favorites,...data];
-    }
-    
     const res = fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/addRecs`, {
-      method: `POST`,
+      method: `PUT`,
       body: JSON.stringify({
         _id: userID,
         favourites: favorites,

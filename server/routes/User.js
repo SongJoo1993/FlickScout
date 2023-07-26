@@ -38,7 +38,7 @@ const userRoutes = (db, jwtOptions) => {
   });
 
   // Add Favorites/History
-  router.post("/addRecs", (req, res) => {
+  router.put("/addRecs", (req, res) => {
     try {
       const result = db.addRecs(req.body);
       res.status(200).json(result);
@@ -47,18 +47,16 @@ const userRoutes = (db, jwtOptions) => {
       res.status(404).json({ message: err });
     }
   });
-  
-  router.get("/getFavorites/:id", async (req,res) => {
+
+  router.get("/getFavorites/:id", async (req, res) => {
     try {
       const result = await db.getFavorite(req.params.id);
       res.status(200).json(result);
-    } catch(err) {
+    } catch (err) {
       res.status(404).json({ message: err });
     }
-  })
+  });
   return router;
 };
-
-
 
 module.exports = userRoutes;

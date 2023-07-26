@@ -1,12 +1,16 @@
 import { Card, Form, Alert, Button } from "react-bootstrap";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { useAtom } from "jotai";
+import { searchHistoryAtom, favouritesAtom } from "@/store";
 import { authenticateUser } from "../lib/authenticate";
 
 export default function Login() {
   const [warning, setWarning] = useState("");
+  const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
+  const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
   const router = useRouter();
 
   const {
@@ -23,7 +27,9 @@ export default function Login() {
   async function submitLogIn(data, e) {
     const { userName, password } = data;
     try {
-      await authenticateUser(userName, password);
+      let userInfo = await authenticateUser(userName, password);
+      setFavouritesMovie(userInfo.favourites);
+      setSearchHistory(userInfo.history);
       router.push("/");
     } catch (err) {
       console.log("sign in error:", err);

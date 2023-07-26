@@ -12,7 +12,7 @@ export async function authenticateUser(user, pwd) {
 
   if (res.status === 200) {
     setToken(data.token);
-    return true;
+    return data.user;
   } else {
     throw new Error(data.message);
   }

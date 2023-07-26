@@ -17,8 +17,6 @@ export default function History() {
     parsedHistory.push(Object.fromEntries(entries));
   });
 
-  // console.log(parsedHistory);
-
   function historyClicked(e, index) {
     e.preventDefault();
     const title = parsedHistory[index].title;
