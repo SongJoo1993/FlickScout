@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
 import useSWR from "swr";
 import Carousel from "react-bootstrap/Carousel";
 import NoImg from "../../public/no-img.jpg";
@@ -51,8 +50,8 @@ export default function MovieTitle() {
   return (
     <>
       <PageHeader
-        textHead="Search Key Word:"
-        textTail={title.toUpperCase()}
+        textHead="Quick Search Word:"
+        textTail={title}
         totalMovies={data?.pageData.length}
       />
       <Carousel variant="dark" className="w-100 h-100">

@@ -15,12 +15,7 @@ export default function Home(props) {
   const [disabled, setDisabled] = useState(false);
   const { title } = props;
   let totalPage = Math.ceil(total / PER_PAGE);
-
-  // const address = title
-  //   ? `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`
-  //   : useMemo(() => {
-  //       return `http://localhost:8080/api/movies?page=${page}&perPage=${PER_PAGE}`;
-  //     }, [page]);
+  console.log(token.role);
 
   const address = title
     ? `${process.env.NEXT_PUBLIC_API_URL}/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`

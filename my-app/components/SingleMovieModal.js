@@ -5,6 +5,8 @@ import NoImg from "../public/no-img.jpg";
 import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
 import { useState } from "react";
+import SingleMovieModalInfo from "@/components/SingleMovieModalInfo";
+import SingleMovieModalEdit from "@/components/SingleMovieModalEdit";
 
 function SingleMovieModal(props) {
   const { data, error } = useSWR(
@@ -14,16 +16,11 @@ function SingleMovieModal(props) {
     _id,
     title,
     poster,
-    directors,
-    genres,
-    plot,
-    imdb,
-    rated,
-    cast,
-    awards,
+    genres
   } = data;
   const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
   const [showAdded, setShowAdded] = useState(() => emptyFavLists());
+  const [showEdit, setShowEdit] = useState(false);
 
   function emptyFavLists() {
     return favouritesMovie.includes(_id);
@@ -36,6 +33,14 @@ function SingleMovieModal(props) {
     } else {
       setFavouritesMovie((current) => [...current, _id]);
       setShowAdded(true);
+    }
+  }
+
+  function eidtClicked() {
+    if (showEdit) {
+      setShowEdit(false);
+    } else {
+      setShowEdit(true);
     }
   }
 
@@ -58,6 +63,9 @@ function SingleMovieModal(props) {
           >
             <h2>{title}</h2>
           </Modal.Title>
+          <Button onClick={eidtClicked} style={{width:"4rem", fontSize: "1rem"}}>
+            {showEdit ? "Movie Info" : "Edit"}
+          </Button>
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>
           {/* Move the Image to the center */}
@@ -73,31 +81,7 @@ function SingleMovieModal(props) {
               marginBottom: "25px",
             }}
           />
-          <div style={{ textAlign: "left" }}>
-            <h6>
-              <strong>Director</strong>:{" "}
-              {directors ? directors?.join(", ") : "N/A"}
-            </h6>
-            <h6>
-              <strong>Cast</strong>: {cast ? cast?.join(", ") : "N/A"}
-            </h6>
-            <h6>
-              <strong>Genre</strong>: {genres?.join(", ")}
-            </h6>
-            <h6>
-              <strong>Motion Picture Rating (MPAA): </strong>
-              {rated ? rated : "N/A"}
-            </h6>
-            <h6>
-              <strong>IMDb Rating</strong>: {imdb?.rating ? imdb.rating : "N/A"}
-            </h6>
-            <h6>
-              <strong>Awards</strong>: {awards?.text ? awards.text : "N/A"}
-            </h6>
-            <p>
-              <strong>Plot</strong>: {plot ? plot : "N/A"}
-            </p>
-          </div>
+          {showEdit ? <SingleMovieModalEdit movieData={data}/>: <SingleMovieModalInfo movieData={data}/>}
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
