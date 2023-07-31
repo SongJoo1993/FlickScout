@@ -63,9 +63,12 @@ function SingleMovieModal(props) {
           >
             <h2>{title}</h2>
           </Modal.Title>
-          <Button onClick={eidtClicked} style={{width:"4rem", fontSize: "1rem"}}>
-            {showEdit ? "Movie Info" : "Edit"}
+          {showEdit ? 
+            <></> : 
+            <Button onClick={eidtClicked} style={{width:"4rem", fontSize: "1rem"}}>
+            Edit
           </Button>
+          }
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>
           {/* Move the Image to the center */}
@@ -83,7 +86,8 @@ function SingleMovieModal(props) {
           />
           {showEdit ? <SingleMovieModalEdit movieData={data}/>: <SingleMovieModalInfo movieData={data}/>}
         </Modal.Body>
-        <Modal.Footer>
+        { showEdit ? <></> :
+          <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
           <Button
             variant={showAdded ? "primary" : "outline-primary"}
@@ -91,7 +95,7 @@ function SingleMovieModal(props) {
           >
             {showAdded ? "+ Favourite (added)" : "+ Favourite"}
           </Button>
-        </Modal.Footer>
+        </Modal.Footer>}
       </Modal>
     </>
   );

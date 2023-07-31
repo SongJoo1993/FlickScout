@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Pagination, Accordion, Row, Col } from "react-bootstrap";
 import PageHeader from "@/components/PageHeader";
 import Movies from "@/components/Movies";

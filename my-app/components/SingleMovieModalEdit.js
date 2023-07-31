@@ -15,54 +15,84 @@ export default function SingleMovieModalInfo(props) {
         cast,
         awards,
       } = props.movieData;
-    
+
     const {
         register,
         handleSubmit,
         formState: { errors },
       } = useForm({
         defaultValues: {
+          title: (title.length !== 0 ? title : "N/A"),
           directors: (directors.length !== 0 ? directors?.join(", ") : "N/A"),
-          cast: "",
-          runTimeFrom: 0,
-          runTimeTo: 0,
-          genre: [],
-          countries: "",
-          languages: "",
-          fromRate: "",
-          toRate: "",
-          fromDate: "",
-          toDate: "",
+          cast: (cast.length !== 0 ? cast?.join(", ") : "N/A"),
+          genre: (genres.length !== 0 ? genres?.join(", ") : "N/A"),
+          rated: (rated !== undefined ? rated : "N/A"),
+          imdb: (imdb.rating !== 0 ? imdb.rating : "N/A"),
+          awards: (awards.text.length !== 0 ? awards.text : "N/A"),
+          plot: (plot !== undefined ? plot : "N/A")          
         },
       });
+
+      function submitForm(data, event) {
+        // With data and _id, submit updated info to the server!
+        console.log(_id);
+        console.log(data);
+      }
+
     return (
-    <Form style={{textAlign: "left"}}>
+    <Form 
+      style={{textAlign: "left"}}
+      onSubmit={handleSubmit(submitForm)}
+    >
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Director (Prev: <strong>{directors.length !== 0 ? directors.join(", ") : "N/A"}</strong>)</Form.Label>
-        <Form.Control 
-            {...register("directors")}
-            className="mb-1"
-            type="text" 
-        />
-        <Form.Label>Cast (Prev: <strong>{cast.length !== 0 ? cast?.join(", ") : "N/A"}</strong>)</Form.Label>
-        <Form.Control 
-            className="mb-1"
-            type="text" 
-        />
-        <Form.Label>Genre (Prev: <strong>{genres.length !== 0 ? genres?.join(", ") : "N/A"}</strong>)</Form.Label>
+        <Form.Label>Title</Form.Label>
         <Form.Control 
             {...register("title")}
             className="mb-1"
             type="text" 
         />
-        <Form.Label>Motion Picture Rating (MPAA): (Prev: <strong>{rated ? rated : "N/A"}</strong>)</Form.Label>
-        <Form.Control className="mb-1" type="text" />
-        <Form.Label>IMDb (Prev: <strong>{imdb?.rating ? imdb.rating : "N/A"}</strong>)</Form.Label>
-        <Form.Control className="mb-1" type="text" />
-        <Form.Label>Awards (Prev: <strong>{awards?.text ? awards.text : "N/A"}</strong>)</Form.Label>
-        <Form.Control className="mb-1" type="text" />
-        <Form.Label>Plot (Prev: <strong>{plot ? plot : "N/A"}</strong>)</Form.Label>
-        <Form.Control className="mb-1" type="text" />
+        <Form.Label>Director</Form.Label>
+        <Form.Control 
+            {...register("directors")}
+            className="mb-1"
+            type="text" 
+        />
+        <Form.Label>Cast</Form.Label>
+        <Form.Control
+          {...register("cast")}
+          className="mb-1"
+          type="text" 
+        />
+        <Form.Label>Genre</Form.Label>
+        <Form.Control 
+            {...register("genre")}
+            className="mb-1"
+            type="text" 
+        />
+        <Form.Label>Motion Picture Rating (MPAA):</Form.Label>
+        <Form.Control
+          {...register("rated")}
+          className="mb-1" 
+          type="text" 
+          />
+        <Form.Label>IMDb</Form.Label>
+        <Form.Control
+          {...register("imdb")}
+          className="mb-1" 
+          type="text" 
+          />
+        <Form.Label>Awards</Form.Label>
+        <Form.Control
+          {...register("awards")}
+          className="mb-1" 
+          type="text" 
+          />
+        <Form.Label>Plot</Form.Label>
+        <Form.Control
+          {...register("plot")}
+          className="mb-1" 
+          as="textarea" 
+          />
       </Form.Group>
       <Button variant="primary" type="submit">Save</Button>
     </Form>
