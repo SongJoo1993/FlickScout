@@ -15,7 +15,6 @@ export default function Home(props) {
   const [disabled, setDisabled] = useState(false);
   const { title } = props;
   let totalPage = Math.ceil(total / PER_PAGE);
-  console.log(token.role);
 
   const address = title
     ? `${process.env.NEXT_PUBLIC_API_URL}/movies?page=${page}&perPage=${PER_PAGE}&title=${title}`

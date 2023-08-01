@@ -84,7 +84,14 @@ function SingleMovieModal(props) {
               marginBottom: "25px",
             }}
           />
-          {showEdit ? <SingleMovieModalEdit movieData={data}/>: <SingleMovieModalInfo movieData={data}/>}
+          {showEdit ? 
+          <SingleMovieModalEdit 
+            movieData={data}
+            onHide= {props.onHide}
+          /> : 
+          <SingleMovieModalInfo
+            movieData={data}
+          />}
         </Modal.Body>
         { showEdit ? <></> :
           <Modal.Footer>

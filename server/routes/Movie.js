@@ -53,6 +53,7 @@ const userRoutes = (db, passport) => {
   router.put("/:id", (req, res) => {
     db.updateMovieById(req.body, req.params.id)
       .then((data) => {
+        // console.log("data in PUT req: ",data)
         res.json(data);
       })
       .catch((err) => {

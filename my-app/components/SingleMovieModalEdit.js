@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Alert from "react-bootstrap/Alert";
 
-export default function SingleMovieModalInfo(props) {    
+export default function SingleMovieModalEdit(props) {
+  const router = useRouter();
     const {
         _id,
         title,
@@ -26,17 +29,58 @@ export default function SingleMovieModalInfo(props) {
           directors: (directors.length !== 0 ? directors?.join(", ") : "N/A"),
           cast: (cast.length !== 0 ? cast?.join(", ") : "N/A"),
           genre: (genres.length !== 0 ? genres?.join(", ") : "N/A"),
-          rated: (rated !== undefined ? rated : "N/A"),
-          imdb: (imdb.rating !== 0 ? imdb.rating : "N/A"),
-          awards: (awards.text.length !== 0 ? awards.text : "N/A"),
+          rated: (rated !== undefined ? rated : "NOT RATED"),
+          imdb: (imdb != undefined &&  imdb.rating !== 0 ? imdb.rating : "N/A"),
+          awards: (awards != undefined && awards?.text?.length !== 0 ? awards.text : "N/A"),
           plot: (plot !== undefined ? plot : "N/A")          
         },
       });
 
+      async function updateMovie(userID, data) {
+        // console.log(data);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${userID}`, {
+          method: `PUT`,
+          body: JSON.stringify({
+            data: data
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+        const resData = await res.json();
+
+        if(res.status === 200) {
+          return true;
+        }
+        else {
+          throw new Error(resData.message);
+        }
+      }
+
       function submitForm(data, event) {
         // With data and _id, submit updated info to the server!
-        console.log(_id);
-        console.log(data);
+        try {
+          if(updateMovie(_id, data)) {
+            // props.onHide();
+            return (
+              <>
+              <h1>Added!</h1>
+              {/* <Alert variant="primary" onClose={props.onHide()} dismissible>
+                <Alert.Heading> Successfully Edited!.</Alert.Heading>
+              </Alert> */}
+              </>
+            )
+          }
+        }
+        catch(err) {
+          return (
+            <>
+              <Alert variant="danger" onClose={() => router.push("/")} dismissible>
+                <Alert.Heading> Edit Failed! Please try again.</Alert.Heading>
+              </Alert>
+            </>
+          );
+        }
       }
 
     return (

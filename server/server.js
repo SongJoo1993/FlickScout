@@ -21,7 +21,6 @@ const userRoute = require("./routes/User.js")(db, jwtOptions);
 const movieRoute = require("./routes/Movie.js")(db, passport);
 
 let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-  console.log("payload received", jwt_payload);
 
   if (jwt_payload) {
     next(null, {

@@ -269,7 +269,8 @@ module.exports = class MoviesDB {
   }
 
   updateMovieById(data, id) {
-    return this.Movie.updateOne({ _id: id }, { $set: data }).exec();
+    console.log("data ",data.data);
+    return this.Movie.updateOne({ _id: id }, { $set: data.data }).exec();
   }
 
   deleteMovieById(id) {
