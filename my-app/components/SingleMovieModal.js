@@ -4,11 +4,14 @@ import Modal from "react-bootstrap/Modal";
 import NoImg from "../public/no-img.jpg";
 import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import Alert from "react-bootstrap/Alert";
 import SingleMovieModalInfo from "@/components/SingleMovieModalInfo";
 import SingleMovieModalEdit from "@/components/SingleMovieModalEdit";
 
 function SingleMovieModal(props) {
+  const router = useRouter();
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/movies/${props.movieid}`,
   );
@@ -21,10 +24,17 @@ function SingleMovieModal(props) {
   const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
   const [showAdded, setShowAdded] = useState(() => emptyFavLists());
   const [showEdit, setShowEdit] = useState(false);
+  const [editMade, setEditMade] = useState(false);
+
+  useEffect(() => {
+    console.log("edit made",editMade);
+    console.log("showEdit",showEdit);
+  }, [editMade]);
 
   function emptyFavLists() {
     return favouritesMovie.includes(_id);
   }
+
 
   function favouritesClicked() {
     if (showAdded) {
@@ -87,8 +97,16 @@ function SingleMovieModal(props) {
           {showEdit ? 
           <SingleMovieModalEdit 
             movieData={data}
-            onHide= {props.onHide}
-          /> : 
+            saveEdit={() => {
+              setEditMade(true);
+              setShowEdit(false);
+            }  
+            }
+          /> :  editMade ? 
+          (<Alert variant="primary">
+            <Alert.Heading>Successfully Edited!</Alert.Heading>
+          </Alert>)
+          :
           <SingleMovieModalInfo
             movieData={data}
           />}

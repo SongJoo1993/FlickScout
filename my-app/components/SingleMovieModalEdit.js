@@ -57,19 +57,12 @@ export default function SingleMovieModalEdit(props) {
         }
       }
 
-      function submitForm(data, event) {
+      function submitForm(data) {
         // With data and _id, submit updated info to the server!
         try {
           if(updateMovie(_id, data)) {
-            // props.onHide();
-            return (
-              <>
-              <h1>Added!</h1>
-              {/* <Alert variant="primary" onClose={props.onHide()} dismissible>
-                <Alert.Heading> Successfully Edited!.</Alert.Heading>
-              </Alert> */}
-              </>
-            )
+            console.log(props)
+            props.saveEdit();
           }
         }
         catch(err) {
