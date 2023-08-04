@@ -1,6 +1,6 @@
 import { Card, Form, Alert, Button } from "react-bootstrap";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useAtom } from "jotai";
@@ -16,13 +16,17 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    getValues,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      userName: "",
-      password: "",
+      userName: "test",
+      password: "123",
     },
   });
+  const watchName = watch("userName")
 
   async function submitLogIn(data, e) {
     const { userName, password } = data;
@@ -96,6 +100,23 @@ export default function Login() {
         </div>
       </Form>
       <br />
+      {
+        getValues("userName") == "admin" ?
+        <p style={{ textAlign: "center" }}> 
+        <span onClick={() => {          
+          setValue("userName","test");
+          setValue("password","123");
+        }}> Click <strong>here</strong> to try user account!
+        </span>
+        </p> :
+        <p style={{ textAlign: "center" }}>
+        <span onClick={() => {          
+          setValue("userName","admin");
+          setValue("password","123");
+        }}> Click <strong>here</strong> to try admin account!
+        </span>
+        </p>
+      }
       <p style={{ textAlign: "center" }}>
         Need a new <Link href="/signup">account</Link>?
       </p>
