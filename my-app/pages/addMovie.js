@@ -1,11 +1,10 @@
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import {Form, Row, Col, Button} from 'react-bootstrap'
-import {rated, categories, language, country, ranges} from '../public/searchItem';
+import {rated, categoriesObj, language, country, ranges} from '../public/searchItem';
 import { useState } from "react";
 
 export default function addMovie() {
-  const [isDisabled,setIsDisabled] = useState(false);
   const {
     register,
     handleSubmit,
@@ -20,7 +19,7 @@ export default function addMovie() {
       genre: [],
       rated: "",
       imdb: "",
-      awards: "",
+      released: "",
       plot: "",
     },
   });
@@ -28,6 +27,7 @@ export default function addMovie() {
   function submitForm(data) {
     try {
       console.log(data);
+      // OBJ : released, 
       // if(updateMovie(_id, data)) {
       //   console.log(props)
       //   props.saveEdit();
@@ -47,7 +47,7 @@ export default function addMovie() {
   return (
     <div style={{maxWidth: "50%", maxHeight: "50%", margin: "0 auto"}}>
       <Form 
-      style={{textAlign: "left"}}
+      style={{textAlign: "left", marginTop: "2rem"}}
       onSubmit={handleSubmit(submitForm)}
     >
       <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -83,29 +83,23 @@ export default function addMovie() {
             <Form.Control
               {...register("runTime")}
               className="mb-1"
-              type="text" 
+              type="number" 
             />
           </Form.Group>
         </Row>
-        {/* <Row>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-        </Row> */}
         <Row>
           <Form.Group as={Col}>
             <Form.Label>Genre</Form.Label>
             <Controller
               control={control}
-              defaultValue={categories[0].value}
+              defaultValue={categoriesObj[0].value}
               name="genre"
               render={({ field: { onChange, value, ref }}) => (
                 <Select
                   inputRef={ref}
-                  value={categories.filter(c => value.includes(c.value))}
+                  value={categoriesObj.filter(c => value.includes(c.value))}
                   onChange={val => {onChange(val.map(c => c.value))}}
-                  options={categories}
+                  options={categoriesObj}
                   isMulti
                   // isDisabled={isDisabled}
                 />
@@ -128,39 +122,26 @@ export default function addMovie() {
               )}
             />
           </Form.Group>
-          {/* <Form.Group as={Col}>
-            <Form.Label>Motion Picture Rating (MPAA):</Form.Label>
-            <Select 
-              {...register("rated")}
-              options={options} 
-            />
-            <Form.Select
-              {...register("rated")}
+        </Row>
+        <Row>
+          <Form.Group as={Col}>
+            <Form.Label>IMDb Rating</Form.Label>
+            <Form.Control
+              {...register("imdb")}
               className="mb-1" 
-              type="text" 
-              >
-                {rated.map((elm,index) => 
-                  <option key={index}>
-                    {elm}
-                  </option>
-                  )}
-              </Form.Select>
-          </Form.Group> */}
+              type="number" 
+              />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Release Date</Form.Label>
+            <Form.Control
+              {...register("released")}
+              className="mb-1" 
+              type="date" 
+              />
+          </Form.Group>
         </Row>
 
-
-        <Form.Label>IMDb Rating</Form.Label>
-        <Form.Control
-          {...register("imdb")}
-          className="mb-1" 
-          type="text" 
-          />
-        <Form.Label>Awards</Form.Label>
-        <Form.Control
-          {...register("awards")}
-          className="mb-1" 
-          type="text" 
-          />
         <Form.Label>Plot</Form.Label>
         <Form.Control
           {...register("plot")}
