@@ -6,11 +6,14 @@ import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { readToken } from "@/lib/authenticate";
 import Alert from "react-bootstrap/Alert";
 import SingleMovieModalInfo from "@/components/SingleMovieModalInfo";
 import SingleMovieModalEdit from "@/components/SingleMovieModalEdit";
 
 function SingleMovieModal(props) {
+  const token = readToken();
+  console.log(token.role)
   const router = useRouter();
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/movies/${props.movieid}`,
@@ -27,8 +30,7 @@ function SingleMovieModal(props) {
   const [editMade, setEditMade] = useState(false);
 
   useEffect(() => {
-    console.log("edit made",editMade);
-    console.log("showEdit",showEdit);
+
   }, [editMade]);
 
   function emptyFavLists() {
@@ -53,6 +55,19 @@ function SingleMovieModal(props) {
       setShowEdit(true);
     }
   }
+  
+  async function removeItem() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${data._id}`, { method: `DELETE` });
+    const resData = await res.json();
+
+    if(res.status === 200) {
+      console.log("successfully deleted!");
+      return true;
+    }
+    else {
+      throw new Error(resData.message);
+    }
+  }
 
   if (!data) {
     return <p>Loading...</p>;
@@ -73,12 +88,17 @@ function SingleMovieModal(props) {
           >
             <h2>{title}</h2>
           </Modal.Title>
-          {showEdit ? 
-            <></> : 
+          {/* when shoEdit is false and role is admin (role == user) */}
+          {token.role === "admin" && !showEdit && (
             <Button onClick={eidtClicked} style={{width:"4rem", fontSize: "1rem"}}>
             Edit
-          </Button>
-          }
+            </Button>
+          )}
+          {token.role === "admin" && (
+            <Button onClick={removeItem} style={{width:"5rem", fontSize: "1rem", margin: "0 1rem"}}>
+              Remove
+            </Button>
+          )}
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>
           {/* Move the Image to the center */}

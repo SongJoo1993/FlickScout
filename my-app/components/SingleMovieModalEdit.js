@@ -37,7 +37,6 @@ export default function SingleMovieModalEdit(props) {
       });
 
       async function updateMovie(userID, data) {
-        // console.log(data);
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${userID}`, {
           method: `PUT`,
           body: JSON.stringify({

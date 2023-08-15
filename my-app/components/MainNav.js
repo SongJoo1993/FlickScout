@@ -157,12 +157,12 @@ export default function MainNav() {
               :
               <Nav>
                 <NavDropdown title={token.userName} id="basic-nav-dropdown">
-                  <Link href="/admin" passHref legacyBehavior>
+                  <Link href="/addMovie" passHref legacyBehavior>
                   <NavDropdown.Item
-                      active={router.pathname === "/admin"}
+                      active={router.pathname === "/addMovie"}
                       onClick={expandOff}
                     >
-                      Admin Page
+                      Add Movie
                     </NavDropdown.Item>
                   </Link>
                   <NavDropdown.Item onClick={logout}>Log out</NavDropdown.Item>

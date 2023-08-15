@@ -1,29 +1,29 @@
 export const categories = [
-  "Action",
-  "Adventure",
-  "Animation",
-  "Biography",
-  "Comedy",
-  "Crime",
-  "Documentary",
-  "Drama",
-  "Family",
-  "Fantasy",
-  "Film-Noir",
-  "History",
-  "Horror",
-  "Music",
-  "Musical",
-  "Mystery",
-  "News",
-  "Romance",
-  "Sci-Fi",
-  "Short",
-  "Sport",
-  "Talk-Show",
-  "Thriller",
-  "War",
-  "Western",
+  { value: "Action", label: "Action", isDisabled: false },
+  { value: "Adventure", label: "Adventure", isDisabled: false },
+  { value: "Animation", label: "Animation", isDisabled: false },
+  { value: "Biography", label: "Biography", isDisabled: false },
+  { value: "Comedy", label: "Comedy", isDisabled: false },
+  { value: "Crime", label: "Crime", isDisabled: false },
+  { value: "Documentary", label: "Documentary", isDisabled: false },
+  { value: "Drama", label: "Drama", isDisabled: false },
+  { value: "Family", label: "Family", isDisabled: false },
+  { value: "Fantasy", label: "Fantasy", isDisabled: false },
+  { value: "Film-Noir", label: "Film-, isDisabled: falseNoir" },
+  { value: "History", label: "History", isDisabled: false },
+  { value: "Horror", label: "Horror", isDisabled: false },
+  { value: "Music", label: "Music", isDisabled: false },
+  { value: "Musical", label: "Musical", isDisabled: false },
+  { value: "Mystery", label: "Mystery", isDisabled: false },
+  { value: "News", label: "News", isDisabled: false },
+  { value: "Romance", label: "Romance", isDisabled: false },
+  { value: "Sci-Fi", label: "Sci-, isDisabled: falseFi" },
+  { value: "Short", label: "Short", isDisabled: false },
+  { value: "Sport", label: "Sport", isDisabled: false },
+  { value: "Talk-Show", label: "Talk-, isDisabled: falseShow" },
+  { value: "Thriller", label: "Thriller", isDisabled: false },
+  { value: "War", label: "War", isDisabled: false },
+  { value: "Western", label: "Western", isDisabled: false },
 ];
 
 export const language = [
@@ -423,6 +423,22 @@ export const country = [
   "Zaire",
   "Zimbabwe",
 ];
+
+export const rated = [
+  { value: "General", label: "G" },
+  { value: "Parental Guidance", label: "PG" },
+  { value: "14 Accompaniment", label: "14A" },
+  { value: "18 Accompaniment", label: "18A" },
+  { value: "Restricted", label: "R" },
+  { value: "Adult", label: "A" }
+]
+
+// export const rated = [
+//   { value: 'vanilla', label: 'Vanilla', rating: 'safe' },
+//   { value: 'chocolate', label: 'Chocolate', rating: 'good' },
+//   { value: 'strawberry', label: 'Strawberry', rating: 'wild' },
+//   { value: 'salted-caramel', label: 'Salted Caramel', rating: 'crazy' }
+// ]
 
 export let ranges = [];
 function getRange(range) {
