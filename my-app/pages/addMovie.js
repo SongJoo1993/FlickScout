@@ -4,7 +4,7 @@ import {Form, Row, Col, Button} from 'react-bootstrap'
 import {rated, categoriesObj, language, country, ranges} from '../public/searchItem';
 import { useState } from "react";
 
-export default function addMovie() {
+export default function AddMovie() {
   const {
     register,
     handleSubmit,
