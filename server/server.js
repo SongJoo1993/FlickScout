@@ -21,7 +21,6 @@ const userRoute = require("./routes/User.js")(db, jwtOptions);
 const movieRoute = require("./routes/Movie.js")(db, passport);
 
 let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-
   if (jwt_payload) {
     next(null, {
       _id: jwt_payload._id,

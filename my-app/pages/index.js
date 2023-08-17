@@ -1,18 +1,19 @@
 import useSWR from "swr";
-import { useState, useEffect } from "react";
-import { Pagination, Accordion, Row, Col } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 import PageHeader from "@/components/PageHeader";
 import Movies from "@/components/Movies";
-import { getToken, readToken } from "../lib/authenticate";
+import { useState, useEffect } from "react";
+import { Pagination, Row, Col } from "react-bootstrap";
+import { getToken } from "../lib/authenticate";
 
 const PER_PAGE = 12;
 
 export default function Home(props) {
-  let token = readToken();
   const [page, setPage] = useState(1);
   const [pageData, setPageData] = useState([]);
   const [total, setTotal] = useState(0);
   const [disabled, setDisabled] = useState(false);
+  const [movieDeleted, setMovieDeleted] = useState(false);
   const { title } = props;
   let totalPage = Math.ceil(total / PER_PAGE);
 
@@ -94,37 +95,55 @@ export default function Home(props) {
 
   return (
     <>
-      {title ? (
-        <PageHeader
-          textHead="Search Key Word:"
-          textTail={title.toUpperCase()}
-          totalMovies={total}
-        />
+      {movieDeleted ? (
+        <Alert
+          variant="primary"
+          onClose={() => {
+            setMovieDeleted(false);
+            setPage(1);
+          }}
+          dismissible
+        >
+          <Alert.Heading>Successfully Deleted!</Alert.Heading>
+        </Alert>
       ) : (
-        <PageHeader
-          textHead="Film Collection :"
-          textTail="Sorted by Date Descending Order"
-        />
+        <>
+          {title ? (
+            <PageHeader
+              textHead="Search Key Word:"
+              textTail={title.toUpperCase()}
+              totalMovies={total}
+            />
+          ) : (
+            <PageHeader
+              textHead="Film Collection :"
+              textTail="Sorted by Date Descending Order"
+            />
+          )}
+          <Row xs={1} md={2} lg={4} className="g-4">
+            {pageData?.map((movie) => (
+              <Col key={movie._id} style={{ height: "30rem" }}>
+                <Movies
+                  movieID={movie._id}
+                  movieDeleted={() => setMovieDeleted(true)}
+                />
+              </Col>
+            ))}
+          </Row>
+          <br />
+          <Pagination>
+            <Pagination.First onClick={firstPage} />
+            <Pagination.Prev onClick={prevPage} />
+            {pageGenerator(page)}
+            {disabled ? (
+              <Pagination.Next disabled />
+            ) : (
+              <Pagination.Next onClick={nextPage} />
+            )}
+            <Pagination.Last onClick={lastPage} />
+          </Pagination>
+        </>
       )}
-      <Row xs={1} md={2} lg={4} className="g-4">
-        {pageData?.map((movie) => (
-          <Col key={movie._id} style={{ height: "30rem" }}>
-            <Movies movieID={movie._id} />
-          </Col>
-        ))}
-      </Row>
-      <br />
-      <Pagination>
-        <Pagination.First onClick={firstPage} />
-        <Pagination.Prev onClick={prevPage} />
-        {pageGenerator(page)}
-        {disabled ? (
-          <Pagination.Next disabled />
-        ) : (
-          <Pagination.Next onClick={nextPage} />
-        )}
-        <Pagination.Last onClick={lastPage} />
-      </Pagination>
     </>
   );
 }

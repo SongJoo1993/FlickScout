@@ -23,7 +23,7 @@ export default function MainNav() {
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
   const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   const { register, handleSubmit } = useForm({
     defaultValues: {
       searchValue: undefined,
@@ -116,24 +116,23 @@ export default function MainNav() {
             </Form>
             &nbsp;
             {/* Add Icon inside title in the below tag */}
-            {!token ?
+            {!token ? (
               <Dropdown style={{ marginLeft: "0.7rem" }}>
-              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                <FaRegUserCircle />
-                &nbsp;
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Link href="/login" passHref legacyBehavior>
-                  <Dropdown.Item>Log in</Dropdown.Item>
-                </Link>
-                <Link href="/signup" passHref legacyBehavior>
-                  <Dropdown.Item>Sign up</Dropdown.Item>
-                </Link>
-              </Dropdown.Menu>
-            </Dropdown>
-            :
-            token.role !== "admin" ?
-            <Nav>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  <FaRegUserCircle />
+                  &nbsp;
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Link href="/login" passHref legacyBehavior>
+                    <Dropdown.Item>Log in</Dropdown.Item>
+                  </Link>
+                  <Link href="/signup" passHref legacyBehavior>
+                    <Dropdown.Item>Sign up</Dropdown.Item>
+                  </Link>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : token.role !== "admin" ? (
+              <Nav>
                 <NavDropdown title={token.userName} id="basic-nav-dropdown">
                   <Link href="/favourites" passHref legacyBehavior>
                     <NavDropdown.Item
@@ -153,12 +152,12 @@ export default function MainNav() {
                   </Link>
                   <NavDropdown.Item onClick={logout}>Log out</NavDropdown.Item>
                 </NavDropdown>
-              </Nav> 
-              :
+              </Nav>
+            ) : (
               <Nav>
                 <NavDropdown title={token.userName} id="basic-nav-dropdown">
                   <Link href="/addMovie" passHref legacyBehavior>
-                  <NavDropdown.Item
+                    <NavDropdown.Item
                       active={router.pathname === "/addMovie"}
                       onClick={expandOff}
                     >
@@ -168,7 +167,7 @@ export default function MainNav() {
                   <NavDropdown.Item onClick={logout}>Log out</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-            }
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>

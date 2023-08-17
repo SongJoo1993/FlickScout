@@ -26,7 +26,7 @@ export default function Login() {
       password: "123",
     },
   });
-  const watchName = watch("userName")
+  const watchName = watch("userName");
 
   async function submitLogIn(data, e) {
     const { userName, password } = data;
@@ -100,23 +100,31 @@ export default function Login() {
         </div>
       </Form>
       <br />
-      {
-        getValues("userName") == "admin" ?
-        <p style={{ textAlign: "center" }}> 
-        <span onClick={() => {          
-          setValue("userName","test");
-          setValue("password","123");
-        }}> Click <strong>here</strong> to try user account!
-        </span>
-        </p> :
+      {getValues("userName") == "admin" ? (
         <p style={{ textAlign: "center" }}>
-        <span onClick={() => {          
-          setValue("userName","admin");
-          setValue("password","123");
-        }}> Click <strong>here</strong> to try admin account!
-        </span>
+          <span
+            onClick={() => {
+              setValue("userName", "test");
+              setValue("password", "123");
+            }}
+          >
+            {" "}
+            Click <strong>here</strong> to try user account!
+          </span>
         </p>
-      }
+      ) : (
+        <p style={{ textAlign: "center" }}>
+          <span
+            onClick={() => {
+              setValue("userName", "admin");
+              setValue("password", "123");
+            }}
+          >
+            {" "}
+            Click <strong>here</strong> to try admin account!
+          </span>
+        </p>
+      )}
       <p style={{ textAlign: "center" }}>
         Need a new <Link href="/signup">account</Link>?
       </p>

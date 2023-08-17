@@ -5,7 +5,6 @@ import NoImg from "../public/no-img.jpg";
 import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { readToken } from "@/lib/authenticate";
 import Alert from "react-bootstrap/Alert";
 import SingleMovieModalInfo from "@/components/SingleMovieModalInfo";
@@ -13,30 +12,23 @@ import SingleMovieModalEdit from "@/components/SingleMovieModalEdit";
 
 function SingleMovieModal(props) {
   const token = readToken();
-  console.log(token.role)
-  const router = useRouter();
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/movies/${props.movieid}`,
   );
-  const {
-    _id,
-    title,
-    poster,
-    genres
-  } = data;
+
+  const { _id, title, poster, genres } = data;
+
   const [favouritesMovie, setFavouritesMovie] = useAtom(favouritesAtom);
   const [showAdded, setShowAdded] = useState(() => emptyFavLists());
   const [showEdit, setShowEdit] = useState(false);
   const [editMade, setEditMade] = useState(false);
+  const [movieRemoved, setMovieRemoved] = useState(false);
 
-  useEffect(() => {
-
-  }, [editMade]);
+  useEffect(() => {}, [editMade, movieRemoved]);
 
   function emptyFavLists() {
     return favouritesMovie.includes(_id);
   }
-
 
   function favouritesClicked() {
     if (showAdded) {
@@ -55,17 +47,14 @@ function SingleMovieModal(props) {
       setShowEdit(true);
     }
   }
-  
-  async function removeItem() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${data._id}`, { method: `DELETE` });
-    const resData = await res.json();
 
-    if(res.status === 200) {
-      console.log("successfully deleted!");
-      return true;
-    }
-    else {
-      throw new Error(resData.message);
+  async function removeItem() {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/movies/${data._id}`,
+      { method: `DELETE` },
+    );
+    if (res.status === 204) {
+      props.removedMovie();
     }
   }
 
@@ -90,12 +79,18 @@ function SingleMovieModal(props) {
           </Modal.Title>
           {/* when shoEdit is false and role is admin (role == user) */}
           {token.role === "admin" && !showEdit && (
-            <Button onClick={eidtClicked} style={{width:"4rem", fontSize: "1rem"}}>
-            Edit
+            <Button
+              onClick={eidtClicked}
+              style={{ width: "4rem", fontSize: "1rem" }}
+            >
+              Edit
             </Button>
           )}
           {token.role === "admin" && (
-            <Button onClick={removeItem} style={{width:"5rem", fontSize: "1rem", margin: "0 1rem"}}>
+            <Button
+              onClick={removeItem}
+              style={{ width: "5rem", fontSize: "1rem", margin: "0 1rem" }}
+            >
               Remove
             </Button>
           )}
@@ -114,33 +109,35 @@ function SingleMovieModal(props) {
               marginBottom: "25px",
             }}
           />
-          {showEdit ? 
-          <SingleMovieModalEdit 
-            movieData={data}
-            saveEdit={() => {
-              setEditMade(true);
-              setShowEdit(false);
-            }  
-            }
-          /> :  editMade ? 
-          (<Alert variant="primary">
-            <Alert.Heading>Successfully Edited!</Alert.Heading>
-          </Alert>)
-          :
-          <SingleMovieModalInfo
-            movieData={data}
-          />}
+          {showEdit ? (
+            <SingleMovieModalEdit
+              movieData={data}
+              saveEdit={() => {
+                setEditMade(true);
+                setShowEdit(false);
+              }}
+            />
+          ) : editMade ? (
+            <Alert variant="primary">
+              <Alert.Heading>Successfully Edited!</Alert.Heading>
+            </Alert>
+          ) : (
+            <SingleMovieModalInfo movieData={data} />
+          )}
         </Modal.Body>
-        { showEdit ? <></> :
+        {showEdit ? (
+          <></>
+        ) : (
           <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-          <Button
-            variant={showAdded ? "primary" : "outline-primary"}
-            onClick={favouritesClicked}
-          >
-            {showAdded ? "+ Favourite (added)" : "+ Favourite"}
-          </Button>
-        </Modal.Footer>}
+            <Button onClick={props.onHide}>Close</Button>
+            <Button
+              variant={showAdded ? "primary" : "outline-primary"}
+              onClick={favouritesClicked}
+            >
+              {showAdded ? "+ Favourite (added)" : "+ Favourite"}
+            </Button>
+          </Modal.Footer>
+        )}
       </Modal>
     </>
   );

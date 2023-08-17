@@ -182,8 +182,6 @@ module.exports = class MoviesDB {
   }
 
   async getAllMovies(page, perPage, title) {
-    console.log("Unique rated: ", await this.Movie.distinct("rated"));
-    // console.log("Unique rated: ",this.Movie.aggregate([{$group: {_id: "rated"}}])._pipeline[0]);
     let findBy = title ? { title: { $regex: new RegExp(title, "gi") } } : {};
     if (+page && +perPage) {
       const [pageData, total] = await Promise.all([
@@ -271,7 +269,7 @@ module.exports = class MoviesDB {
   }
 
   updateMovieById(data, id) {
-    console.log("data ",data.data);
+    console.log("data ", data.data);
     return this.Movie.updateOne({ _id: id }, { $set: data.data }).exec();
   }
 

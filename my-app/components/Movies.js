@@ -1,17 +1,16 @@
 import useSWR from "swr";
 import { useState } from "react";
-import Link from "next/link";
 import { Card, Button } from "react-bootstrap";
 import NoImg from "../public/no-img.jpg";
 import SingleMovieModal from "./SingleMovieModal";
 
-//receive ID and spread
 function Movies(props) {
   const { movieID } = props;
   const [modalShow, setModalShow] = useState(false);
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/movies/${movieID}`,
   );
+
   return (
     <>
       <Card
@@ -42,14 +41,18 @@ function Movies(props) {
         </Card.Body>
       </Card>
       <br />
-      {modalShow ? (
+      {modalShow && (
         <SingleMovieModal
           show={modalShow}
-          onHide={() => setModalShow(false)}
+          onHide={() => {
+            setModalShow(false);
+          }}
+          removedMovie={() => {
+            props.movieDeleted();
+            setModalShow(false);
+          }}
           movieid={movieID}
         />
-      ) : (
-        <></>
       )}
     </>
   );

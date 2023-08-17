@@ -458,8 +458,8 @@ export const rated = [
   { value: "14 Accompaniment", label: "14A" },
   { value: "18 Accompaniment", label: "18A" },
   { value: "Restricted", label: "R" },
-  { value: "Adult", label: "A" }
-]
+  { value: "Adult", label: "A" },
+];
 
 // export const rated = [
 //   { value: 'vanilla', label: 'Vanilla', rating: 'safe' },
