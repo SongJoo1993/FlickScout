@@ -176,7 +176,7 @@ module.exports = class MoviesDB {
   }
 
   async addNewMovie(data) {
-    const newMovie = new this.Movie(data);
+    const newMovie = new this.Movie(data.data);
     await newMovie.save();
     return newMovie;
   }
