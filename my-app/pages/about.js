@@ -20,7 +20,7 @@ export default function About(props) {
             <span>
               <strong>Project Name: </strong>
             </span>
-            Movie Search Engine
+            Flick Scout
           </p>
           <p>
             <span>
