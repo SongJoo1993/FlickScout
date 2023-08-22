@@ -84,7 +84,7 @@ export default function MainNav() {
       >
         <Container>
           <Link href="/" passHref legacyBehavior>
-            <Navbar.Brand>Movie Search Engine</Navbar.Brand>
+            <Navbar.Brand>Flick Scout</Navbar.Brand>
           </Link>
           <Navbar.Toggle
             aria-controls="basic-navbar-nav"

@@ -34,7 +34,9 @@ export default function Home(props) {
       setTotal(data.total);
     }
   }, [data]);
-
+  
+  // (page value cahnge -> manual loading variable (state varaible) to true) inside useEffect
+  // when isLoading true,  manual loading variable to true too
   useEffect(() => {
     if (page < Math.ceil(total / PER_PAGE)) {
       setDisabled(false);
