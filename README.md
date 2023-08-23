@@ -1,10 +1,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-Demo: [Movie Search Engine](https://animated-kashata-8b339e.netlify.app)
+Demo: [Flick Scout](https://animated-kashata-8b339e.netlify.app)
 
 
 ### Description
-**Movie Search Engine** is a full-stack movie search web application allowing users to search movies by various categories such as title, casts, and IMDB rating. It has been built using [MERN stack](https://www.mongodb.com/mern-stack).
+**Flick Scout** is a full-stack movie search web application allowing users to search movies by various categories such as title, casts, and IMDB rating. It has been built using [MERN stack](https://www.mongodb.com/mern-stack).
 
 ### Motivation
 Learning and skill development: Building a full-stack web application provides an opportunity to enhance programming skills, gain experience in various technologies, and understand the complexities of building a real-world application.
@@ -56,7 +56,7 @@ To get a local copy up and running follow these simple example steps.
   ```
 
 ### Installation
-To run the Movie Search Engine application, follow the steps below to install the necessary dependencies for both the front-end and back-end components:
+To run the Flick Scout application, follow the steps below to install the necessary dependencies for both the front-end and back-end components:
 
 #### Front-end(my-app folder)
 1. Navigate to the my-app folder:
@@ -93,7 +93,7 @@ To run the Movie Search Engine application, follow the steps below to install th
    Replace <your_mongodb_uri> with the connection URI for your MongoDB Atlas database. Also, generate a secure <your_secret_key> for signing JSON Web Tokens (JWT) used in authentication.
 
 #### Running the Application
-To start the Movie Search Engine application, follow these steps:
+To start the Flick Scout application, follow these steps:
 1. In the my-app folder, start the front-end development server:
    ```sh
    npm run dev
@@ -106,7 +106,7 @@ To start the Movie Search Engine application, follow these steps:
    ```
    The server uses nodemon to automatically restart whenever changes are made to the server-side code during development.
 
-2. Open your web browser and access the Movie Search Engine application at http://localhost:3000.
+2. Open your web browser and access the Flick Scout application at http://localhost:3000.
 Make sure you have Node.js and npm installed on your system before running the application.
 
 <!-- ROADMAP -->
