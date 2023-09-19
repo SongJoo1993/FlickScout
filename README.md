@@ -1,6 +1,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-Demo: [Flick Scout](https://animated-kashata-8b339e.netlify.app)
+Demo: [Flick Scout](https://flickscout.netlify.app/login)
 
 
 ### Description
@@ -119,8 +119,8 @@ Make sure you have Node.js and npm installed on your system before running the a
     - [x] [Pagination](https://react-bootstrap.netlify.app/docs/components/pagination) for quick/advanced-searched movies more than 10 results
     - [x] [Cards](https://react-bootstrap.netlify.app/docs/components/cards) for displaying each movie
     - [x] [Modals](https://react-bootstrap.netlify.app/docs/components/modal) for detailed information about them selected movie
-- [ ] Role-based navigation based on the user's role
-    - [ ] Only admin users have access to create, update, delete movies and look up user information. 
+- [x] Role-based navigation based on the user's role
+    - [x] Only admin users have access to create, update, delete movies and look up user information. 
 
 #### Back-end Features
 - [x] Server-side Routing using [Express.js](https://expressjs.com) to handle server-side routing and API endpoints
@@ -134,7 +134,7 @@ Make sure you have Node.js and npm installed on your system before running the a
 - [x] Advanced search Logic:
     - [x] Accept query parameters and generate search query
     - [x] Process the search query and constructs a MongoDB query to retrieve the matching movies
-- [ ] Role-based access control allowing restricted APIs such as managing users and editing movie data
+- [x] Role-based access control allowing restricted APIs such as managing users and editing movie data
 - [ ] Leverage simple mail transfer protocol (SMTP) using the SendGrid Email API to communicate with users
  
 <!-- Diagram-->
