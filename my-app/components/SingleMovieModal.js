@@ -134,7 +134,7 @@ function SingleMovieModal(props) {
               variant={showAdded ? "primary" : "outline-primary"}
               onClick={favouritesClicked}
             >
-              {showAdded ? "+ Favourite (added)" : "+ Favourite"}
+              {showAdded ? "Remove Favourite" : "Add Favourite"}
             </Button>
           </Modal.Footer>
         )}
