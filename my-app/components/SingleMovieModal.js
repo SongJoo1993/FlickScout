@@ -12,7 +12,7 @@ import SingleMovieModalEdit from "@/components/SingleMovieModalEdit";
 
 function SingleMovieModal(props) {
   const token = readToken();
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/movies/${props.movieid}`,
   );
 
@@ -68,7 +68,6 @@ function SingleMovieModal(props) {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        backdrop="static"
       >
         <Modal.Header>
           <Modal.Title
@@ -77,23 +76,7 @@ function SingleMovieModal(props) {
           >
             <h2>{title}</h2>
           </Modal.Title>
-          {/* when shoEdit is false and role is admin (role == user) */}
-          {token.role === "admin" && !showEdit && (
-            <Button
-              onClick={eidtClicked}
-              style={{ width: "4rem", fontSize: "1rem" }}
-            >
-              Edit
-            </Button>
-          )}
-          {token.role === "admin" && (
-            <Button
-              onClick={removeItem}
-              style={{ width: "5rem", fontSize: "1rem", margin: "0 1rem" }}
-            >
-              Remove
-            </Button>
-          )}
+          <Button variant='dark' onClick={props.onHide}>X</Button>
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>
           {/* Move the Image to the center */}
@@ -129,13 +112,31 @@ function SingleMovieModal(props) {
           <></>
         ) : (
           <Modal.Footer>
-            <Button onClick={props.onHide}>Close</Button>
-            <Button
-              variant={showAdded ? "primary" : "outline-primary"}
-              onClick={favouritesClicked}
-            >
-              {showAdded ? "Remove Favourite" : "Add Favourite"}
-            </Button>
+            {token.role === "user" && !showEdit && (
+              <Button
+                variant={showAdded ? "dark" : "outline-dark"}
+                onClick={favouritesClicked}
+              >
+                {showAdded ? "Remove Favourite" : "Add Favourite"}
+              </Button>
+            )}
+            {/* when shoEdit is false and role is admin (role == user) */}
+            {token.role === "admin" && !showEdit && (
+              <Button
+                onClick={eidtClicked}
+                style={{ width: "4rem", fontSize: "1rem" }}
+              >
+                Edit
+              </Button>
+            )}
+            {token.role === "admin" && (
+              <Button
+                onClick={removeItem}
+                style={{ width: "5rem", fontSize: "1rem"}}
+              >
+                Remove
+              </Button>
+            )}
           </Modal.Footer>
         )}
       </Modal>
