@@ -97,7 +97,7 @@ export default function SingleMovieModalEdit(props) {
         <Form.Label>Plot</Form.Label>
         <Form.Control {...register("plot")} className="mb-1" as="textarea" />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button variant='dark' type="submit">
         Save
       </Button>
     </Form>

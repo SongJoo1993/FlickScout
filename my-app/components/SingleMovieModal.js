@@ -123,6 +123,7 @@ function SingleMovieModal(props) {
             {/* when shoEdit is false and role is admin (role == user) */}
             {token.role === "admin" && !showEdit && (
               <Button
+                variant='dark'
                 onClick={eidtClicked}
                 style={{ width: "4rem", fontSize: "1rem" }}
               >
@@ -131,6 +132,7 @@ function SingleMovieModal(props) {
             )}
             {token.role === "admin" && (
               <Button
+                variant='dark'
                 onClick={removeItem}
                 style={{ width: "5rem", fontSize: "1rem"}}
               >
