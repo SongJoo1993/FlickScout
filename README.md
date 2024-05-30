@@ -67,6 +67,10 @@ To run the Flick Scout application, follow the steps below to install the necess
    ```sh
    npm install
    ```
+3. Run the development server:
+   ```sh
+   npm run dev
+   ```
    
 #### Back-end (server folder)
 1. Navigate to the server folder:
@@ -77,6 +81,11 @@ To run the Flick Scout application, follow the steps below to install the necess
    ```js
    npm install
    ```
+2. Run the server with nodemon:
+   ```js
+   nodemon server.js
+   ```
+
 #### Configuration
 1. In the my-app folder, create a file named .env.local and add the following environment variables:
    ```sh
